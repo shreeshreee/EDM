@@ -1,0 +1,62 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 74.60
+solutions[1] <- FALSE
+
+questions[2] <- 18.12
+solutions[2] <- FALSE
+
+questions[3] <- 12.88
+solutions[3] <- TRUE
+
+questions[4] <- 19.65
+solutions[4] <- FALSE
+
+questions[5] <- 18.70
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Encontre o valor esperado da célula marcada com *** na seguinte tabela 3 x 2. Os valores em negrito são os totais linha e coluna da tabela.
+
+ \begin{tabular}{cccccc} \hline
+  observação & observação & \textbf{19} \\
+  observação & ***        & \textbf{31}\\
+  observação & observação & \textbf{27}\\ \hline
+  45         &            & \textbf{77} \\ \hline
+\end{tabular}
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Tabela contigência} 

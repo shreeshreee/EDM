@@ -1,0 +1,142 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+library(truncnorm)
+n <- sample(seq(130:200),
+            size=1) 
+
+mu_sinf <- ceiling(runif(1,min=20,max=50)) 
+sigma_sinf <- ceiling(runif(1,min=20,max=50))  
+
+mu_cinf <- ceiling(runif(1,min=80,max=120)) 
+sigma_cinf <- ceiling(runif(1,min=30,max=40))  
+ 
+
+sem_infarto <- ceiling(rtruncnorm(n,
+                        a=1,
+                        b=120,
+                        mean=as.numeric(mu_sinf),
+                        sd=as.numeric(sigma_sinf)))
+
+com_infarto <- ceiling(rtruncnorm(n,
+                                  a=21,
+                                  b=180,
+                                  mean=as.numeric(mu_cinf),
+                                  sd=as.numeric(sigma_cinf)))
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+@
+
+\begin{question}
+  Dos arquivos de serviço de uma unidade coronariana, tomaram-se as fichas de pacientes com diagnóstico de infarto no miocardio. Estas fichas são separadas em dois grupos: em um estão aqueles que não tiveram infarto como pode ser verificado mais tarde e em outro aqueles com diagnóstico confirmado. Descartaram-se os casos duvidosos. De cada grupo foi sorteado aleatoriamente 200 casos e registrado o valor de CPK expresso em unidades enzimáticas. Os valores obtivos foram:
+
+<<echo=F,results=tex>>=
+# Dados relativo aos que não sofreram infarto
+dados <- data.frame(grupos=rep(c('sinfarto','cinfarto'),c(n,n)),
+                    cpk=c(sem_infarto,
+                          com_infarto))
+latex(dados,
+      rowname=NULL,
+      here=T,
+      file='')
+@
+
+Para cada grupo, faça uma tabela de distribuição de frequências utilizando o método que foi ensinado em sala de aula. Utilize o critério de Sturges para encontrar o número de classes. Faça um histograma utilizando a frequência percentual. Calcule as medidas de tendência central, dispersão e posição (apenas os quartis). Faça um boxplot. Caso tenha outliers, retire-o e clacule novamente as medidas de tendência central, dispersão e posição.  
+
+\end{question}
+
+\begin{solution}
+
+  A variável em estudo é uma variável quantitativa cujo a escala é de proporção ou de razão. Fazendo uma síntese do dados por meio de uma tabela de distribuição de frequências.
+
+<<echo=F,results=tex>>=
+library(fdth)
+tab <- fdt(dados,
+           by='grupos')
+tab1 <- fdt(sem_infarto)
+tab2 <- fdt(com_infarto) 
+
+latex(tab1,
+      cap='Tabela de distribuição de frequências de cpk - grupo sem infarto')
+latex(tab2,
+      cap='Tabela de distribuição de frequências de cpk - grupo com infarto')
+@
+
+Fazendo o histograma.
+ 
+<<echo=F,fig=T>>=
+plot(tab,
+     xlab ='Intervalo de classes',
+     ylab ='Frequência percentual',
+     type = 'rfph' )
+@
+
+Fazendo o boxplot.
+
+<<echo=F, fig=TRUE>>=
+gr <- boxplot(cpk ~ grupos, dados)
+@
+
+Calculando todas as medidas estatísticas. 
+ 
+<<echo=F,results=tex>>=
+medi_antes_1 <- aggregate(dados[,2],
+                        by=list(dados[['grupos']]),
+                        function(x) c(media=mean(x),
+                                      mediana=median(x),
+                                      amplitude=range(x),
+                                      variancia=var(x),
+                                      desvio=sd(x),
+                                      cv=sd(x)/mean(x),
+                                      quartis=quantile(x,
+                                                       type=2,
+                                                       prob=c(.25,.5,.75))))
+medi_antes_2 <-  t(data.frame(grupos=medi_antes_1$Group.1,
+                            medidas=round(medi_antes_1$x,2)))
+medi_antes <- medi_antes_2[-1,]
+colnames(medi_antes) <- c('Com infarto','Sem infarto')
+
+latex(medi_antes,
+      caption='Medidas estatísticas',
+      here=TRUE,
+      rowlabel='Medidas',
+      file='')
+
+if(length(gr$out)!=0){
+
+  depois <- remove_outliers(dados,
+                            by='grupos')
+
+  medi_depois_1 <- aggregate(depois[,2],
+                           by=list(depois[['grupos']]),
+                           function(x) c(media=mean(x,na.rm=T),
+                                         mediana=median(x,na.rm=T),
+                                         amplitude=range(x,na.rm=T),
+                                         variancia=var(x,na.rm=T),
+                                         desvio=sd(x,na.rm=T),
+                                         cv=sd(x,na.rm=T)/mean(x,na.rm=T),
+                                         quartis=quantile(x,
+                                                          type=2,
+                                                          prob=c(.25,.5,.75),
+                                                          na.rm=T)))
+  medi_depois_2 <-  t(data.frame(grupos=medi_depois_1$Group.1,
+                                 medidas=round(medi_depois_1$x,2)))
+  medi_depois <- medi_depois_2[-1,]
+  colnames(medi_depois) <- c('Com infarto','Sem infarto')
+
+  latex(medi_depois,
+        caption='Medidas estatísticas depois',
+        rowlabel='Medidas',
+        here=TRUE,
+        file='')
+} 
+
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{'Aberta'} 
+%% \exname{Dados quantitativos I.} 

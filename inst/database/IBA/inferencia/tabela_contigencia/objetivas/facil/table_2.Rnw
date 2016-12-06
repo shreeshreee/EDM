@@ -1,0 +1,59 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- paste('H0: A proporção de professores universitários satisfeitos é igual a de professores de nível médio. \\\\newline',
+                        'Ha: A proporção de professores universitários satisfeitos é diferente da de professores de nível médio.')
+solutions[1] <- FALSE
+
+questions[2] <- paste('H0: A proporção de professores universitários insatisfeitos é igual a de professores de nível médio. \\\\newline ',
+                      'Ha: A proporção de professores universitários insatisfeitos é diferente da de professores de nível médio.')  
+solutions[2] <- FALSE
+
+questions[3] <- paste('H0: O grau de satisfação no trabalho depende do tipo de professor. \\\\newline',
+                      'Ha: O grau de satisfação no trabalho independe do tipo de professor.')   
+solutions[3] <- FALSE
+
+questions[4] <- paste('H0: O grau de satisfação no trabalho independe do tipo de professor. \\\\newline',
+                      'Ha: O grau de satisfação no trabalho depende do tipo de professor.')    
+solutions[4] <- TRUE
+
+questions[5] <- 'Não existe alternativa correta'
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Um pesquisador coletou duas amostras independentes, uma de professores universitários e outra de professores de nível médio com o intuito de investigar a relação com a satisfação no trabalho (está ou não está satisfeito). Qual das seguintes hipóteses é a correta?
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Tabela contigência 2} 

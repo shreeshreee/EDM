@@ -1,0 +1,97 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+anoaux1 <- seq(1990,2000)
+
+ano1 <- sample(anoaux1,
+              size = 1)
+
+mediaaux1 <- seq(3000,4000,l=23)
+media1 <- round(sample(mediaaux1,
+                size = 1),
+               0)
+
+anoaux2 <- seq(2001,2010)
+
+ano2 <- sample(anoaux2,
+              size = 1)
+
+mediaaux2 <- seq(6000,7000,l=23)
+media2 <- round(sample(mediaaux2,
+                size = 1),
+               0)
+ 
+naux <- seq(40,70)
+n <- sample(naux,
+            size = 1)
+
+sigmaaux <- seq(1000,2000,l=23)
+sigma <- round(sample(sigmaaux,
+                size = 1),
+               2)
+
+Exbarra <- media2
+erropad <- round(sigma/sqrt(n),2)
+
+questionb <- round(sample(seq(200,400,l=23),
+                    size = 1),
+                   2)
+
+resultsb <- pnorm(Exbarra+questionb,Exbarra,erropad) - pnorm(Exbarra-questionb,Exbarra,erropad)
+
+questionc <- round(sample(seq(Exbarra+50,Exbarra+500,l=23),
+                    size = 1),
+                   2)
+
+resultsc <-  1 - pnorm(questionc,Exbarra,erropad)
+ 
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL 
+type <- NULL
+
+questions[1] <- paste('Apresente a distribuição amostral da quantia média de gastos com planos de saúde correspondentes a uma amostra de', n, 'segurados em', ano2, '.',sep=' ')
+solutions[1] <- paste('É normal, com média',Exbarra, 'e erro padrão igual a', erropad,sep = ' ')
+type[1] <- 'string'
+
+questions[2] <- paste('Qual é a probabilidade de a média amostral estar dentro de $\\pm$ R\\$', questionb, 'da média da população?',sep=' ')
+solutions[2] <- round(resultsb,3)
+type[2] <- 'num'
+
+questions[3] <- paste('Qual é a probabilidade de a média amostral ser maior do que R\\$',questionc,'?',sep=' ')
+solutions[3] <- round(resultsc,3)
+type[3] <- 'num'
+
+questions[4] <- paste('Se a empresa de consultoria lhe disser que a média amostral dos segurados que entrevistaram foi de R\\$', questionc, ',você perguntaria se eles seguiram procedimentos corretos da amostragem? Por quê?')
+solutions[4] <- ifelse(resultsc < 0.1,
+                       'Sim',
+                       'Não')
+type[4] <- 'string'
+ 
+@
+
+\begin{question}
+ O povo brasileiro demonstra uma preocupação cada vez maior com os crescentes custos dos planos de saúde. Em \Sexpr{ano1}, a média de gastos anuais por segurado era R\$
+ \Sexpr{media1}; em \Sexpr{ano2}, a média de gastos anuais por segurado era R\$ \Sexpr{media2}. Suponha que você constratou uma empresa de consultoria para tomar uma amostra de \Sexpr{n} segurados em \Sexpr{ano2} para aprofundar a investigação sobre a natureza dos gastos. Suponha que o desvio padrão da população para \Sexpr{ano2} tenha sido R\$ \Sexpr{sigma} mil.
+
+<<echo=FALSE, results=hide, results=tex>>=
+ answerlist(questions)
+@
+
+\end{question}
+
+\begin{solution}
+
+<<echo=FALSE, results=hide, results=tex>>=
+# answerlist(paste("\\textbf{", format(unlist(solutions)),"}", sep = ""))
+answerlist(format(solutions)) 
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}} 
+%% \exclozetype{string|num|num|string} 
+%% \exname{Distribuição amostral1}  

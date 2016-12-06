@@ -1,0 +1,67 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+shape <- c(2,5,50)
+
+shape2 <- sample(shape,size=1)
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- 'Simétrico.'
+solutions[1] <- if(shape2 == 5) TRUE else FALSE
+
+questions[2] <- 'Assimétrico à esquerda.'
+solutions[2] <- if(shape2 == 2) TRUE else FALSE 
+
+questions[3] <- 'Assimétrico à direita.'
+solutions[3] <- if(shape2 ==50) TRUE else FALSE
+ 
+questions[4] <- 'Simétrico e assimétrico à direita.'
+solutions[4] <- FALSE 
+ 
+questions[5] <- 'Nenhuma das alternativas.'
+solutions[5] <- FALSE
+
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+Classifique o seguinte histograma quanto a simetria.
+
+<<echo=F,fig=T>>=
+hist(rbeta(1e4,5,shape2),
+     main='',
+     xlab='Intervalo de classes',
+     ylab='Frequência absoluta') 
+@
+ 
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introducao 13}  

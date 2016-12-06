@@ -1,0 +1,56 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- "A probabilidade de que a empresa não irá mudar seu procedimento de entrega."
+solutions[1] <- FALSE
+
+questions[2] <- "O pvalor > $\\\\alpha$."
+solutions[2] <- FALSE
+
+questions[3] <- "A probabilidade de que os clientes estejam errados."
+solutions[3] <- FALSE
+
+questions[4] <- "A probabilidade de que a empresa irá mudar seu procedimento de entrega."
+solutions[4] <- TRUE
+
+questions[5] <- "A probabilidade de que a empresa não rejeitará H0."
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Uma empresa de entrega de pacotes afirma que está 90\% do tempo ativa, ou seja, em apenas 10\% do tempo está atrasada. Alguns de seus clientes não têm tanta certeza, pensando que muitas vezes há atrasos na entrega além do prazo prometido. A empresa afirma que ela vai mudar seus procedimentos de entrega, caso a alegação dos clientes esteja correta. Suponha que, de fato, há mais atrasos do que o afirmado pela empresa. Qual das seguintes alternativas é equivalente ao poder do teste?
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introdução Hipótese} 

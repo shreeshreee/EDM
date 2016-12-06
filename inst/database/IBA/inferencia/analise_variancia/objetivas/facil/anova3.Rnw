@@ -1,0 +1,52 @@
+<<echo=FALSE,results=hide>>= 
+trat <- sample(3:6,1)
+rep  <- sample(4:10,1)
+
+SQTr <- 42.41
+QME  <- 6.34
+
+GLTr <- trat - 1
+GLE  <- (rep*trat) - trat
+SQE  <- QME * (GLE)
+
+QMTr <- SQTr/GLTr
+
+F <- QMTr/QME
+
+questions <- solutions <- NULL  
+ questions[1] <- round(QME/QMTr,2)
+ solutions[1] <- FALSE
+ questions[2] <- round(QMTr/QME,2)
+ solutions[2] <- TRUE  
+ questions[3] <- round(QME/GLE,2)
+ solutions[3] <- FALSE 
+ questions[4] <- round(QMTr/GLTr,2)
+ solutions[4] <- FALSE
+ o <- sample(1:4) # serve para embaralhar as alternativas 
+ questions <- questions[o] 
+ solutions <- solutions[o] 
+@ 
+ 
+ \begin{question} 
+Durante a realização de uma ANOVA comparando \Sexpr{trat} tratamentos com \Sexpr{rep} observações por tratamento, você calcula a  soma de quadrados de tratamentos = \Sexpr{SQTr} e o quadrado médio do erro = \Sexpr{QME}. Qual é o valor de F calculado?
+ 
+ \begin{answerlist} 
+ \item \Sexpr{questions[1]} 
+ \item \Sexpr{questions[2]} 
+  \item \Sexpr{questions[3]} 
+  \item \Sexpr{questions[4]} 
+ \end{answerlist}  
+  \end{question}  
+ 
+ \begin{solution} 
+ \begin{answerlist} 
+ \item \Sexpr{mchoice2text(solutions[1])} 
+ \item \Sexpr{mchoice2text(solutions[2])} 
+ \item \Sexpr{mchoice2text(solutions[3])} 
+ \item \Sexpr{mchoice2text(solutions[4])} 
+ \end{answerlist} 
+ \end{solution} 
+ 
+ %% META-INFORMATION 
+ %% \extype{schoice} 
+ %% \exsolution{\Sexpr{mchoice2string(solutions, single=TRUE)}}  

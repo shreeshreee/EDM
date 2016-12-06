@@ -1,0 +1,83 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <-NULL
+
+questions[1] <- "Custo do sistema do computador pessoal."
+solutions[1] <- 'II'
+
+questions[2] <- "Número de pessoas em um domicílio."
+solutions[2] <- 'I'
+
+questions[3] <- "Valor de um automóvel."
+solutions[3] <- 'II'
+
+questions[4] <- "Número de peças produzidas em um mês."
+solutions[4] <- 'I'
+
+questions[5] <- 'Número de peças defeituosas em uma fábrica.'
+solutions[5] <- 'I'
+
+questions[6] <- 'A velocidade em km/h.'
+solutions[6] <- 'II'
+
+questions[7] <- 'O peso em kg.'
+solutions[7] <- 'II'
+
+questions[8] <- 'Número de empregados de uma empresa.'
+solutions[8] <- 'I'
+
+questions[9] <- 'A pressão de um pneu em Nw/cm2.'
+solutions[9] <- 'II'
+
+o <- sample(1:9)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+Considerando a lista abaixo, faça a associação correpondente a cada uma das variáveis a seguir: 
+
+\begin{itemize}
+ \item[I] Discreta
+ \item[II] Contínua
+\end{itemize}
+ 
+\begin{answerlist}
+\item \Sexpr{questions[1]}
+\item \Sexpr{questions[2]}
+\item \Sexpr{questions[3]}
+\item \Sexpr{questions[4]}
+\item \Sexpr{questions[5]}
+\item \Sexpr{questions[6]} 
+\item \Sexpr{questions[7]} 
+\item \Sexpr{questions[8]}
+\item \Sexpr{questions[9]}
+\end{answerlist}
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+\item \Sexpr{solutions[1]}
+\item \Sexpr{solutions[2]}
+\item \Sexpr{solutions[3]}
+\item \Sexpr{solutions[4]}
+\item \Sexpr{solutions[5]}
+\item \Sexpr{solutions[6]} 
+\item \Sexpr{solutions[7]} 
+\item \Sexpr{solutions[8]}
+\item \Sexpr{solutions[9]} 
+
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse='|')}}   
+%% \exclozetype{string|string|string|string|string|string|string|string|string}

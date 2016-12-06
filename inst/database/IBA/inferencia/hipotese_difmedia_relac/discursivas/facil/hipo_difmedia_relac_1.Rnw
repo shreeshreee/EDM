@@ -1,0 +1,83 @@
+<<echo=FALSE>>=
+n <- sample(seq(20,30),
+            1)
+ 
+da <- expand.grid(par_lojas=factor(1:n), oferta=c("sem_brinde","com_brinde"))
+
+X <- model.matrix(~-1 + par_lojas + oferta, 
+                  da)
+
+mu <- sample(seq(20,35),
+                 1)
+
+sigma <- sample(seq(4,10),
+                 1)
+
+dife <- round(sample(seq(0,7,l=12),
+               1),
+              2)
+
+## Efeito aleatório de unidade amostral com sigma=1.
+## Diferença de médias entre populações de 0.5.
+betas <- c(ranef_indiv=rnorm(n, mu, sigma), diff=dife)
+
+## Efeito de variação residual com sigma=0.7.
+da$vendas <- round(rnorm(nrow(da), X%*%betas, sd=sigma),
+                   2)
+
+alfa <- round(sample(seq(0.01,0.2,l=20),
+                     1),
+              3)
+
+semb <- subset(da, oferta=='sem_brinde')
+comb <- subset(da, oferta=='com_brinde')
+
+#SOLUTION
+pvalor <- round(t.test(with(semb,vendas),with(comb,vendas),paired=T, alternative="greater")$p.value,
+                3)
+
+ifelse(pvalor <= alfa,
+       deci1 <- 'menor ou igual',
+       deci1 <- 'maior')
+
+ifelse(pvalor <= alfa,
+       deci2 <- 'rejeita-se',
+       deci2 <- 'não rejeita-se')
+
+ifelse(pvalor <= alfa,
+       resp <- paste('Sim. Com',(1-alfa)*100,'\\\\% de confiança podemos afirmar que os brindes aumentaram as vendas.',sep=' '),
+       resp <- paste('Não. Com',(1-alfa)*100,'\\\\% de confiança podemos afirmar que os brindes não aumentaram as vendas.',sep=' '))
+
+@
+
+\begin{question}
+ Para avaliar o efeito de um brinde nas vendas de determinado produto, planeja-se comparar as vendas em lojas que vendem o produto com o brinde, com as vendas em lojas que não oferecem o brinde. Para reduzir o efeito de variações devidas a outros fatores, as lojas foram agrupadas em pares de lojas, sendo que as lojas de um mesmo par sejam tão similares quanto possível, em termos do volume de vendas, localidade, identidade de preços, etc. Em cada par de lojas, uma passou a oferecer o brinde, e a outra não. Os dados seguem abaixo. Os dados mostram evidência suficiente para se afirmar que a oferta do brinde aumenta as vendas ao nível de \Sexpr{alfa*100}\% de significância?
+
+<<echo=F>>=
+da
+@
+
+\end{question} 
+
+\begin{solution}
+ Primeiramente precisamos elaborar as hipóteses. 
+
+ \begin{eqnarray*}
+  H_0: \mu_d = 0 \\
+  H_a: \mu_d > 0
+ \end{eqnarray*}
+
+ Iremos usar direto a função t.test do R.
+
+<<>>=
+t.test(with(semb,vendas),with(comb,vendas),paired=T, alternative="greater")
+@
+
+E portanto, o pvalor é igual a \Sexpr{pvalor}. Logo, como o pvalor é \Sexpr{deci1} do que \Sexpr{alfa}, \Sexpr{deci2} $H_0$ com \Sexpr{(1-alfa)*100}\%.
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{\Sexpr{resp}}
+%% \exname{Teste de hipotese para media: amostra relacionada}  

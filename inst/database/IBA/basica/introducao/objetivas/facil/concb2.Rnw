@@ -1,0 +1,83 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- 'Número de telefones por domicílio.'
+solutions[1] <- 'IV'
+
+questions[2] <- 'Tipo de telefone disponível aos usuários.'
+solutions[2] <- 'I' 
+
+questions[3] <- 'Número de chamadas de longa distância realizada por mês.'
+solutions[3] <- 'IV'
+ 
+questions[4] <- 'Duração (em minutos) da mais demorada chamada de longa a distância por mês.' 
+solutions[4] <- 'IV' 
+ 
+questions[5] <- 'Cor de um telefone.'
+solutions[5] <- 'I'
+
+questions[6] <- 'Grau de escolaridade.'
+solutions[6] <- 'II'
+
+questions[7] <- 'Temperatura (em graus Celsius ou Fahrenheit).'
+solutions[7] <- 'III'
+
+questions[8] <- 'Filiação partidária (PT,PMDB, etc.).'
+solutions[8] <- 'I'
+ 
+questions[9] <- 'Renda familiar.'
+solutions[9] <- 'IV'
+
+o <- sample(1:9)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+ Considerando a lista abaixo, faça a associação correpondente a cada uma das variáveis a seguir:
+ \begin{itemize}
+  \item[I] Escala nominal
+  \item[II] Escala ordinal
+  \item[III] Escala intervalar
+  \item[IV] Escala proporcional ou de razão.
+ \end{itemize}
+ 
+
+ \begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+ \item \Sexpr{questions[6]}
+ \item \Sexpr{questions[7]}
+ \item \Sexpr{questions[8]}
+ \item \Sexpr{questions[9]}
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{solutions[1]}
+  \item \Sexpr{solutions[2]}
+  \item \Sexpr{solutions[3]}
+  \item \Sexpr{solutions[4]}
+  \item \Sexpr{solutions[5]}
+  \item \Sexpr{solutions[6]} 
+  \item \Sexpr{solutions[7]} 
+  \item \Sexpr{solutions[8]}
+  \item \Sexpr{solutions[9]}
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse='|')}} 
+%% \exclozetype{string|string|string|string|string|string|string|string|string}

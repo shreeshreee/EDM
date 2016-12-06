@@ -1,0 +1,57 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- 'Amostragem sistemática.'
+solutions[1] <- FALSE
+
+questions[2] <- 'Amostragem por conglomerado.'
+solutions[2] <- FALSE 
+
+questions[3] <- 'Amostragem por extratos.'
+solutions[3] <- FALSE
+ 
+questions[4] <- 'Amostragem aleatória simples.' 
+solutions[4] <- TRUE 
+ 
+questions[5] <- 'Nenhuma alternativa está correta.'
+solutions[5] <- FALSE
+
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+ Uma amostra de tamanho 35 deve ser extraída a partir de uma grande população. A técnica de amostragem utilizada, deve ser de tal forma que cada indivíduo extraído da população tenha a mesma probabilidade de ser amostrado. Que tipo de amostragem deve ser utilizado?
+
+Assinale a alternativa correta.
+ \begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introducao 1}  

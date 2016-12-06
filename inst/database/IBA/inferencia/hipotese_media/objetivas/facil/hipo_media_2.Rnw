@@ -1,0 +1,55 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'Teste Z para uma única população.'
+solutions[1] <- FALSE
+
+questions[2] <- 'Teste Z para uma única população com sigma conhecido.'
+solutions[2] <- TRUE
+
+questions[3] <- 'Teste Z para uma única população com sigma desconhecido.'
+solutions[3] <- FALSE
+
+questions[4] <- 'Teste t para uma única população.'
+solutions[4] <- FALSE
+
+questions[5] <- 'Nenhuma das alternativas.'
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Foi divulgado que a duração média de uma semana de trabalho para a população de trabalhadores é de 39,2 horas e o desvio padrão de 6 horas. Suponha que uma amostra foi coletada e que estajamos interessados em testar a hipótese de que a média é diferente de 39,2 horas. Qual teste estatístico você utilizaria?
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introdução Hipótese 3} 

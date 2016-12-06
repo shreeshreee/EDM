@@ -1,0 +1,55 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+media <- ceiling(sample(seq(100,300,l=30),
+                        size = 1))
+
+desvio <- ceiling(sample(seq(10,30,l=30),
+                 size=1))
+
+qa <- c(media-sample(0:4,1)*desvio, media+sample(0:4,1)*desvio)
+ra <- pnorm(qa[2],media,desvio) - pnorm(qa[1],media,desvio)
+
+qb <- sample(c(media-sample(0:4,1)*desvio, media+sample(0:4,1)*desvio),
+             size=1) 
+rb <- pnorm(qb, media, desvio,lower.tail=F)
+
+qc <- sample(c(media-sample(0:4,1)*desvio, media+sample(0:4,1)*desvio),
+             size=1) 
+rc <- pnorm(qc, media, desvio,lower.tail=T)
+ 
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- paste("Entre",qa[1],'e',qa[2], 'mg/100ml.',sep=' ')
+solutions[1] <- round(ra,2)
+
+questions[2] <- paste("Maior que",qb,'mg/100ml.',sep=' ')
+solutions[2] <- round(rb,2)
+
+questions[3] <- paste("Menor que",qc,'mg/100ml.',sep=' ')
+solutions[3] <- round(rc,2)
+ 
+@
+
+\begin{question}
+ Se os valores total de colesterol de uma certa população tem distribuição aproximadamente normal com média \Sexpr{media} mg/100 ml e um desvio padrão de \Sexpr{desvio} mg/100ml, encontre a probabilidade de que um indivíduo selecionado aleatoriamente desta população irá ter um valor de colesterol:
+
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(questions)
+@
+
+\end{question}
+
+\begin{solution}
+
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(paste("\\textbf{", solutions,"}", sep = ""))
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}} 
+%% \exclozetype{num|num|num} 

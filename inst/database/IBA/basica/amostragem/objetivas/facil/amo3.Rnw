@@ -1,0 +1,56 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- 'Levantamento de cinco amigos a respeito de suas opiniões sobre uma equipe de futebol local.'
+solutions[1] <- FALSE
+
+questions[2] <- 'A retirada de uma amostra aleatória de cinco locais de votação em uma grande área metropolitana e em seguida realiza-se uma pesquisa em cada local de votação.'
+solutions[2] <- TRUE 
+
+questions[3] <- 'Medir o tempo a cada cinco pessoas que entram em um restaurante para avaliar o quanto elas esperam para sentar.'
+solutions[3] <- FALSE
+ 
+questions[4] <- 'De uma lista de todos os estudantes em um escola, selecionar aleatoriamente 20 pessoas para responder a respeito do uso da internet.'
+solutions[4] <- FALSE 
+ 
+questions[5] <- 'Identificar quatro diferentes grupos étnicos de uma escola. De cada grupo, escolher aleatoriamente respondentes para que a amostra final contenha a mesma proporção de cada grupo étnico.'
+solutions[5] <- FALSE
+
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+Qual das seguintes situações é uma amostragem por conglomerados? Assinale a aternativa correta.
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introducao 11}  

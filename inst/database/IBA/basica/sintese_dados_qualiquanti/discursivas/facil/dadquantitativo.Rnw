@@ -1,0 +1,108 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+aux_n <- c(40,42,48,50,51,56)
+n <- sample(aux_n,
+            1)
+
+aux_mu <- seq(6,13,
+              length=20)
+mu <- sample(aux_mu,
+             1)
+
+aux_sigma <- seq(1,7,
+                 length=15)
+sigma <- sample(aux_sigma,
+                1)
+
+library(truncnorm)
+
+amo <- round(rtruncnorm(n,
+                        a=0,
+                        b=Inf,
+                        mean=as.numeric(mu),
+                        sd=as.numeric(sigma)),
+             2)
+
+percen <- round(runif(1),2)*100
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+@
+
+\begin{question}
+ A corrosão das barras de aço da armação é um problema sério em estruturas de concreto localizadas em ambientes afetados por condições climáticas extremas. Por esse motivo, os pesquisadores têm investigado a utilização de barras de reforço feitas de material composto. Um estudo foi executado para desenvolver diretrizes sobre a aderência de barras plásticas reforçadas com fibra de vidro ao concreto. Considere as \Sexpr{n} observações da resistência da aderência medida (dados simulados):
+
+<<echo=F>>=
+amo
+@
+
+Faça uma síntese dos dados e apresente um histograma. Faça um boxplot. 
+
+\end{question}
+
+\begin{solution}
+
+ A variável em estudo é uma variável quantitativa cujo a escala é de proporção ou de razão. Fazendo uma síntese do dados por meio de uma tabela de distribuição de frequências.
+
+<<echo=F>>=
+library(fdth)
+tab <- fdt(amo)
+tab
+@
+
+Fazendo o histograma.
+
+<<echo=F,fig=T>>=
+plot(tab,
+     xlab='Intervalo de classes',
+     ylab='Frequência absoluta')
+@
+
+Fazendo o boxplot.
+
+<<echo=F, fig=T>>=
+gr <- boxplot(amo)
+@
+
+%Calculando todas as medidas estatísticas. Calcule apenas o percentil \Sexpr{percen}.
+
+% <<echo=F>>=
+% antes <- c(Média=mean(amo),
+%            Mediana=median(amo),
+%            Amplitude=range(amo),
+%            Variância=var(amo),
+%            Desvio   =sd(amo),
+%            CV       =sd(amo)/mean(amo),
+%            Percentil=quantile(amo,type=2,prob=percen/100),
+%            Quartis  =quantile(amo,type=2,prob=c(.25,.5,.75)))
+%  
+% if(length(gr$out)!=0){
+% 
+% 
+% amo1 <- amo[amo!=gr$out]
+% 
+% depois <- c(Média=mean(amo1),
+%             Mediana=median(amo1),
+%             Amplitude=range(amo1),
+%             Variância=var(amo1),
+%             Desvio   =sd(amo1),
+%             CV       =sd(amo1)/mean(amo1),
+%             Percentil=quantile(amo1,type=2,prob=percen/100),
+%             Quartis  =quantile(amo1,type=2,prob=c(.25,.5,.75)))
+% 
+% cbind(antes,depois)
+% 
+% } else {
+% 
+% antes
+% 
+% }
+% @
+% 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{'Aberta'} 
+%% \exname{Dados quantitativos I.} 

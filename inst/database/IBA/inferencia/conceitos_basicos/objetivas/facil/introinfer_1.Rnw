@@ -1,0 +1,79 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+
+quesa <- sample(c('amostra','população'))
+
+quesd <- sample(c('parâmetro','estimador'))
+
+quese <- sample(c('$\\\\mu$','$\\\\pi$'))
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- paste('Quando observamos toda uma',quesa[1],'para tirarmos conclusões para uma ',quesa[2],'denominamos de inferência estatística.',sep=' ')
+solutions[1] <- ifelse(quesa[1]=='população',
+                       FALSE,
+                       TRUE)
+
+questions[2] <- 'População é o conjunto de todos os elementos.'
+solutions[2] <- FALSE
+
+questions[3] <- paste('Fixada uma ',quesa[1], 'podemos dizer que ', quesa[2],'é qualquer subconjunto formado exclusivamente por seus elementos.', sep=' ')
+solutions[3] <-  ifelse(quesa[1]=='população',
+                        TRUE,
+                        FALSE)
+
+questions[4] <- paste('Um pesquisador está interessado em avaliar a proporção de pessoas de uma determinada religião no estado da Bahia. Logo, podemos dizer que ele está interessado no ', quesd[1], 'desta população.', sep=' ')
+solutions[4] <-  ifelse(quesd[1]=='parâmetro',
+                        TRUE,
+                        FALSE)
+ 
+questions[5] <- 'Um estimador é consistente quando o tamanho da amostra cresce arbitrariamente, fazendo com que o valor estimado se aproxime do parâmetro da população.'
+solutions[5] <- TRUE
+
+questions[6] <- paste('Podemos dizer que o estimador $\\\\bar{X}$ é não viesado pois se coletarmos todas as amostras possíveis de uma população, o valor esperado das médias amostrais será igual ao parâmetro',quese[1],'.',sep=' ')
+solutions[6] <- ifelse(quese[1] == '$\\\\mu$',
+                       TRUE,
+                       FALSE)
+
+questions[7] <- 'Podemos dizer que quando o estimador S é dividido por n-1 ele se torna viesado, pois o parâmetro $\\\\sigma$ é dividido apenas por N.'
+solutions[7] <- FALSE
+
+o <- sample(1:7)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+Assinale a(s) afirmativa(s) verdadeira(s) quanto ao assunto \textit{introdução a inferência}.
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+ \item \Sexpr{questions[6]} 
+ \item \Sexpr{questions[7]} 
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+  \item \Sexpr{mchoice2text(solutions[6])} 
+  \item \Sexpr{mchoice2text(solutions[7])}  
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = FALSE)}} 
+%% \exname{Introdução a Inferência1}  

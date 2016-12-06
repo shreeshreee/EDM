@@ -1,0 +1,95 @@
+<<echo=FALSE>>=
+ano <- sample(seq(1970,1990),1)
+
+library(truncnorm)
+n <- sample(seq(30,50),1)
+
+mu  <- round(sample(seq(35,310,l=100),1),2)
+des <- round(sample(seq(10,120,l=100),1),2)
+ 
+popu <- floor(rtruncnorm(n, a=30,b=320,mean=mu,sd=des))
+
+b0 <- round(sample(seq(1,3,l=30),1),2)
+
+b1 <- round(sample(seq(0.001,0.08,l=30),1),2) 
+
+dese <- round(sample(seq(0.5,1,l=30),1),2)
+
+taxa <- round(abs(b0 + b1*popu + rnorm(n,sd=dese)),2)
+
+xpred <- sample(seq(50,300),1)
+ 
+# b
+reg <- lm(taxa ~ popu)
+
+r2 <- summary(reg)$r.squared
+
+ychap <- coef(reg)[1]+coef(reg)[2]*xpred
+
+normm <- shapiro.test(residuals(reg))$p.value
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- list()
+
+questions[1] <- "Qual deve ser a variável dependente, e qual a independente?"
+solutions[1] <- 'Taxa é a variável dependente e população a variável independente.'
+
+questions[2] <- "Estime a equação de regressão."
+solutions[2] <- paste('$',round(coef(reg)[1],3),'+ ',round(coef(reg)[2],3),'x','$') 
+
+questions[3] <- "Faça um gráfico com os pontos observados e a reta de regressão."
+solutions[3] <- 'Figura.'
+
+questions[4] <- paste("Qual é a taxa de crescimento demográfico, predita pela equação de regressão, para um município de",xpred,' mil habitantes?')
+solutions[4] <- round(ychap,2)
+
+questions[5] <- "Calcule o coeficiente de determinação."
+solutions[5] <- round(r2,3)
+
+questions[6] <- "O modelo é válido? Apresente o pvalor do teste de normalidade e gráfico dos resíduos."
+solutions[6] <- round(normm,3)
+
+questions[7] <- 'Interprete o modelo ajustado.'
+solutions[7] <- paste('O aumento em uma unidade na variável x, aumentou em',round(coef(reg)[2],3),' a variável y')
+
+@
+
+\begin{question}
+ Na década de \Sexpr{ano}, em várias regiões, houve um movimento migratório que fez crescer bastante a população urbana nos municípios médios e grandes. Neste contexto, vamos tentar explicar o crescimento demográfico de um município em função de sua população urbana, considerando dados de doze importantes municípios catarinenses, no período em discussão.
+
+<<echo=F>>=
+data.frame(popu,taxa)
+@
+
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(questions)
+@
+
+\end{question} 
+
+\begin{solution}
+ A equação de regressão estimada foi:
+
+<<>>=
+summary(reg)
+@
+
+O gráfico ajustado foi o seguinte:
+
+<<fig=T>>=
+plot(popu,taxa)
+lines(spline(popu,fitted(reg)),col='blue')
+@
+
+O gráfico de resíduos quanto a homocedasticidade foi:
+
+<<fig=T>>=
+plot(popu,residuals(reg))
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}} 
+%% \exclozetype{string|string|string|num|num|num|string} 
+%% \exname{Tabela de contingência} 

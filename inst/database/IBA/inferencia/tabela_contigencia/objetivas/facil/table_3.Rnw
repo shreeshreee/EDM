@@ -1,0 +1,55 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- "Regressão linear simples para avaliar a relação funcional entre as variáveis."
+solutions[1] <- FALSE
+
+questions[2] <- "Correlação linear de Pearson para avaliar o grau de associação entre as variáveis."
+solutions[2] <- FALSE
+
+questions[3] <- "Teste de qui-quadrado para avaliar a dependência entre as variáveis."
+solutions[3] <- TRUE
+
+questions[4] <- "A covariância para avaliar o grau de associação entre elas."
+solutions[4] <- FALSE
+
+questions[5] <- "Todas estão incorretas."
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Um pesquisador coletou uma variável qualitativa e uma quantitativa com o intuito de avaliar a relação entre elas. Qual tipo de método estatístico você utilizaria:
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Contingência 3} 

@@ -1,0 +1,49 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+n <- floor(runif(1, 30, 63))
+amo <- sample(c('nunca','ocasionalmente','raramente','frequentemente'),
+                      n,
+                      replace=T) 
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+@
+
+\begin{question}
+ Consultados sobre se constumam comparecer às reuniões do conselho municipal de sua cidade, \Sexpr{n} moradores de uma comunidade responderam como segue:
+
+<<echo=F>>=
+amo
+@
+
+Faça uma síntese completa dos dados. Faça o gráfico de pareto e interprete-o.
+
+\end{question}
+
+\begin{solution}
+
+A variável em estudo é uma variável qualitativa cujo a escala é nominal. Como a variável é qualitativa, iremos fazer uma tabela de distribuição de frequências.
+
+<<echo=F>>=
+library(fdth)
+tab <- fdt_cat(amo)
+summary(tab,columns=1:4)
+@
+
+Agora vamos fazer um gráfico de barras para finalizar.
+
+<<echo=F,fig=TRUE>>=
+plot(tab,
+     type='p',
+     v=T,
+     xlab='Categorias',
+     ylab='Frequência percentual(%)')
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{'Aberta'} 
+%% \exname{Dados qualitativos} 

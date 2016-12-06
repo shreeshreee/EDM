@@ -1,0 +1,69 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+pop <- rep(LETTERS[1:3],
+           c(500,250,50))
+
+naux <- seq(500,700)
+n <- sample(naux,
+            size = 1)
+
+amo <- sample(pop, 
+              size = n)
+
+AA <- length(amo[amo=='A'])
+BB <- length(amo[amo=='B'])
+CC <- length(amo[amo=='C'])
+
+results1a <- AA/length(amo)
+
+results1b <- BB/length(amo) 
+
+results1c <- CC/length(amo)
+ 
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- 'A proporção de todos os adultos que acham que a economia está crescendo.'
+solutions[1] <- round(results1a,3)
+
+questions[2] <- 'A proporção de todos os adultos que acham que a economia está mais ou menos estagnada.'
+solutions[2] <- round(results1b,3)
+
+questions[3] <- 'A proporção de todos os adultos que acham que a economia está se retraindo.'
+solutions[3] <- round(results1c,3)
+ 
+@
+
+\begin{question}
+ Uma pesquisa de opinião realizada pela \textit{Ivan company} ouviu \Sexpr{n} adultos para saber o que as pessoas pensavam sobre a economia. As respostas foram as seguintes:
+ \begin{itemize}
+  \item \Sexpr{AA} adultos - A economia está crescendo.
+  \item \Sexpr{BB} adultos - A economia permanece mais ou menos estagnada.
+  \item \Sexpr{CC} adultos - A economia está se retraindo.
+ \end{itemize}
+
+  Desenvolva uma estimação por ponto dos seguintes parâmetros populacionais. 
+
+<<echo=FALSE, results=hide, results=tex>>=
+ answerlist(questions)
+@
+
+\end{question}
+
+\begin{solution}
+
+<<echo=FALSE, results=hide, results=tex>>=
+# answerlist(paste("\\textbf{", format(unlist(solutions)),"}", sep = ""))
+answerlist(format(solutions)) 
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}} 
+%% \exclozetype{num|num|num} 
+%% \exname{Introdução Inferência2} 

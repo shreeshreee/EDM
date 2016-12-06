@@ -1,0 +1,52 @@
+<<echo=FALSE>>=
+# Exe 1
+minu  <-  sample(round(seq(20,70,l=30),2),
+                 size=1)
+
+ha1  <-  sample(c('<','>','\\\\neq'),
+                size=1)
+
+ha11  <- if(ha1 == '<'){ 'menor'} else {
+ if(ha1 == '>'){'maior'}
+  else {'diferente'}
+  }
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- type <- NULL
+
+questions[1] <- "Qual é o erro de Tipo I nessa situação? Quais são as consequências de cometer esse erro?"
+solutions[1] <- paste("Rejeitar a hipótese de que a média populacional é",minu,"sendo ela verdadeira",sep=' ')
+type[1] <- 'string'
+
+questions[2] <- "Qual é o erro do Tipo II nessa situação? Quais são as consequências de cometer esse erro?"
+solutions[2] <- paste("Não rejeitar a hipótese de que a média populacional é",minu,"sendo ela falsa",sep=' ')
+type[2] <- 'string'
+@
+
+\begin{question}
+ A Nielsen divulgou que os jovens dos Estados Unidos assistem a \Sexpr{minu} minutos de TV diariamente no horário nobre. Um pesquisador acredita que os jovens alemães do sexo masculino passam \Sexpr{ha11} tempo assistindo à TV no horário nobre. Uma amostra de jovens de Alemanha será selecionada pelo pesquisador, e o tempo que eles passam assistindo à TV em um dia será registrado. Os resultados da amostra serão usados para testar as hipóteses nula e alternativa seguintes:
+
+ \begin{eqnarray*}
+  H_0: \mu = \Sexpr{minu} \\
+  H_a: \mu \Sexpr{ha1} \Sexpr{minu}
+ \end{eqnarray*}   
+
+<<echo=FALSE, results=tex>>=
+answerlist(questions)
+@
+
+\end{question}
+
+\begin{solution}
+
+<<echo=FALSE, results=tex>>=
+answerlist(format(solutions))
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}} 
+%% \exclozetype{string|string} 
+%% \exname{Introducao Hipotese}   

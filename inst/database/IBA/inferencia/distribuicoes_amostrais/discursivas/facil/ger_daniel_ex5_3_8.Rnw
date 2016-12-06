@@ -1,0 +1,51 @@
+<<echo=FALSE,results=hide>>= 
+starts <- sample(1:5,1)
+ends   <- sample(14:18,1)
+pop_aux<- seq(starts,ends,2)
+
+ifelse(length(pop_aux)>5,
+        pop <- pop_aux[1:5],
+        pop <- pop_aux)
+
+mu <- mean(pop)
+varpop <- function(x) sum((x - mean(x))^2)/length(x)
+vari <- varpop(pop)
+
+amo <- expand.grid(Elemento1=pop,Elemento2=pop)
+
+amo$xbarra <- rowMeans(amo)
+@ 
+ 
+\begin{question} 
+Suponha uma população que consiste dos seguintes valores:\Sexpr{paste(pop, collapse=", ")}. Construa a distribuição amostral de $\bar{x}$ baseado em amostras de tamanho igual a dois com reposição. Estime a média e a variância da distribuição amostral. Faça um gráfico de barras para as médias utilizando a técnica de tabulação para variáveis qualitativas. Quais foram suas conclusões?
+
+\end{question}  
+ 
+\begin{solution} 
+
+A média e a variância são:
+
+<<echo=FALSE,results=tex>>=
+latex(c(mean(amo$xbarra),varpop(amo$xbarra)),
+      caption='Média e variância das médias amostrais',
+      rowname=c('Média','Variância'),
+      here=T,
+      rowlabel='Estatísticas',
+      file='')
+@
+
+A gráfico da distribuição das médias é:
+
+\begin{figure}[H]
+<<echo=FALSE,fig=TRUE>>=
+barplot(table(amo$xbarra)) 
+@
+\end{figure}
+
+Logo,podemos afirmar que a média amostral tem distribuição normal com média $\mu$ e variância $\sigma^2/n$.
+
+\end{solution} 
+
+%% META-INFORMATION 
+%% \extype{string} 
+%% \exsolution{"Aberta - texto"}  

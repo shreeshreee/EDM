@@ -1,0 +1,12 @@
+ HTML(paste('<textarea id="inputTextToSave6" style="width: 700px; height: 250px;" rows="3" cols="40"> <<echo=FALSE, results=hide>>=  &#13;&#10; questions <- solutions <- NULL &#13;&#10; type <- NULL  &#13;&#10; questions[1] <- "',
+ tr("alta"),
+ '" &#13;&#10; solutions[1] <- "',
+ tr("tquestaoa"),
+ '" &#13;&#10; type[1] <- "string" &#13;&#10; questions[2] <- "',
+ tr("altb"),
+ '" &#13;&#10;  solutions[2] <- 1981 #',
+ tr("tquestaon"),
+ '  &#13;&#10;  type[2] <- "num"  &#13;&#10; @ &#13;&#10; &#13;&#10; \\begin{question} &#13;&#10;',
+ tr("tquestaoaa"),
+ '  &#13;&#10; <<echo=FALSE, results=hide, results=tex>>= &#13;&#10; answerlist(questions) &#13;&#10; @  &#13;&#10; \\end{question}  &#13;&#10; \\begin{solution} &#13;&#10; <<echo=FALSE, results=hide, results=tex>>=  &#13;&#10; answerlist(format(solutions))  &#13;&#10; @  &#13;&#10; \\end{solution}  &#13;&#10; %% META-INFORMATION  &#13;&#10; %% \\extype{cloze}  &#13;&#10; %% \\exsolution{\\Sexpr{paste(solutions, collapse = "|")}}   &#13;&#10; %% \\exclozetype{string|num} </textarea>',
+ sep=''))

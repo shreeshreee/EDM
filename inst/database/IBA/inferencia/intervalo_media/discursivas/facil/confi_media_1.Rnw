@@ -1,0 +1,152 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+n <- sample(seq(20,30),
+            size = 1)
+
+ifelse(n <= length(LETTERS),
+       empresas <- LETTERS[1:n],
+       empresas <- c(LETTERS,letters[1:(n-length(LETTERS))]))
+
+suces <- sample(seq(0.4,0.7,
+                    l=21),
+                size = 1)
+
+dividendoaux <- rbinom(n,
+                       1,
+                       prob=suces)
+
+dividendo <- ifelse(dividendoaux==1,
+                    'Sim',
+                    'Não')
+
+lambda <- sample(seq(10,20),
+                 size = 1)
+
+pr <- rpois(n,lambda)
+
+dados <- data.frame(Empresas=empresas,
+                    Dividendo=dividendo,
+                    'P_R' = pr)
+
+conf <- round(sample(seq(.85,.99,l=20),
+               size = 1),
+              2)
+
+mepr <- abs(qt((1-conf)/2,n-1) * sd(pr)/sqrt(n))
+
+resultsaaux <- t.test(dados[,3],
+                   conf.level=conf)
+
+resultsa <- round(as.vector(resultsaaux$conf.int),
+                  3)
+
+prop <- round(length(dividendo[dividendo=='Sim'])/n,
+              3)
+
+errpadprop <- sqrt((prop*(1-prop))/n)
+
+mediv <- abs(qnorm((1-conf)/2)) * errpadprop
+
+resultsb <- round(c(prop-mediv,prop+mediv),
+                  3)
+
+mepret <- round(sample(seq(0.01,0.1,l=15),
+                 size = 1),
+                3)
+
+z_teorico <- qnorm((1-conf)/2)
+npretendido  <- round((z_teorico^2 * prop * (1-prop))/mepret^2,
+                     3)
+
+npretendido2 <- round((z_teorico^2 * .5 * (1-.5))/mepret^2,
+                     3)
+ 
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+
+questions <- solutions <- NULL 
+type <- NULL
+
+questions[1] <- paste('Estime um intervalo de confiança de',conf*100,'\\% para a variável P\\_R.',sep=' ')
+solutions[1] <- paste('IC($\\mu$,',conf*100,')=(',resultsa[1],',',resultsa[2],')',sep=' ')
+type[1] <- 'string'
+
+questions[2] <- paste('Estime um intervalo de confiança de', conf*100, '\\% para a variável Dividendo.',sep=' ')
+solutions[2] <- paste('IC($\\pi$,',conf*100,')=(',resultsb[1],',',resultsb[2],')') 
+type[2] <- 'string'
+
+questions[3] <- paste('Qual deve ser o tamanho da amostra para a variável Dividendo, caso pretendêssemos ter uma margem de erro de',mepret*100,'\\%, considerando o mesmo nível de confiança adotado nas alternativas anteriores?',sep=' ')
+solutions[3] <- paste(npretendido,'ou',npretendido2)
+type[3] <- 'string'
+
+
+@
+
+\begin{question}
+ Muitos observadores do mercado de valores dizem que quando a relação preço/rendimento (P\_R) das ações ultrapassa 20, o mercado está ``superavaliado''. A relação preço/rendimentos é o preço das ações dividido pelo rendimento obtido nos 12 meses mais recentes. Suponha que você esteja interessado em verificar qual é a verdadeira relação de preço/rendimento, e que também gostaria de saber qual proporção de empresas paga dividendos. Uma amostra aleatória de \Sexpr{n} empresas listadas na Bolsa de Valores de Nova York é apresentada.
+
+<<echo=FALSE>>=
+dados
+@
+
+ 
+<<echo=FALSE, results=hide, results=tex>>=
+ answerlist(questions)
+@
+
+\end{question}
+
+\begin{solution}
+
+Primeiramente iremos retirar toda a informação da amostra.
+
+Na letra a) tem-se:
+
+\begin{itemize} 
+ \item Média = \Sexpr{mean(dados[,3])}
+ \item Desvio padrão = \Sexpr{sd(dados[,3])}
+ \item Erro padrão da média = \Sexpr{sd(dados[,3])/sqrt(n)}
+ \item Estatística \textbf{t-student} = \Sexpr{abs(qt((1-conf)/2,n-1))} 
+ \item Margem de erro = \Sexpr{abs(qt((1-conf)/2,n-1) * sd(dados[,3])/sqrt(n)) }  
+\end{itemize}
+
+Logo, tem-se o intervalo de confiança: \Sexpr{solutions[1]}
+
+Na letra b) tem-se:
+
+\begin{itemize} 
+  \item Proporção = \Sexpr{prop}
+  \item Erro padrão da proporção = \Sexpr{errpadprop}
+  \item Estatística \textbf{z} = \Sexpr{abs(qnorm((1-conf)/2))} 
+  \item Margem de erro = \Sexpr{abs(qnorm((1-conf)/2)) * errpadprop}  
+\end{itemize}
+
+Logo, tem-se o intervalo de confiança: \Sexpr{solutions[2]}
+
+Na letra c) tem-se:
+
+Considerando a proporção estimada nos dados fornecido, tem-se:
+
+\begin{eqnarray*}
+  \textrm{Margem de erro} = z_{\alpha/2} \cdot \sqrt{\frac{\Sexpr{prop} \cdot (1-\Sexpr{prop})}{n}}
+\end{eqnarray*}
+ 
+Logo, considerando o quantil $z_{\alpha/2}=\Sexpr{z_teorico}$ o tamanho da amostra seria de \Sexpr{npretendido}.
+
+Considerando a proporção como 0,5, tem-se:
+
+\begin{eqnarray*}
+  \textrm{Margem de erro} = z_{\alpha/2} \cdot \sqrt{\frac{0,5 \cdot (1-0,5)}{n}}
+\end{eqnarray*}
+ 
+Logo, considerando o quantil $z_{\alpha/2}=\Sexpr{z_teorico}$ o tamanho da amostra seria de \Sexpr{npretendido2}.
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}} 
+%% \exclozetype{string|string|string} 
+%% \exname{Intervalo de Confiança}  

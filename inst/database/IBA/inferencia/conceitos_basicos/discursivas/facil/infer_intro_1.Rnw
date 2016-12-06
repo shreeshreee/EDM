@@ -1,0 +1,69 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+naux <- seq(7,10)
+
+mediaaux <- seq(4,10,l=20)
+
+desvaux <- seq(0.5,2,l=20)
+
+n <- sample(naux,
+            size = 1)
+
+media <- sample(mediaaux,
+                size = 1)
+
+desv <- sample(desvaux,
+               size = 1)
+
+dura <- round(rnorm(1e2,
+              media,
+              desv),
+              2)
+
+amo <- sample(dura[dura>0],size=n)
+
+results1a <- mean(amo)
+
+results1b <- sd(amo)
+ 
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- 'Desenvolva uma estimação por ponto da média de expectativa de durabilidade da população de DVDs'
+solutions[1] <- round(results1a,3)
+
+questions[2] <- 'Desenvolva uma estimação por ponto do desvio padrão da expectativa de durabilidade da população de DVDs'
+solutions[2] <- round(results1b,3)
+
+@
+
+\begin{question}
+ Uma revista publicou estimações da expectativa de durabilidade de aparelhos domésticos. Uma amostra aleatória simples de \Sexpr{n} aparelhos de DVD apresenta os seguintes tempos de vida útil em termos de anos:
+
+<<echo=FALSE>>=
+amo
+@
+
+<<echo=FALSE, results=hide, results=tex>>=
+ answerlist(questions)
+@
+
+\end{question}
+
+\begin{solution}
+
+<<echo=FALSE, results=hide, results=tex>>=
+# answerlist(paste("\\textbf{", format(unlist(solutions)),"}", sep = ""))
+answerlist(format(solutions)) 
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}} 
+%% \exclozetype{num|num} 
+%% \exname{Distribuição Normal1} 

@@ -1,0 +1,93 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- 'O número de elementos do conjunto de dados é de 15.'
+solutions[1] <- FALSE
+
+questions[2] <- 'A população em estudo são os cinco minisystems.'
+solutions[2] <- FALSE 
+
+questions[3] <- 'O número de variáveis estudadas foi de seis.'
+solutions[3] <- FALSE
+ 
+questions[4] <- 'As variáveis qualitativas foram: Marca e Modelo, Qualidade sonora e Sintonia de FM.' 
+solutions[4] <- FALSE 
+ 
+questions[5] <- 'As variáveis quantitativas foram: Preço, Capacidade de CDs e Tape Decks.'
+solutions[5] <- TRUE
+
+questions[6] <- 'As variáveis na escala de proporção ou de razão são: Preço, Capacidade de CDs e Tape Decks.'
+solutions[6] <- TRUE
+
+questions[7] <- 'As variáveis na escala intervalar são: Capacidade de CDs e Tape Decks.'
+solutions[7] <- FALSE
+
+questions[8] <- 'As variáveis na escala nominal são: Marca e Modelo e Qualidade Sonora.'
+solutions[8] <- FALSE
+ 
+questions[9] <- 'As variáveis discretas são: Capacidade de CDs e Tape Decks.'
+solutions[9] <- TRUE
+
+o <- sample(1:9)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+ Os sistemas de som integrados, denominados \textit{minisystems}, tipicamente incluem um rádio AM/FM, um \textit{tape deck} duplo e um toca-CDs automático em um gabinete do tamanho de um livro com dois alto-falantes separados. Os dados da tabela \ref{minisys} mostram o preço de venda e varejo, a qualidade sonora, a capacidade de CDs, a sensibilidade e a seletividade do rádio AM/FM e o número de \textit{tape decks} de uma amostra de 5 \textit{minisystems}.
+
+ \begin{table}[H]\label{minisys}
+   \caption{Dados de minisystems}
+    \scriptsize
+ \begin{tabular}{cccccc}
+ \hline
+ Marca e modelo & Preço (\$) & Qualidade sonora & Capacidade de CDs & Sintonia de FM & Tape Decks  \\
+ \hline
+  Aiwa NSX-AJ800 & 250 & Boa & 3 & Razoável & 2  \\
+  JVC FS-SD 1000 & 500 & Boa & 1 & Muito Boa & 0  \\
+  JVC MX-G50     & 200 & Muito Boa & 3 & Excelente & 2  \\
+  Panasonic SC-PM11 & 170 & Razoável & 5 & Muito Boa & 1  \\
+  RCA RS 1283 & 170 & Boa & 3 & Ruim & 0 \\
+\hline
+\end{tabular}
+\end{table}
+ 
+Assinale apenas um ``X'' na(s) afirmativa(s) verdadeira(s).
+ \begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+ \item \Sexpr{questions[6]} 
+ \item \Sexpr{questions[7]} 
+ \item \Sexpr{questions[8]} 
+ \item \Sexpr{questions[9]} 
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+  \item \Sexpr{mchoice2text(solutions[6])} 
+  \item \Sexpr{mchoice2text(solutions[7])} 
+  \item \Sexpr{mchoice2text(solutions[8])}   
+  \item \Sexpr{mchoice2text(solutions[9])} 
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = FALSE)}} 
+%% \exname{Introducao 1}  

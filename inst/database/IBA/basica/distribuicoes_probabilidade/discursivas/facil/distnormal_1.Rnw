@@ -1,0 +1,79 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+Zinf <- round(seq(-4,0,l=30),
+              2)
+Zsup <- round(seq(0.01,4,l=30),
+              2)
+
+question1a <- c(sample(Zinf,size = 1),sample(Zsup,size = 1))
+results1a <- pnorm(question1a[2]) - pnorm(question1a[1])
+
+question1b <- c(sample(Zinf[-30],size = 1),0)
+results1b <- 0.5 - pnorm(question1b[1])
+ 
+question1c <- c(0,sample(Zsup[-1], size = 1))
+results1c <- pnorm(question1c[2]) - 0.5
+ 
+question1d <- sample(Zsup, size = 1)
+results1d <- 1 - pnorm(question1d)
+ 
+question1e <- sample(Zinf, size = 1)
+results1e <- 1 - pnorm(question1e)
+
+question1f <- sample(Zinf, size = 1)
+results1f <-  pnorm(question1f)
+
+question1g <- sample(Zsup, size = 1)
+results1g <-  pnorm(question1g)
+ 
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- paste("P(",question1a[1], '< Z <', question1a[2] ,")")
+solutions[1] <- round(results1a,3)
+
+questions[2] <- paste("P(",question1b[1], '< Z <', 0 ,")")
+solutions[2] <- round(results1b,3)
+
+questions[3] <- paste("P(",0, '< Z <', question1c[2] ,")")
+solutions[3] <- round(results1c,3)
+
+questions[4] <- paste("P(Z >",question1d,")")
+solutions[4] <- round(results1d,3)
+
+questions[5] <- paste("P(Z >",question1e,")")
+solutions[5] <- round(results1e,3)
+
+questions[6] <- paste("P(Z <",question1f,")")
+solutions[6] <- round(results1f,3)
+
+questions[7] <- paste("P(Z <",question1g,")")
+solutions[7] <- round(results1g,3)
+@
+
+\begin{question}
+ Dado que $Z$ é uma variável aleatória normal padrão, calcule as seguintes probabilidades:
+
+<<echo=FALSE, results=hide, results=tex>>=
+ answerlist(questions)
+@
+
+\end{question}
+
+\begin{solution}
+
+<<echo=FALSE, results=hide, results=tex>>=
+# answerlist(paste("\\textbf{", format(unlist(solutions)),"}", sep = ""))
+answerlist(format(solutions)) 
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}} 
+%% \exclozetype{num|num|num|num|num|num|num} 
+%% \exname{Distribuição Normal1} 

@@ -1,0 +1,55 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'Teste Z para uma proporção.'
+solutions[1] <- TRUE
+
+questions[2] <- 'Teste t para uma única população com sigma conhecido.'
+solutions[2] <- FALSE
+
+questions[3] <- 'Teste Z para uma única população com sigma desconhecido.'
+solutions[3] <- FALSE
+
+questions[4] <- 'Teste t para uma proporção.'
+solutions[4] <- FALSE
+
+questions[5] <- 'Nenhuma das anteriores.'
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Em uma matéria de capa, a \textit{Business Week} publicou informações a respeito dos hábitos de dormir dos norte-americanos. O artigo afirmou que a privação do sono leva a uma série de problemas e apontou que o deixar de dormir provoca acidentes fatais nas estradas. Cinquenta e um em cem motoristas adultos admitem dirigir enquanto estão sonolentos. Um pesquisador aventou a hipótese de que essa questão era um problema ainda maior para as pessoas que trabalham em turnos da noite. Uma amostra de quinhentos trabalhadores do turno da noite revelou que duzentos e trinta e dois admitiram dirigir enquanto estavam sonolentos. Qual teste estatístico você indicaria?
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introdução Hipótese 3} 

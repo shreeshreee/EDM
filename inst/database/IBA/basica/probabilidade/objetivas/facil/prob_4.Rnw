@@ -1,0 +1,42 @@
+<<echo=FALSE,results=hide>>= 
+questions <- solutions <- NULL  
+questions[1] <-  "$1/6$"
+solutions[1] <- FALSE 
+questions[2] <- "$2/3$" 
+solutions[2] <- FALSE  
+questions[3] <- "$3/8$" 
+solutions[3] <- TRUE
+questions[4] <- "$6/5$" 
+solutions[4] <- FALSE 
+questions[5] <- "$2/8$" 
+solutions[5] <- FALSE 
+o <- sample(1:5) # serve para embaralhar as alternativas 
+questions <- questions[o] 
+solutions <- solutions[o] 
+@ 
+
+\begin{question} 
+ Uma mulher portadora de hemofilia clássica deu à luz três filhos. Qual é a probabilidade de que exatamente dois de seus três filhos sejam afetados? Considerem a probabilidade de contrair ou não a doença pelo filho iguais. 
+
+ \begin{answerlist} 
+ \item \Sexpr{questions[1]} 
+ \item \Sexpr{questions[2]} 
+ \item \Sexpr{questions[3]} 
+ \item \Sexpr{questions[4]} 
+ \item \Sexpr{questions[5]} 
+ \end{answerlist}  
+\end{question}  
+
+\begin{solution} 
+ \begin{answerlist} 
+ \item \Sexpr{mchoice2text(solutions[1])} 
+ \item \Sexpr{mchoice2text(solutions[2])} 
+ \item \Sexpr{mchoice2text(solutions[3])} 
+ \item \Sexpr{mchoice2text(solutions[4])} 
+ \item \Sexpr{mchoice2text(solutions[5])} 
+ \end{answerlist} 
+\end{solution} 
+
+%% META-INFORMATION 
+%% \extype{schoice} 
+%% \exsolution{\Sexpr{mchoice2string(solutions, single=TRUE)}}  

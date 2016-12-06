@@ -1,0 +1,66 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+EY   <- sample(10:14,1)
+varY <- sample(2:6,1)
+
+q     <- round(varY/EY,2)
+p     <- round(1 - q,2)
+
+n     <- round(EY/p)
+
+EZ    <- round((EY - 6)/3,2)
+varZ  <- round(varY/9,2)
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- paste(paste(n,p,EZ,sep=', '),varZ,sep=' e ')
+solutions[1] <- TRUE
+
+questions[2] <- paste(paste(n+2,q,EY,sep=', '),varZ,sep=' e ')
+solutions[2] <- FALSE 
+
+questions[3] <- paste(paste(n,q,EZ,sep=', '),varZ, sep=' e ')
+solutions[3] <- FALSE
+ 
+questions[4] <- paste(paste(n+2,p,EZ,sep=', '),varY,sep=' e ')
+solutions[4] <- FALSE 
+ 
+questions[5] <- paste(paste(n+2,q,EZ,sep=', '),varZ,sep=' e ')
+solutions[5] <- FALSE
+
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+Seja $Y \sim B(n,p)$. Sabendo-se que E(Y)= \Sexpr{EY} e VAR(Y)= \Sexpr{varY}, e sendo $Z = \frac{Y-6}{3}$, então n,p, E(Z) e VAR(Z) são respectivamente:
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{var_discreta}  

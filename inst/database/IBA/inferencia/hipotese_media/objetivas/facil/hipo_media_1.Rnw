@@ -1,0 +1,55 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'H0: $\\\\mu=400$, Ha: $\\\\mu > 400$'
+solutions[1] <- FALSE
+
+questions[2] <- "H0: $\\\\mu \\\\ge 400$, Ha: $\\\\mu \\\\neq 400$"
+solutions[2] <- FALSE
+
+questions[3] <- "H0: $\\\\mu = 400$, Ha: $\\\\mu \\\\neq 400$"
+solutions[3] <- FALSE
+
+questions[4] <- "H0: $\\\\mu \\\\neq 400$, Ha: $\\\\mu < 400$"
+solutions[4] <- FALSE
+
+questions[5] <- "H0: $\\\\mu \\\\ge 400$, Ha: $\\\\mu < 400$"
+solutions[5] <- TRUE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Um fabricante de tintas anuncia que um galão de sua tinta é capaz de cobrir $400 m^2$ de parede interior. Alguns pintores locais acreditam que a cobertura média é consideravelmente menor e decidem realizar um experimento. Se $\mu$ representa o verdadeiro número médio de metros quadrados cobertos pela pintura, quais são as verdadeiras hipótese nula e alternativas corretas a serem testadas? 
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introdução Hipótese 3} 

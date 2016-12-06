@@ -1,0 +1,43 @@
+<<echo=FALSE, results=hide>>=  
+n <- floor(runif(1, 101,332))
+alpha <- round(runif(1,0.01,0.1),2)
+
+mu <- round(runif(1,48,60),2)
+sigma <- round(runif(1,9,15),2)
+
+amo <- round(rnorm(n,mu,sigma),2)
+xbarra <- round(mean(amo),2)
+desvio <- round(sd(amo),2)
+erropad <- round(desvio/sqrt(n),2)
+
+me <- round(abs(qt(alpha/2,n-1)) * erropad,2)
+@ 
+ 
+\begin{question} 
+ Uma amostra aleatória simples de \Sexpr{n} pacientes foi extraída com intuito de determinar a dosagem média mínima em miligramas de um determinado anestésico em uma intervenção cirúrgica. Considerando uma confiança de \Sexpr{(1-alpha) * 100}\%, qual é o intervalo de confiança para a média?
+
+<<>>= 
+ amo
+@  
+\end{question}  
+ 
+\begin{solution} 
+Primeiramente iremos retirar toda a informação da amostra.
+\begin{itemize} 
+ \item Média = \Sexpr{xbarra}
+\item Desvio padrão = \Sexpr{desvio}
+\item Erro padrão da média = \Sexpr{erropad}
+\end{itemize}
+
+Vamos calcular a margem de erro.
+
+\begin{eqnarray*}
+\textrm{Margem de erro} = \Sexpr{me}
+\end{eqnarray*}
+
+Portanto, o intervalo de confiança de \Sexpr{(1-alpha) * 100}\% é de (\Sexpr{xbarra - me}, \Sexpr{xbarra+me})
+ \end{solution}  
+ 
+%% META-INFORMATION  
+%% \extype{string}  
+%% \exsolution{\Sexpr{paste('(',xbarra-me,',',xbarra+me,')',sep='')}}     

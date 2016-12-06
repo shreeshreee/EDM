@@ -1,0 +1,67 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'Teste Z para diferença entre duas proporções.'
+solutions[1] <- FALSE
+
+questions[2] <- 'Teste t para diferença entre duas médias com sigma conhecido.'
+solutions[2] <- FALSE
+
+questions[3] <- 'Teste t para diferença entre duas médias com sigma conhecido e amostras independentes.'
+solutions[3] <- FALSE
+
+questions[4] <- 'Teste t para diferença entre duas médias considerando amostras independentes.'
+solutions[4] <- FALSE
+
+questions[5] <- 'Teste t para diferença entre duas médias considerando amostras pareadas.'
+solutions[5] <- TRUE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Uma amostra de cinco chamadas telefônicas internacionais forneceu o preço das tarifas por minuto da "Oi" e da "Tim" para chamadas feitas do Brasil (dados fictícios).
+
+ \begin{tabular}{ccc} \hline
+  País      & Oi   & Tim \\ \hline
+  Austrália & 0,46 & 0,26 \\
+  Bélgica   & 0,69 & 0,40\\
+  Estados U.& 0,92 & 0,53 \\
+  Colômbia  & 0,55 & 0,53 \\
+  Dinamarca & 0,50 & 0,26\\ \hline
+ \end{tabular}
+
+ Qual teste estatístico você utilizaria para testar a diferença entre as duas operadoras?
+
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introdução Hipótese 12} 

@@ -1,0 +1,56 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- -0.26
+solutions[1] <- FALSE
+
+questions[2] <- 0.26
+solutions[2] <- TRUE
+
+questions[3] <- 0
+solutions[3] <- FALSE
+
+questions[4] <- 0.38
+solutions[4] <- FALSE
+
+questions[5] <- -0.38
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+A correlação entre duas variáveis X e Y é -0,26. Um novo conjunto de dados, X* e Y*, é construído de modo que X* = -X e Y*=Y+12. A correlação entre X* e Y* é:
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Correlação 2} 

@@ -1,0 +1,66 @@
+<<echo=FALSE,results=hide>>= 
+n <- sample(20:30,1)
+
+ocupa <- sample(c('Advogado','Fisioterapeuta','Analista','Marceneiro'),
+                size=n,
+                prob=c(sample(seq(0.1,0.3,0.1),1),
+                       sample(seq(0.2,0.5,0.1),1),
+                       sample(seq(0.2,0.4,0.1),1),
+                       sample(seq(0.3,0.8,0.1),1)),
+                replace=T)
+
+satis  <- round(runif(n,
+                min=38,
+                max=98))
+@ 
+ 
+\begin{question} 
+Foi realizado um estudo a respeito da satisfação profissional de quatro ocupações. A satisfação prossional foi medida usando-se um questionário de 18 perguntas, e cada questão recebia uma pontuação de 1 a 5 para cada resposta, com as pontuações mais altas indicando maior satisfação. A soma dos pontos obtidos nas 18 questões fornece a satisfação profissional de cada indivíduo da amostra. Os dados são os seguintes:
+
+<<echo=FALSE,results=tex>>=
+dados <- data.frame('Ocupação'=ocupa,
+                    'Satisfação'=satis)
+
+latex(dados,
+      here=T,
+      file='')
+@
+
+Faça uma tabulação cruzada da ocupação e do nível de satisfação profissional. Calcule também as porcentagens de linha de sua tabulação cruzada.
+
+\end{question}  
+ 
+\begin{solution} 
+Usando o pacote fdth, conseguimos resolver isto de letra. Segue a solução:
+
+<<echo=F>>=
+fdt_cross <- function(x,y){
+ # x: the numeric variable
+ # y: the categorical variable
+ require(fdth)
+ if(is.numeric(x)){
+  auxx1 <- fdt(x)$breaks
+  auxx2 <- cut(x,
+               br=seq(auxx1[1],
+                      auxx1[2],
+                      auxx1[3]),
+               right=auxx1[4],
+               dig.lab=nchar(as.character(round(max(auxx1[2]),
+                                                2))))     
+ } else stop('x should be numeric!')
+
+ res <- table(y,auxx2)
+ return(res)
+} 
+tab <- fdt_cross(dados[,2],dados[,1])
+tab
+
+prop.table(tab,margin=1)
+
+@
+
+\end{solution} 
+ 
+ %% META-INFORMATION 
+ %% \extype{string} 
+ %% \exsolution{"Aberta - texto"}  

@@ -1,0 +1,76 @@
+key;br;en
+sair;Sair;Quit
+inicio;Início;Home
+gbq;GBQ;EDM
+titulo;Gerenciador de Banco de Questões;Exams Database Manager
+saudacao;Bem-vindo!;Welcome!
+criarrem;Criar/Remover banco de questões;Create/Remove exams database
+criar;Criar;Create
+compname;Coloque seu nome completo;Enter your full name
+escsigla;Escolha pelo menos três letras maiúsculas que representará sua base;Choice at least three captial letters that represent your database
+ndiscp;Coloque o nome de uma disciplina;Enter with a course name
+nassun;Coloque o nome de um assunto;Enter with a matter name
+gbanco;Gerar Banco!;Generate database!
+remover;Remover;Remove
+criardisc;Criar nova disciplina/assunto;Create new course/matter
+rebanco;Remover banco(s)!;Remove database!
+gdisc;Gerar disciplina!;Generate course
+gassu;Gerar assunto!;Generate matter
+pquest;Programar questão;Program exams
+utbanco;Utilizar banco de questões;Use database
+esbanqu;Escolha o(s) banco(s) de questão(ões)!;Choice the database!
+condisc;Coloque o nome da disciplina;Enter with the course name
+esdisc;Escolha a disciplina;Choice the course
+conass;Coloque o nome do assunto!;Enter with the matter name
+mgbase;Criando base! Aguarde...;Generate database! Wait...
+jtbase;Atenção! Já existe um diretório com estas inicias. Escolha outra!;Caution! Already has a database with this words. Choice other!
+pdisc;discursivas;free
+pobj;objetivas;close
+pnifa;facil;easy
+pnme;medio;medium
+pndif;dificil;hard
+mdelete;Delete este arquivo apenas quando criar outro!;Delete this file only when you create another!
+mrbanco;NÃO HÁ BANCO DE DADOS PARA REMOVER!;THERE IS NO DATABASE TO REMOVE!
+narqui;arquivo;file
+ntipo;tipo;type
+nnivel;nível;level
+disci;disciplina;course
+assun;assunto;matter
+aten;Atenção!;Caution!
+mpac;Os pacotes shiny, shinyjs, DT, exams, markdown e Ruchardet não estão instalados. Eles irão ser instalados agora!;The shiny, shinyjs, DT, exams, markdown and Ruchardet packages are not installed. They will be istalled now!
+mpacc;Os pacotes;The
+mpacc2;não estão instalados. Eles irão ser instalados agora!;packages are not installed. They will be installed now!
+tquestaoa;Aberta - texto;Essay
+tquestaon;Aberta - numérica;Numerical
+tquestaom;Múltipla escolha;Multiple choice
+tquestaos;Única escolha;Single choice
+associacao;Associação;Matching
+mista;Mista;Cloze
+tquestaoaa;Coloque aqui o cabeçalho de sua questão!;Enter here the header of your question!
+tquestaoas;Escreva a solução de sua questão!;Write the solution of your question!
+alta;Alternativa a;First solution
+altb;Alternativa b;Second solution
+altc;Alternativa c;Third solution
+altd;Alternativa d;Fourth solution
+alte;Alternativa e;Fifth solution
+assa;Preço de um computador;Price of a computer
+assb;Número de pessoas em um domicílio;Number of the people in a home
+assc;Valor de um automóvel;Price of a car
+assd;Número de peças produzidas em um mês;Number of parts produced in a month
+asse;Número de peças defeituosas em uma fábrica;Number of defective parts in a factory
+assf;A velocidade em km/h;The speed in m/s
+assg;O peso em kg;The weight in pounds
+assh;Número de empregados de uma empresa;Number of employees of a company
+assi;A pressão de um pneu em Nw/cm2;The pressure of a tire Nw/cm2
+templ1;Preparando o cabeçalho da sua prova;Preparing the header of your exam
+templ2;Nome da avaliação;Name of the exam
+templ3;Unidade acadêmica;Department
+templ4;Nome da disciplina;Name of course
+templ5;Carga horária da disciplina;Couse hours
+templ6;Período letivo;Semester
+templ7;Seu nome;Your name
+templ8;Quantos provas deseja gerar?;How many exams do you wants generate?
+botpdf;GERAR QUESTÕES EM PDF;GENERATE EXAMS IN PDF
+botxml;GERAR QUESTÕES EM XML;GENERATE EXAMS IN XML
+botzip;SALVAR QUESTÕES (ZIP);SAVE EXAMS (ZIP)
+tutorial;Guia do usuário;User guide

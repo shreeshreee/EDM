@@ -1,0 +1,64 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- '$\\\\frac{b-a}{3}$ e $\\\\frac{b-a}{4}$'
+solutions[1] <- FALSE
+
+questions[2] <- '$\\\\frac{b+a}{2}$ e $\\\\frac{(b-a)^2}{12}$'
+solutions[2] <- TRUE 
+
+questions[3] <- '$\\\\frac{b+a}{2}$ e $\\\\frac{(b-a)^2}{6}$'
+solutions[3] <- FALSE
+ 
+questions[4] <- '$\\\\frac{b+a}{3}$ e $\\\\frac{(b-a)^2}{6}$'
+solutions[4] <- FALSE 
+ 
+questions[5] <- '$\\\\frac{b-a}{3}$ e $\\\\frac{(b-a)^2}{4}$'
+solutions[5] <- FALSE
+
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+Seja Y uma variável aleatória com distribuição uniforme dado por: 
+ \begin{displaymath}
+  f(Y) = \left\{ \begin{array}{ll}
+   \frac{1}{b-a} \qquad \mathrm{se} \qquad a \le y \le b, \\
+    0, \mathrm{caso~contrario} \\
+    \end{array} \right.
+\end{displaymath}    
+
+A média e a variância desta variável são respectivamente:
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{var aleatoria}  

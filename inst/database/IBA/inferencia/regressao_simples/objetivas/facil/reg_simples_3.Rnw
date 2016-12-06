@@ -1,0 +1,64 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'A estimativa de \\\\textbf{a} será um valor negativo.'
+solutions[1] <- FALSE
+
+questions[2] <- 'A estimativa de \\\\textbf{b} será um valor negativo.'
+solutions[2] <- TRUE
+
+questions[3] <- 'A estimativa de \\\\textbf{a} provavelmente estará entre 10 e 20.'
+solutions[3] <- FALSE
+
+questions[4] <- 'A estimativa de \\\\textbf{b} será um valor positivo.'
+solutions[4] <- FALSE
+
+questions[5] <- 'Não é possível afirmar nada sem a equação de regressão.'
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Um gráfico de dispersão entre duas variáveis quantitativas foi o seguinte:
+
+<<echo=F,fig=T>>=
+x <- seq(1,10)
+y <- 30 - 1.2*x + rnorm(10)
+plot(x,y)
+@
+
+O que podemos afirmar a respeito dos estimadores $\mathbf{a}$ e $\mathbf{b}$ de uma equação de regressão linear simples.
+
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Regressão 3} 

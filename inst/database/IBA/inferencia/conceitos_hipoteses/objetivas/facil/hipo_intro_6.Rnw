@@ -1,0 +1,55 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'É uma declaração sobre valores de um ou mais parâmetros. Representa a hipótese do pesquisador.'
+solutions[1] <- FALSE
+
+questions[2] <- 'A hipótese nula também representa por Ha, representa a hipótese do pesquisador.'
+solutions[2] <- FALSE
+
+questions[3] <- 'Representa o estado atual e, geralmente, não é rejeitada a menos que o resultado da amostra implica fortemente que ela é falsa.'
+solutions[3] <- TRUE
+
+questions[4] <- 'Representa a hipótese do pesquisador e, geralmente, não é rejeitada a menos que o resultado da amostra implica fortemente que ela é falsa.'
+solutions[4] <- FALSE
+
+questions[5] <- 'Representa o estado atual e, geralmente, é rejeitada a menos que o resultado da amostra implica fortemente que ela é verdadeira.'
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ O que você entende por hipótese nula?
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introdução Hipótese 3} 

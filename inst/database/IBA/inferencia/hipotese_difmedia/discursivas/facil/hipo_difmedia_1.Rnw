@@ -1,0 +1,166 @@
+<<echo=FALSE>>=
+library(truncnorm)
+
+n <- sample(seq(22,45),
+            1)
+
+murendaios <- round(sample(seq(6,20,l=10),
+                           1),
+                    2)
+
+desrendaios <- round(sample(seq(1,15,l=10),
+                            1),
+                     2)
+
+probescios <- round(sample(seq(0.05,.30,l=20),
+                           1),3) 
+
+rendaios <- round(rtruncnorm(n,a=0.1,b=Inf,
+                             as.numeric(murendaios),
+                             as.numeric(desrendaios)),
+                  2)
+
+esciosaux <- rbinom(n,
+                    1,
+                    prob=probescios)
+
+escios <- ifelse(esciosaux==1,
+                 '3grau',
+                 '2grau')
+
+murendaitab  <- round(sample(seq(6,20,l=10),
+                             1),
+                      2)
+
+desrendaitab <- round(sample(seq(1,15,l=10),
+                             1),
+                      2)
+
+probescitab <- round(sample(seq(0.05,.30,l=20),
+                            1),3) 
+
+
+rendaitab <- round(rtruncnorm(n,a=0.1,b=Inf,
+                              as.numeric(murendaitab),
+                              as.numeric(desrendaitab)),
+                   2)
+
+escitabaux <- rbinom(n,
+                     1,
+                     prob=probescitab)
+
+escitab <- ifelse(escitabaux==1,
+                  '3grau',
+                  '2grau')
+
+dados <- data.frame(cidade=rep(c('ilheus','itabuna'),
+                               c(n,n)),
+                    renda=c(rendaios,
+                            rendaitab),
+                    escolaridade=c(escios,
+                                   escitab))
+
+alfa <- round(sample(seq(0.01,0.2,l=20),
+               1),
+              3)
+@
+
+\begin{question}
+ Um estudo foi realizado com o intuito de comparar as cidades de Ilhéus/BA e Itabuna/BA quanto a renda salarial familiar (expresso em quantidade de salários mínimios) e o grau de escolaridade do chefe da família. O pesquisador acredita que, embora as cidades sejam bem próximas elas diferem quanto as características em estudo. Para sustentar sua hipótese, o pesquisador coletou uma amostra aleatória em cada cidade, e os dados após devidademente tabulados podem ser obtidos visualizados a seguir:
+ 
+<<echo=FALSE>>=
+dados
+@
+ 
+Formule as hipóteses adequadamente e as teste ao nível de \Sexpr{alfa*100}\% de significância. Qual foi a conclusão do estudo?
+
+\end{question} 
+
+\begin{solution}
+Tem-se um caso típico de amostras independentes. Primeiramente precisamos elaborar as hipóteses. Primeiro vamos elaborar para a variável renda.
+
+ \begin{eqnarray*}
+  H_0: \mu_{Ilhéus} - \mu_{Itabuna} = 0 \\
+  H_a: \mu_{Ilhéus} - \mu_{Itabuna} \neq 0
+ \end{eqnarray*}
+
+Agora para a variável grau de escolaridade.
+
+\begin{eqnarray*}
+ H_0: \pi_{Ilhéus} - \pi_{Itabuna} = 0 \\
+ H_a: \pi_{Ilhéus} - \pi_{Itabuna} \neq 0
+\end{eqnarray*}
+ 
+Iremos usar direto a função t.test do R para a variável renda.
+
+<<echo=FALSE>>=
+teste <- t.test(with(subset(dados, cidade == 'ilheus'),renda),with(subset(dados, cidade == 'itabuna'),renda))
+teste
+pvalor <- teste$p.value
+
+ifelse(pvalor <= alfa,
+       deci1 <- 'menor ou igual',
+       deci1 <- 'maior')
+
+ifelse(pvalor <= alfa,
+       deci2 <- 'rejeita-se',
+       deci2 <- 'não rejeita-se')
+
+@
+
+E portanto, o pvalor é igual a \Sexpr{pvalor}. Logo, como o pvalor é \Sexpr{deci1} do que \Sexpr{alfa}, \Sexpr{deci2} $H_0$ com \Sexpr{(1-alfa)*100}\%.
+
+No tocante a variável grau de escolaridade tem-se a seguinte proporções estimadas:
+
+<<echo=FALSE>>=
+ilheus  <- subset(dados, cidade == 'ilheus')
+itabuna <- subset(dados, cidade == 'itabuna')
+@
+
+<<>>=
+prop_ilh <- length(ilheus[,3][ilheus[,3]=='3grau'])/dim(ilheus)[1]
+prop_ilh
+
+prop_ita <- length(itabuna[,3][itabuna[,3]=='3grau'])/dim(itabuna)[1] 
+prop_ita
+@
+
+
+A proporção agrupada e o erro padrão foram:
+
+<<>>=
+p_pull <- (prop_ilh + prop_ita)/2
+p_pull
+
+erro_pull <- sqrt(p_pull*(1-p_pull)*(1/dim(ilheus)[1] + 1/dim(itabuna)[1]))
+erro_pull
+@
+
+A estatística de teste e o pvalor foram:
+
+<<>>=
+z <- (prop_ilh - prop_ita)/erro_pull
+z
+
+pvalorp <- pnorm(abs(z), lower.tail=F)
+pvalorp
+@
+
+<<echo=FALSE,results=hide>>=
+ifelse(pvalorp <= alfa,
+       deci11 <- 'menor ou igual',
+       deci11 <- 'maior')
+
+ifelse(pvalorp <= alfa,
+       deci22 <- 'rejeita-se',
+       deci22 <- 'não rejeita-se')
+@
+
+E portanto, o pvalor é igual a \Sexpr{pvalorp}. Logo, como o pvalor é \Sexpr{deci11} do que \Sexpr{alfa}, \Sexpr{deci22} $H_0$ com \Sexpr{(1-alfa)*100}\%. 
+
+\end{solution}
+ 
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{'Aberta'}
+%% \exname{Teste de hipotese para diferença entre médias e proporções}   

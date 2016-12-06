@@ -1,0 +1,51 @@
+<<echo=FALSE,results=hide>>= 
+ questions <- solutions <- NULL  
+ questions[1] <- "Uma função densidade de probabilidade é atribuída a uma variável aleatória discreta. " 
+ solutions[1] <- FALSE 
+ questions[2] <- "Função de distribuição é um sinônimo para função acumulada." 
+ solutions[2] <- TRUE  
+ questions[3] <- "O valor esperado para uma variável aleatória contínua é dado pela seguinte expressão: $E(X) = \\\\sum_{i=1}^{N} y_i\\\\cdot p_i$." 
+ solutions[3] <- FALSE 
+ questions[4] <- "A distribuição de probabilidade de uma variável aleatória discreta é dada pelo par $(y_i,p_i).$" 
+ solutions[4] <- TRUE 
+ questions[5] <- "Uma das condições para que uma função densidade de probabilidade seja válida é de que $\\\\int_{-\\\\infty}^{+\\\\infty} f(x) dx \\\\ge 1.$" 
+ solutions[5] <- FALSE 
+ questions[6] <- "Seja k=2 e E(X)=3. Se multiplicarmos k a variável aleatória X, então a média da nova variável aleatória é 6." 
+ solutions[6] <- TRUE
+questions[7] <- "Se k é uma constante, então a variância desta constante é 1." 
+solutions[7] <- FALSE
+ 
+ o <- sample(1:7) # serve para embaralhar as alternativas 
+ questions <- questions[o] 
+ solutions <- solutions[o] 
+@ 
+ 
+\begin{question} 
+Assinale um X nas alternativas verdadeiras referentes ao assunto variáveis aleatórias. 
+ 
+\begin{answerlist} 
+ \item \Sexpr{questions[1]} 
+ \item \Sexpr{questions[2]} 
+ \item \Sexpr{questions[3]} 
+ \item \Sexpr{questions[4]} 
+ \item \Sexpr{questions[5]} 
+ \item \Sexpr{questions[6]} 
+ \item \Sexpr{questions[7]} 
+\end{answerlist}  
+\end{question}  
+ 
+\begin{solution} 
+ \begin{answerlist} 
+ \item \Sexpr{mchoice2text(solutions[1])} 
+ \item \Sexpr{mchoice2text(solutions[2])} 
+ \item \Sexpr{mchoice2text(solutions[3])} 
+ \item \Sexpr{mchoice2text(solutions[4])} 
+ \item \Sexpr{mchoice2text(solutions[5])} 
+ \item \Sexpr{mchoice2text(solutions[6])} 
+ \item \Sexpr{mchoice2text(solutions[7])} 
+\end{answerlist} 
+\end{solution} 
+ 
+%% META-INFORMATION 
+%% \extype{mchoice} 
+%% \exsolution{\Sexpr{mchoice2string(solutions, single=FALSE)}}  

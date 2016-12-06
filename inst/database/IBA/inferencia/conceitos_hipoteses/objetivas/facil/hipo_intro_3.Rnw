@@ -1,0 +1,83 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+alfa <- round(sample(seq(0.01,0.15,l=10),
+               1),
+              3)
+
+alfa1 <- round(sample(seq(0.01,0.15,l=10),
+               1),
+              3)
+ 
+pvalor <- round(sample(seq(0,0.2,l=10),
+                       1),
+                2)
+
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'I e III somente.'
+solutions[1] <- ifelse(pvalor < alfa & pvalor > alfa1,
+                       TRUE,
+                       FALSE)
+
+questions[2] <- "I somente."
+solutions[2] <- FALSE
+
+questions[3] <- "III somente."
+solutions[3] <- ifelse(pvalor > alfa & pvalor > alfa1,
+                       TRUE,
+                       FALSE)
+
+questions[4] <- "II e III somente."
+solutions[4] <- ifelse(pvalor < alfa1 & pvalor > alfa,
+                       TRUE,
+                       FALSE)
+
+questions[5] <- "I, II e III."
+solutions[5] <- ifelse(pvalor < alfa & pvalor < alfa1,
+                       TRUE,
+                       FALSE)
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+
+@
+
+\begin{question}
+ Sob a hipótese nula, uma amostra produziu um pvalor de \Sexpr{pvalor}. Qual das seguintes alternativas é (são) verdadeira(s)?
+
+ \begin{itemize}
+  \item[I.] Este resultado é significativo ao nível de significância de \Sexpr{alfa}.
+  \item[II.] Este resultado é significativo ao nível de significância de \Sexpr{alfa1}.
+  \item[III.] A probabilidade de se obter um valor de amostra tão extremo como este por um acaso se a hipótese nula é verdadeira é \Sexpr{pvalor}.
+  \end{itemize}
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introdução Hipótese 2} 

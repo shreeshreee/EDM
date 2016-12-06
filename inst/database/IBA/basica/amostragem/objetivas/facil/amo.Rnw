@@ -1,0 +1,76 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- 'A população é dividida em grupos semelhantes que são mutuamente exclusivos de acordo com alguma(s) característica(s)
+      relevante(s). Posteriormente uma amostra aleatória simples é retirada de cada grupo.'
+solutions[1] <- 'IV'
+
+questions[2] <- 'Consiste na escolha dos elementos da amostra por um especialista no assunto, que seleciona os elementos que 
+      julga os mais apropriados e representativos para o estudo em questão.'
+solutions[2] <- 'V' 
+
+questions[3] <- 'De posse de uma listagem dos elementos da população, resulta da escolha sistemática, a partir de um número inicial 
+      qualquer, onde os demais elementos são selecionados de forma intervalar.'
+solutions[3] <- 'VI'
+ 
+questions[4] <- 'O princípio se opõe ao da estratificação, pois o que se busca é a heterogeneidade: quanto maior a variabilidade, 
+      maior a precisão.'
+solutions[4] <- 'III' 
+ 
+questions[5] <- 'Os elementos da amostra são escolhidos por serem os mais acessíveis ou fáceis de serem avaliados.'
+solutions[5] <- 'I'
+
+questions[6] <- 'É o método de selecionar, sem reposição, n elementos de uma população de tamanho N, conhecido e finito, 
+      onde cada elemento tem a mesma chance de ser selecionado.'
+solutions[6] <- 'II'
+
+o <- sample(1:6)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+ Considerando o assunto \textbf{Noções de Amostragem}, associe as afirmativas aos conceitos e definições:
+ \begin{itemize}
+  \item[(I)] Conveniência
+  \item[(II)] Aleatória simples
+  \item[(III)] Conglomerado
+  \item[(IV)] Estratificada.
+  \item[(V)] Julgamento.
+  \item[(VI)] Sistemática.
+ \end{itemize}
+ 
+
+ \begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+ \item \Sexpr{questions[6]}
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{solutions[1]}
+  \item \Sexpr{solutions[2]}
+  \item \Sexpr{solutions[3]}
+  \item \Sexpr{solutions[4]}
+  \item \Sexpr{solutions[5]}
+  \item \Sexpr{solutions[6]} 
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse='|')}}  
+%% \exclozetype{string|string|string|string|string|string}
+%% \exname{Introducao 5}  

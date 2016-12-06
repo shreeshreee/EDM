@@ -1,0 +1,88 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- 'MED admensional, útil para comparar dispersão em estudos em que foram usadas diferentes escalas.'
+solutions[1] <- 'I'
+
+questions[2] <- 'MED com a mesma unidade de expressão da variável em estudo, porém, elevada ao quadrado.'
+solutions[2] <- 'VII' 
+
+questions[3] <- 'MED com a mesma unidade de expressão da variável em estudo.'
+solutions[3] <- 'II'
+ 
+questions[4] <- 'MEP que divide a série em 100 partes iguais.'
+solutions[4] <- 'V' 
+ 
+questions[5] <- 'MEP que divide a série em 4 partes iguais.'
+solutions[5] <- 'VI'
+
+questions[6] <- 'METC que não é afetada por valores extremos (outliers).'
+solutions[6] <- 'III'
+
+questions[7] <- 'METC que utiliza todos os valores da série, independente da posição.'
+solutions[7] <- 'IV'
+
+o <- sample(1:7)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+ Considerando o assunto \textbf{Análise Exploratória de Dados}, e as abreviações abaixo, associe as afirmativas às medidas estatísticas:
+
+ \vspace{.5cm}
+
+\textbf{Abreviações das Medidas Estatísticas - ME}:
+\begin{itemize}
+  \item Dispersão - MED
+  \item Posição - MEP
+  \item Tendência Central - METC
+\end{itemize}
+
+ \textbf{Medida estatística} 
+ \begin{itemize}
+ \item[(I)] Coeficiente de variação
+ \item[(II)] Desvio padrão
+ \item[III] Mediana
+ \item[(IV)] Média aritmética
+ \item[(V)] Percentil
+ \item[(VI)] Quartil
+ \item[(VII)] Variância
+\end{itemize} 
+
+ \textbf{Afirmativas}
+\begin{answerlist}
+\item \Sexpr{questions[1]}
+\item \Sexpr{questions[2]}
+\item \Sexpr{questions[3]}
+\item \Sexpr{questions[4]}
+\item \Sexpr{questions[5]}
+\item \Sexpr{questions[6]}
+\item \Sexpr{questions[7]} 
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{solutions[1]}
+  \item \Sexpr{solutions[2]}
+  \item \Sexpr{solutions[3]}
+  \item \Sexpr{solutions[4]}
+  \item \Sexpr{solutions[5]}
+  \item \Sexpr{solutions[6]}
+  \item \Sexpr{solutions[7]} 
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse='|')}}  
+%% \exclozetype{string|string|string|string|string|string|string}
+%% \exname{Introducao 7}  

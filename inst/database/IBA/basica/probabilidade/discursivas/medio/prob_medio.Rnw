@@ -1,0 +1,21 @@
+<<echo=FALSE,results=hide>>= 
+prob_aux <- c(1/5, 2/5, 3/5)
+prob <- sample(prob_aux,size=1)
+
+n_aux <- c(7,8,9,10)
+n <- sample(n_aux, size=1)
+res <- round((1-prob) + prob*1/n,3)
+@ 
+ 
+\begin{question} 
+A probabilidade de que a porta de uma casa esteja trancada à chave é de \Sexpr{prob}. Há \Sexpr{n} chaves em um chaveiro. Qual a probabilidade de que um indivíduo entre na sua casa podendo utilizar, se necessário, apenas uma das chaves, tomada ao acaso do chaveiro?
+\end{question}  
+ 
+\begin{solution} 
+O indivíduo tem duas possibilidades de entrar na casa. A primeira se ele pegar a porta destrancada ou a segunda se ele pegar a porta trancada mais acertar qual é a chave. 
+
+\end{solution} 
+ 
+%% META-INFORMATION 
+%% \extype{num} 
+%% \exsolution{\Sexpr{res}}  

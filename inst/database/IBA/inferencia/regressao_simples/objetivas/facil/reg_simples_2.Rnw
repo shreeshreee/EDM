@@ -1,0 +1,73 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+beta1 <- round(sample(seq(2,4,l=10),
+                1),
+               2)
+
+fun <- function(x,b=beta1){
+ -115+b*x
+}
+
+alt <- round(sample(seq(60,150,l=50),
+              1),
+             2)
+
+pes <- fun(alt)
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'I somente'
+solutions[1] <- FALSE
+
+questions[2] <- 'II somente'
+solutions[2] <- TRUE
+
+questions[3] <- 'III somente'
+solutions[3] <- FALSE
+
+questions[4] <- 'II e III somente'
+solutions[4] <- FALSE
+
+questions[5] <- 'I e II somente'
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ A equação de regressão linear para estimar o peso (libras) em função da altura (polegadas) é $peso=-115+\Sexpr{beta1}(altura)$. Qual(is) é/são verdadeira(s)?
+
+ \begin{itemize}
+  \item[I.] Uma pessoa com uma altura de \Sexpr{alt} polegadas terá um peso de \Sexpr{pes} libras.
+  \item[II.] O aumento da altura em uma unidade irá aumentar em média em \Sexpr{beta1} o peso de um indivíduo.
+  \item[III.] Existe uma forte relação linear positiva entre peso e altura.
+ \end{itemize}
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Regressão 2} 

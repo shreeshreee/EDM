@@ -1,0 +1,55 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'Teste Z para diferença entre duas proporções.'
+solutions[1] <- TRUE
+
+questions[2] <- 'Teste t para amostras pareadas.'
+solutions[2] <- FALSE
+
+questions[3] <- 'Teste t para amostras independentes.'
+solutions[3] <- FALSE
+
+questions[4] <- 'Teste t para diferença entre duas proporções e amostras independentes.'
+solutions[4] <- FALSE
+
+questions[5] <- 'Teste Z para uma população.'
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Dois professores querem comparar seus métodos de ensino. Eles decidem aplicar o mesmo exame final e utilizar a pontuação dos exames como base para comparação. Eles decidem que o valor de interesse para eles será a proporção de alunos em cada classe que marcar acima de 80\% no final. Uma classe tem 32 alunos e outra tem 27 alunos. Qual das seguintes alternativas seria o teste mais apropriado para esta situação?
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introdução Hipótese 3} 

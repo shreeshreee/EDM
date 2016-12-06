@@ -1,0 +1,65 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+conf <- sample(seq(0.85,0.99,0.01),1)
+
+intersaux <- matrix(c(4,8,
+                   6,9,
+                   5,7),
+                 ncol=2,
+                 byrow=T)
+
+i <- sample(c(1,2,3),1)
+inter <- intersaux[i,]
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- paste('Dos peixes que estão no rio', conf*100,'\\\\% estão entre',inter[1],'e',inter[2],'cm.',sep=' ')
+solutions[1] <- FALSE
+
+questions[2] <- paste('Nós temos', conf*100,'\\\\% de confiança de que a média amostral de comprimento dos peixes no rio está entre',inter[1],'e',inter[2],'cm.',sep=' ') 
+solutions[2] <- FALSE 
+
+questions[3] <- paste('Nós temos', conf*100,'\\\\% de confiança de que a média populacional de comprimento dos peixes no rio está entre',inter[1],'e',inter[2],'cm.',sep=' ')  
+solutions[3] <- TRUE 
+ 
+questions[4] <- paste('Há uma chance de', conf*100,'\\\\% de que um peixe selecionado aleatoriamente do rio tenha entre',inter[1],'e',inter[2],'cm.',sep=' ')   
+solutions[4] <- FALSE 
+ 
+questions[5] <- 'Nenhuma das anteriores.'
+solutions[5] <- FALSE 
+
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+ Um pesquisador estimou um intervalo com \Sexpr{conf*100} \% para o comprimento de peixes de um determinado rio brasileiro. O intervalo estimado foi de \Sexpr{inter[1]} a \Sexpr{inter[2]} cm. Qual das seguintes alternativas é uma interpretação adequada para este intervalo.
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Intervalo de confiança2}  

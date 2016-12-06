@@ -1,0 +1,105 @@
+\documentclass[8pt]{extarticle}
+%\documentclass[10pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+\usepackage{a4wide,color,verbatim,Sweave,url,xargs}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{amsthm}       
+\usepackage{amsfonts,amssymb,amsxtra,empheq}
+\usepackage[mathscr]{eucal}
+\usepackage{longtable}
+
+%% new environments
+\newenvironment{question}{\item}{}
+\newenvironment{solution}{\comment}{\endcomment}
+\newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
+
+%% paragraphs
+\setlength{\parskip}{0.7ex plus0.1ex minus0.1ex}
+\setlength{\parindent}{0em}
+
+%% fonts: Helvetica
+\renewcommand{\sfdefault}{phv}
+\IfFileExists{sfmath.sty}{
+  \RequirePackage{sfmath}
+  \renewcommand{\rmdefault}{phv}
+}{}
+
+\newcommand{\extext}[1]{\phantom{\large #1}}
+\newcommandx{\exmchoice}[9][2=-,3=-,4=-,5=-,6=-,7=-,8=-,9=-]{%
+                \mbox{(a) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#1}} \hspace*{2mm}}%
+  \if #2- \else \mbox{(b) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#2}} \hspace*{2mm}} \fi%
+  \if #3- \else \mbox{(c) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#3}} \hspace*{2mm}} \fi%
+  \if #4- \else \mbox{(d) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#4}} \hspace*{2mm}} \fi%
+  \if #5- \else \mbox{(e) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#5}} \hspace*{2mm}} \fi%
+  \if #6- \else \mbox{(f) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#6}} \hspace*{2mm}} \fi%
+  \if #7- \else \mbox{(g) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#7}} \hspace*{2mm}} \fi%
+  \if #8- \else \mbox{(h) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#8}} \hspace*{2mm}} \fi%
+  \if #9- \else \mbox{(i) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#9}} \hspace*{2mm}} \fi%
+}
+\newcommand{\exnum}[9]{%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#1}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#2}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#3}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#4}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#5}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#6}}}%
+  \mbox{ \makebox[3mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-2mm} .}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#7}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#8}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#9}}}%
+}
+\newcommand{\exstring}[1]{%
+  \mbox{\framebox[0.9\textwidth][l]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#1}} \hspace*{2mm}}%
+}
+
+%% new commands
+\makeatletter
+\newcommand{\ID}[1]{\def\@ID{#1}}
+\newcommand{\Date}[1]{\def\@Date{#1}}
+\ID{00001}
+\Date{DD-MM-YYYY}
+
+%% \exinput{header}
+
+\newcommand{\myID}{\@ID}
+\newcommand{\myDate}{\@Date}
+\makeatother
+
+\begin{document}
+%+++++++++++++++++++++++++++++                           CABEÇALHO                        +++++++++++++++++++++++++++++++++++++++++%
+\pagestyle{fancy} 	
+\fancyhead[L]{\textbf{\normalsize \input{aval}}} % Clear all header fields 
+\fancyhead[R]{\myID}
+%\fancyhead[L,R]{\includegraphics[height=50pt]{./uesclogo}}
+\fancyfoot[R]{\textbf{``Todas as grandes coisas são simples. E muitas podem ser expressas numa sólavra: liberdade; justiça; honra; dever; piedade; esperança''} - \textit{Winston Churchill}}
+\cfoot{}
+%++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%
+
+\section*{}
+\textbf{Unidade Acadêmica:} \input{unid}\\
+\textbf{Classe:} \input{disc}\\
+\textbf{Carga Horária:}\input{carg} \textbf{Período Letivo:} \input{anol}\\
+\textbf{Professor:} \input{nome}\\
+\textbf{Data:\myDate}  \\
+\textbf{Aluno(a):} \hspace{12cm} \textbf{NOTA:}\_\_\_\_\_\_\_\_\_\_\_\_\ \\
+\textbf{Exam ID:} \myID
+
+\vspace{0.3cm}
+
+\textbf{Recomendações: Leia atentamente todas as questões antes de respondê-las. Começe respondendo as questões mais fáceis. Não utilize meios ilícitos para responder as questões pois o único prejudicado será você mesmo. Boa prova!!!}\vspace{0.5cm}
+
+\vspace*{1cm}
+
+%% \exinput{questionnaire}
+
+\newpage
+
+\begin{enumerate}
+
+%% \exinput{exercises}
+
+\end{enumerate}
+
+\end{document}

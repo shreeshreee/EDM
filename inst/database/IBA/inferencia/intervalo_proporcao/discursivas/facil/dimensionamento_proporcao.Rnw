@@ -1,0 +1,43 @@
+<<echo=FALSE,results=hide>>= 
+library(MASS)
+p0 <- round(runif(1, 0.2,0.4),2)
+alpha <- round(runif(1,0.01,0.13),2)
+me <- round(runif(1,0.01,0.07),2)
+
+n_amop <- function(p0,alpha,me) {
+
+    aux1 <- (me/abs(qnorm(alpha/2)))^2
+   sigma<- p0 * (1-p0)
+   n <- sigma/aux1
+  round(n)
+}
+ 
+n_estimado <- n_amop(p0,alpha,me)
+@ 
+ 
+ \begin{question} 
+Um pesquisador está interessado em estimar a proporção de mortes devidas ao câncer de estômago em relação ao número de disfunções por qualquer tipo de neoplasia. Sua experiência indica-lhe que seria surpreendente que tal proporção superasse o valor de \Sexpr{fractions(p0)}. Que tamanho de amostra deve assumir para estimar a proporção anterior, com uma confiança de \Sexpr{(1-alpha)*100} \%, para que o valor estimado não difira do valor real em mais de \Sexpr{me}?
+ \end{question}  
+ 
+ \begin{solution} 
+Uma vez que a distribuição amostral de p é aproximadamente normal, a margem de erro é dada pela seguinte expressão:
+
+\begin{eqnarray*}
+\textrm{Margem de erro} = z_{\alpha/2} \cdot \sqrt{\frac{p \cdot (1-p)}{n}}
+\end{eqnarray*}
+
+Tem os seguintes dados:
+
+\begin{itemize}
+  \item Proporção estimada: \Sexpr{p0}
+  \item Quantil \textbf{z}: \Sexpr{abs(qnorm(alpha/2))}
+  \item Margem de erro: \Sexpr{me}
+\end{itemize}
+
+Logo, o tamanho esperado da amostra é de aproximadamente de \Sexpr{n_estimado}.
+
+\end{solution} 
+ 
+ %% META-INFORMATION 
+ %% \extype{num} 
+ %% \exsolution{\Sexpr{n_estimado}}   

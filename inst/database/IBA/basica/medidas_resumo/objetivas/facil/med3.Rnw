@@ -1,0 +1,62 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- 'Somente I.'
+solutions[1] <- TRUE
+
+questions[2] <- 'Somente I e II.'
+solutions[2] <- FALSE 
+
+questions[3] <- 'Somente III.'
+solutions[3] <- FALSE
+ 
+questions[4] <- 'Somente I e III.'
+solutions[4] <- FALSE 
+ 
+questions[5] <- 'Somente II e III.'
+solutions[5] <- FALSE
+
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+Qual das seguintes alternativas é (são) verdadeira(s)?
+
+\begin{itemize}
+ \item[I.] A mediana não é influenciada por valores extremos.
+ \item[II.] A média não é influenciada por valores extremos.
+ \item[III.] O desvio padrão não é influenciada por valores extremos.
+\end{itemize}  
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introducao 11}  

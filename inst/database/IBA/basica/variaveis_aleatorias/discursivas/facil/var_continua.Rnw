@@ -1,0 +1,22 @@
+ <<echo=FALSE,results=hide>>= 
+
+@ 
+ 
+ \begin{question} 
+ Dada a função abaixo, verificar para que valor de K pode ser considerada uma função densidade de probabilidade (fdp).
+
+$$
+f(x) = \begin{cases}
+                 Kx^2,& se~0 \le~ x~ \le 2;\\
+                 0,&\text{caso contrário}\\
+\end{cases}
+$$
+ \end{question}  
+ 
+ \begin{solution} 
+Basta integrar a função dada no intervalo fornecido e igualar a um.
+ \end{solution} 
+ 
+ %% META-INFORMATION 
+ %% \extype{num} 
+ %% \exsolution{1/2}  

@@ -1,0 +1,67 @@
+<<echo=FALSE, results=hide>>=  
+menorH <- sample(1:10,1)
+adultoH <- sample(1:10,1)
+menorM<- sample(1:4,1)
+adultoM <- sample(1:4,1)
+
+grupos <- sum(menorH,adultoH,menorM,adultoM)
+
+pmenor <- (menorH + menorM)/grupos
+padulto <- (adultoH + adultoM)/grupos
+pH         <- (menorH + adultoH)/grupos
+pM        <- (menorM + adultoM)/grupos
+
+pmenor_d_H <- (menorH/grupos)/pH
+pmenor_d_M <- (menorM/grupos)/pM
+padulto_d_H  <- (adultoH/grupos)/pH
+padulto_d_M <- (adultoM/grupos)/pM
+
+questions <- solutions <- NULL 
+type <- NULL  
+questions[1] <- "Qual a probabilidade de ser homem?" 
+solutions[1] <-  round((menorH + adultoH)/grupos,3)
+type[1] <- "num" 
+questions[2] <- "Qual a probabilidade de ser adulto?" 
+solutions[2] <- round((adultoH + adultoM)/grupos,3)  
+type[2] <- "num"  
+questions[3] <- "Qual a probabilidade de ser menor e mulher?" 
+solutions[3] <- round(pmenor_d_M * pM, 3) 
+type[3] <- "num"  
+questions[4] <- "Sabendo-se que o elemento escolhido é adulto, qual a probabilidade de ser homem?" 
+solutions[4] <- round((adultoH/grupos)/padulto, 3) 
+type[4] <- "num"  
+questions[5] <- "Dado que a escolhida é mulher, qual a probabilidade de ser menor?" 
+solutions[5] <- round((menorM/grupos)/pM, 3) 
+type[5] <- "num"  
+@ 
+ 
+\begin{question} 
+Um grupo de \Sexpr{grupos} elementos apresenta a seguinte composição:
+
+\begin{tabular}{ccc}
+\hline
+Categoria & Homens & Mulheres \\
+\hline
+Menores & \Sexpr{menorH} & \Sexpr{menorM} \\
+Adultos  & \Sexpr{adultoH}  & \Sexpr{adultoM} \\
+\hline
+\end{tabular}
+  
+<<echo=FALSE, results=hide, results=tex>>= 
+answerlist(questions) 
+@  
+
+\end{question}  
+
+\begin{solution} 
+
+<<echo=FALSE, results=hide, results=tex>>=  
+answerlist(format(solutions))  
+@  
+
+\end{solution}  
+
+%% META-INFORMATION  
+%% \extype{cloze}  
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}}   
+%% \exclozetype{\Sexpr{paste(rep('num',5),collapse="|")}} 

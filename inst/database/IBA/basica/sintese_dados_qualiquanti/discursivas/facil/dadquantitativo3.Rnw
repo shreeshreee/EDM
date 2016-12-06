@@ -1,0 +1,80 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+aux_n <- c(40,42,48,50,51,56)
+n <- sample(aux_n,
+            1)
+
+aux_mu <- seq(5.1,13.2,
+              length=20)
+mu <- sample(aux_mu,
+             1)
+
+aux_sigma <- seq(1,6.1,
+                 length=15)
+sigma <- sample(aux_sigma,
+                1)
+
+library(truncnorm)
+
+amo <- round(rtruncnorm(n,
+                        a=0,
+                        b=Inf,
+                        mean=as.numeric(mu),
+                        sd=as.numeric(sigma)),
+             2)
+
+percen <- round(runif(1),2)*100
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+@
+
+\begin{question}
+ As investigações de resistência de materiais fornecem um campo fértil para a aplicação de métodos estatísticos. O artigo ``Effects of Aggregates and Microfillers on the Flexural Properties of Concrete'' relatou um estudo de propriedades de resistência de concreto de alto desempenho obtidas pela utilização de superplásticos e determinados adesivos. Uma das variáveis analisadas foi a resistência de corpos de prova a seguir:
+
+<<echo=F>>=
+amo
+@
+
+Faça uma síntese dos dados e apresente um histograma. Faça um boxplot. 
+
+\end{question}
+
+\begin{solution}
+
+ A variável em estudo é uma variável quantitativa cujo a escala é de proporção ou de razão. Fazendo uma síntese do dados por meio de uma tabela de distribuição de frequências.
+
+<<echo=F>>=
+library(fdth)
+tab <- fdt(amo)
+tab
+@
+
+Fazendo o histograma.
+
+<<echo=F,fig=T>>=
+plot(tab,
+     xlab='Intervalo de classes',
+     ylab='Frequência absoluta')
+@
+
+% Calculando todas as medidas estatísticas. Calcule apenas o percentil \Sexpr{percen}.
+% 
+% <<echo=F>>=
+% c(Média=mean(amo),
+%   Mediana=median(amo),
+%   Amplitude=range(amo),
+%   Variância=var(amo),
+%   Desvio   =sd(amo),
+%   CV       =sd(amo)/mean(amo),
+%   Percentil=quantile(amo,type=2,prob=percen/100),
+%   Quartis  =quantile(amo,type=2,prob=c(.25,.5,.75)))
+% @
+% 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{'Aberta'} 
+%% \exname{Dados quantitativos III.} 

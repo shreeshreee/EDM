@@ -1,0 +1,52 @@
+<<echo=FALSE,results=hide>>= 
+n_piloto <- floor(runif(1,6,21))
+amo <- round(rnorm(n_piloto, 
+             mean=runif(1,61,101),
+             sd=runif(1,10,21)),2)
+
+alpha <- round(runif(1,0.01,0.11),2)
+me <- round(runif(1,2,8),2)
+desvio <- round(sd(amo),2)
+
+n_amoxbarra <- function(me,desvio,alpha){
+
+aux1 <- desvio^2 * qnorm(alpha/2)^2
+res <- aux1/me^2
+round(res)
+}
+
+namo <- n_amoxbarra(me,desvio,alpha)
+@ 
+ 
+\begin{question} 
+Deseja-se estimar, com uma precisão de \Sexpr{me} segundos, o tempo médio de sangria em fumantes de mais de \Sexpr{floor(runif(1,11,26))} cigarros diários, com idade entre \Sexpr{floor(runif(1,30,40))} e \Sexpr{floor(runif(1,42,50))} anos. Perante a ausência de qualquer informação acerca da variabilidade do tempo de sangria nesse tipo de indivíduo, foi selecionada uma amostra piloto de \Sexpr{n_piloto} indivíduos, nos quais se obtiveram os seguintes tempos (em segundos):
+
+<<>>=
+amo
+@
+
+Determine o tamanho mínimo da amostra com \Sexpr{(1-alpha)*100}\% de confiança, para cumprir o objetivo anterior.
+
+ \end{question}  
+ 
+ \begin{solution} 
+Baseando-se na amostra piloto, e com as informações dadas, tem-se a seguinte expressão para estimar o tamanho da amostra:
+
+\begin{eqnarray*}
+n = \frac{\sigma^2 \cdot Z_{\alpha/2}^2}{\textrm{Margem de erro}^2}
+\end{eqnarray*}
+
+Considerando os seguintes dados:
+
+\begin{itemize}
+  \item $\sigma^2 =$ \Sexpr{desvio^2}
+  \item Estatística \textbf{z} = \Sexpr{qnorm(alpha/2)}
+  \item Margem de erro = \Sexpr{me}
+\end{itemize}    
+
+Tem-se que o tamanho da amostra é de \Sexpr{namo}.
+ \end{solution} 
+ 
+ %% META-INFORMATION 
+ %% \extype{num} 
+ %% \exsolution{\Sexpr{namo}}   

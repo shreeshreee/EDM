@@ -1,0 +1,62 @@
+<<echo=FALSE, results=hide>>=  
+is.discreta <- function(x) x %% 1 == 0 
+
+n <- sample(20:30,size=1)
+x <- round(rnorm(n,370.69,13))
+maxi <- max(x)
+mul <- sample(900:1000,size=1)
+
+mediana <- median(x)
+
+
+x1 <- sort(x)
+x2 <- x1[x1>=median(x1)] 
+
+if(is.discreta(mediana) & any(x2 == median(x1))){
+  x3<- x1[x1<median(x1)]
+  x2[2:length(x2)] <- x2[2:length(x2)]+1
+  var <- c(x3,x2)
+  mediana <- median(var)
+  maxi <- max(var)
+}  else {
+  var <- x1 
+}
+
+questions <- solutions <- NULL 
+type <- NULL  
+questions[1] <-  paste("Suponha que  os dados fosse multiplicado por ",mul,". Como a média ficaria afetada?",sep="")
+solutions[1] <- paste("A multiplicação dos dados por ",mul,", alteraria a média de tal forma que a nova média ficaria multiplicada por ",mul, ".",sep="") 
+type[1] <- "string" 
+questions[2] <- paste("Em quanto o valor de ", maxi," pode ser aumentado sem afetar o valor da mediana amostral? ",sep="")
+solutions[2] <- "Pode ser aumentado infinitamente que nada acontecerá com a mediana, uma vez que, tal medida leva apenas em consideração o(s) valor(es) central(is)."
+type[2] <- "string"
+questions[3] <- paste("Em quanto o valor de ", maxi," pode ser diminuído sem afetar o valor da mediana amostral?",sep="")
+solutions[3] <- paste("Ele pode ser diminuído até o valor da mediana, ou seja, ", mediana, " pois abaixo deste valor a posição dos número se altera e consequentemente a mediana irá se alterar.",sep="")
+type[3] <- "string"
+@ 
+
+\begin{question} 
+  Uma quantidade de \Sexpr{n} trabalhadores de plataformas de petróleo \textit{offshore} participaram de um exercício de fuga simulado, resultando nos dados a seguir (em segundos) para concluir a fuga (``Oxygen consumption  and ventilation during escape from an offshore platform"):
+
+<<echo=FALSE>>=
+var
+@
+
+<<echo=FALSE, results=hide, results=tex>>= 
+answerlist(questions) 
+@  
+
+\end{question}  
+
+\begin{solution} 
+
+<<echo=FALSE, results=hide, results=tex>>=  
+answerlist(format(solutions))  
+@  
+
+\end{solution}  
+
+%% META-INFORMATION  
+%% \extype{cloze}  
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}}   
+%% \exclozetype{string|string|string} 

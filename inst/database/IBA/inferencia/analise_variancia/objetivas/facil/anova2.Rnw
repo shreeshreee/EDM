@@ -1,0 +1,38 @@
+<<echo=FALSE,results=hide>>= 
+questions <- solutions <- NULL  
+ questions[1] <- "tratamento "
+ solutions[1] <- FALSE
+ questions[2] <- "erro"
+ solutions[2] <- TRUE  
+ questions[3] <- "total" 
+ solutions[3] <- FALSE 
+ questions[4] <- "tratamento mais erro" 
+ solutions[4] <- FALSE
+ o <- sample(1:4) # serve para embaralhar as alternativas 
+ questions <- questions[o] 
+ solutions <- solutions[o] 
+@ 
+ 
+ \begin{question} 
+A soma de quadrados de(o) $\cdots \cdots$ mede a variabilidade dos valores observados em relação as médias dos tratamentos.
+ 
+ \begin{answerlist} 
+ \item \Sexpr{questions[1]} 
+ \item \Sexpr{questions[2]} 
+  \item \Sexpr{questions[3]} 
+  \item \Sexpr{questions[4]} 
+ \end{answerlist}  
+  \end{question}  
+ 
+ \begin{solution} 
+ \begin{answerlist} 
+ \item \Sexpr{mchoice2text(solutions[1])} 
+ \item \Sexpr{mchoice2text(solutions[2])} 
+ \item \Sexpr{mchoice2text(solutions[3])} 
+ \item \Sexpr{mchoice2text(solutions[4])} 
+ \end{answerlist} 
+ \end{solution} 
+ 
+ %% META-INFORMATION 
+ %% \extype{schoice} 
+ %% \exsolution{\Sexpr{mchoice2string(solutions, single=TRUE)}}  

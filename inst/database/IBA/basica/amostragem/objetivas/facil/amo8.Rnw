@@ -1,0 +1,55 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- 'A população tem mais homens que mulheres, e o pesquisador está estudando um tópico relacionado ao gênero.'
+solutions[1] <- FALSE
+
+questions[2] <- 'Existem quatro grupos étnicos distintos na Bahia, e o pesquisador quer ter a certeza de cada grupo é representado igualmente na amostra.'
+solutions[2] <- FALSE
+
+questions[3] <- 'O pesquisador está interessado em avaliar o rendimento médio de alunos da UESC.'
+solutions[3] <- FALSE 
+ 
+questions[4] <- 'Todas as situações estão corretas.'
+solutions[4] <- TRUE 
+ 
+questions[5] <- 'Todas as situações estão incorretas.'
+solutions[5] <- FALSE 
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+Em qual das seguintes situações seria recomendado a amostragem estratificada?
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Amostragem 8}  

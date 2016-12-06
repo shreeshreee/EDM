@@ -1,0 +1,174 @@
+<<echo=FALSE>>=
+# x=c(0.718,0.808,0.924,1,0.667,0.529,0.514,0.559,0.766,0.470,0.726,0.762,0.666,0.562,0.378,0.779,0.674,0.858,0.406,0.927,0.311,0.319,0.518,0.687,0.907,0.638,0.234,0.781,0.326,0.433,0.319,0.238)
+# y=c(0.428,0.480,0.493,0.978,0.318,0.298,-0.224,0.198,
+#     0.326,-0.336,0.765,0.190,0.066,-0.221,-0.898,0.836,
+#     0.126,0.305,-0.577,0.779,-0.707,-0.610,-0.648,-0.145,
+#     1.007,-0.090,-1.132,0.538,-1.098,-0.581,-0.862,-0.551)
+# 
+# plot(x,y)
+# lm(y ~ x)
+# mean(x)
+# sd(x)
+# mean(y)
+# 
+# 
+n <- sample(seq(30,50),1)
+
+mu  <- round(sample(seq(0.5,0.8,l=100),1),2)
+des <- round(sample(seq(0.1,0.2,l=100),1),2)
+ 
+x <- round(rnorm(n,mu,des),
+           3)
+
+b0 <- round(sample(seq(-2,-1,l=30),1),3)
+
+b1 <- round(sample(seq(1,3,l=30),1),3) 
+
+dese <- round(sample(seq(0.05,0.1,l=30),1),2)
+
+y <- round(b0 + b1*x + rnorm(n,sd=dese),2)
+
+xpred <- sample(round(seq(min(x),max(x),l=100),
+                      3),
+                size=1)
+
+# b
+reg <- lm(y ~ x)
+
+r2 <- summary(reg)$r.squared
+
+ychap <- coef(reg)[1]+coef(reg)[2]*xpred
+
+pvalue_normal <- shapiro.test(residuals(reg))$p.value
+
+ic <- floor(sample(seq(0.85,0.99,l=100),
+             size=1)*100)
+
+# ypre <- predict(reg)
+# sqe <- sum((y-ypre)^2)
+errop <- summary(reg)$sigma
+
+ifelse(pvalue_normal > (1-ic/100),
+       justib <- "Não rejeita-se a hipótese de normalidade",
+       justib <- "Rejeita-se a hipótese de normalidade")
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- list()
+
+questions[1] <- "Estime a equação de regressão."
+solutions[1] <- paste('$',round(coef(reg)[1],3),'+ ',round(coef(reg)[2],3),'x','$') 
+
+questions[2] <- "O modelo é válido? Apresente o pvalor do teste de normalidade e gráfico dos resíduos."
+solutions[2] <- round(pvalue_normal,3)
+ 
+questions[3] <- paste("Faça um gráfico com os pontos observados, a reta de regressão e o intervalo de confiança para a reta com ",
+                      ic,
+                      '\\% de confiança.',
+                      sep='')
+solutions[3] <- 'Figura.'
+
+questions[4] <- paste("Estime a adstringência média verdadeira quando a concentração de tanino for",
+                      xpred, 
+                      " e o faça de uma forma que transmita as informações sobre a confiabilidade. Use a mesma confiabilidade da alternativa c).")
+solutions[4] <- round(ychap,
+                      2)
+
+questions[5] <- "Calcule o coeficiente de determinação."
+solutions[5] <- round(r2,3)
+
+
+questions[6] <- 'Interprete o modelo ajustado.'
+solutions[6] <- paste('O aumento em uma unidade na variável x, aumentou em',round(coef(reg)[2],3),' a variável y')
+
+@
+
+\begin{question}
+Adstringência é a qualidade em um vinho que faz a boca de seu degustador ficar levemente áspera, seca e enrugada. O trabalho ``Analysis of tannins in red wine using multiple methods'' tratou a respeito de uma investigação para avaliar a relação entre a adstringência percebida e a concentração de tanino usando diversos métodos analíticos. Eis os dados fornecidos pelos autores sobre x=concentração de tanino por precipitação proteica e y=adstringência percebida conforme determinado por um grupo de degustadores.
+
+<<echo=F,results=tex>>=
+latex(data.frame(x,y),
+      rowname=NULL,
+      here=T,
+      file='')  
+@
+
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(questions)
+@
+
+\end{question} 
+
+\begin{solution}
+
+  \begin{itemize}
+    \item[a)] A equação de regressão estimada foi: \Sexpr{solutions[1]}.
+    \item[b)] \Sexpr{justib}. Segue o gráfico dos resíduos:
+
+ O gráfico de resíduos quanto a homocedasticidade foi:
+
+<<echo=F,fig=T>>=
+plot(x,residuals(reg))
+@
+    \item[c)] O gráfico ajustado foi o seguinte:
+
+<<echo=F,fig=T>>=
+new <- data.frame(sort(x))
+estimados <- predict(reg,
+                     new,
+                     interval='confidence',
+                     level=ic/100)
+estimados <- estimados[order(estimados[,1]),]
+
+plot.ic.lm = function(model,conf.level){
+  vari<- attr(model$coefficients,'names')[2]
+  xm  <- mean(model[[12]][2][[vari]])
+  n   <- length(model[[12]][[2]])
+  ssx <- sum(model[[12]][2]^2) - sum(model[[12]][2])^2/n
+  sig.level <- (1-conf.level)/2
+  st  <- abs(qt(sig.level,
+	    (n - 2)))
+  xv  <- seq(min(model[[12]][2]),
+	     max(model[[12]][2]),
+	     (max(model[[12]][2]) - min(model[[12]][2]))/100)
+  yv  <- coef(model)[1] + coef(model)[2] * xv
+  se  <- sqrt(summary(model)[[6]]^2 * (1/n + (xv - xm)^2/ssx))
+  ci  <- st * se
+  uyv <- yv + ci
+  lyv <- yv - ci
+  lines(xv,
+	uyv,
+	lty=1,
+	col='gray')
+  lines(xv,
+	lyv,
+	lty=1,
+	col='gray')
+}
+plot(x,y,
+     xlab='Concentração de tanino',
+     ylab='Adstringência') 
+lines(spline(x,fitted(reg)),col='blue')
+plot.ic.lm(reg,conf.level=ic/100)
+
+icxpred <- predict(reg,
+                   data.frame(x=xpred),
+                   interval='confidence',
+                   level=ic/100)
+@
+    \item[d)] O valor estimado foi de \Sexpr{ychap}. O intervalo de confiança de \Sexpr{ic} \% foi de:
+<<echo=F,results=tex>>=
+latex(round(icxpred,4),
+      rowname=NULL,
+      colheads,
+      here=T,
+      file='')        
+@
+    \item[e)] Foi de \Sexpr{solutions[5]}.
+    \item[f)] \Sexpr{solutions[6]}.
+\end{itemize}      
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}} 
+%% \exclozetype{string|string|string|string|string|string} 

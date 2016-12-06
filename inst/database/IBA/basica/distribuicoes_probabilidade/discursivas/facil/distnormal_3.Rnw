@@ -1,0 +1,68 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+mediaaux <- seq(30,80,l=30)
+
+media <- round(sample(mediaaux,
+                size = 1),
+               2)
+
+desvio <- round(0.25*media,
+                2)
+
+vaux <- round(seq(1,20,l=30),2)
+
+va <- sample(vaux,
+             size = 1)
+
+alaux <- seq(30,60)
+
+al <- sample(alaux,
+               size = 1)
+
+dur <- media + desvio
+
+question1a <- media + va
+results1a <-  pnorm(question1a, media, desvio)
+
+question1b <- c(media - va, media + va) 
+results1b <-  pnorm(question1b[2], media, desvio) - pnorm(question1b[1], media, desvio) 
+ 
+question1c <- c(al, dur)
+results1c <- round((1 - pnorm(question1c[2], media, desvio)) * question1c[1],0)
+ 
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- paste("Qual é a probabilidade de alguém concluir o exame em",question1a, 'ou menos?',sep=' ')
+solutions[1] <- round(results1a,3)
+
+questions[2] <- paste("Qual é a probabilidade de um estudante concluir o exame em mais de",question1b[1], ',porém, menos de', question1b[2],'minutos ?',sep=' ')
+solutions[2] <- round(results1b,3)
+
+questions[3] <- paste("Suponha que a classe tenha",question1c[1] ,"alunos e que a duração do exame seja de", question1c[2], 'minutos. Quantos estudantes você acha que não conseguirão concluir o exame no tempo determinado?', sep=' ')
+solutions[3] <- round(results1c,3)
+
+@
+
+\begin{question}
+ O tempo necessário para concluir um exame final em determinado curso universitário está distribuído normalmente com uma média de \Sexpr{media} minutos e desvio padrão de \Sexpr{desvio}. Responda às seguintes questões:
+
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(questions)
+@
+
+\end{question}
+
+\begin{solution}
+
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(paste("\\textbf{", solutions,"}", sep = ""))
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}} 
+%% \exclozetype{num|num|num} 
+%% \exname{Distribuição Normal3}  

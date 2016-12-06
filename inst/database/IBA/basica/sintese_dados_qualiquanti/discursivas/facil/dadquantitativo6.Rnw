@@ -1,0 +1,73 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+Nnord <- floor(runif(1, 30, 44))
+nord <- round(runif(Nnord,30,93),2)
+
+Nnort <- floor(runif(1, 30, 44))
+nort  <- round(runif(Nnort,10,71),2)
+
+dados <- list(Nordeste=nord,
+            Norte   =nort)
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+@
+
+\begin{question}
+ Uma amostra de \Sexpr{Nnord} municípios da região nordeste e \Sexpr{Nnort} da região norte foi coletada com o intuito de investigar a taxa percentual de alfabetização . Os dados seguem abaixo.
+
+<<echo=F>>=
+dados
+@
+
+Faça um polígono de frequências e uma ogiva com o intuito de comparar as duas regiões. Quais foram suas conclusões?
+
+\end{question}
+
+\begin{solution}
+
+A variável em estudo é uma variável quantitativa cujo a escala é de razão ou proporção. Vamos elaborar primeiramente um polígono de frequências.
+
+<<echo=F,fig=T>>=
+library(fdth)
+tabnord <- fdt(dados[[1]])
+tabnorte <- fdt(dados[[2]])
+
+starts <- min(tabnord$breaks[1],tabnorte$breaks[[1]])
+ends <- max(tabnord$breaks[2],tabnorte$breaks[2])
+h  <- floor(min(tabnord$breaks[3],tabnorte$breaks[3]))
+
+pontomedio <- seq(starts,ends,h)
+mids <- 0.5 * (pontomedio[-1] + pontomedio[-length(pontomedio)])
+
+tabnord1 <- fdt(dados[[1]],
+              start=starts,
+              end = ends,
+              h = h)
+
+tabnorte1 <- fdt(dados[[2]],
+              start=starts,
+              end = ends,
+              h = h)
+plot(mids,tabnord1$table[,2],type='b')
+points(mids,tabnorte1$table[,2],col='blue',type='b')
+legend('topleft',c('Nordeste','Norte'),lty=c(1,1),
+       col=c('black','blue')) 
+@
+
+Fazendo a ogiva.
+
+<<echo=F,fig=T>>=
+plot(mids,tabnord1$table[,6],type='b',ylim=c(0,100))
+points(mids,tabnorte1$table[,6],col='blue',type='b')
+legend('topleft',c('Nordeste','Norte'),
+       lty=c(1,1,1),
+       col=c('black','blue'))
+@
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{'Aberta'} 
+%% \exname{Dados quantitativos} 

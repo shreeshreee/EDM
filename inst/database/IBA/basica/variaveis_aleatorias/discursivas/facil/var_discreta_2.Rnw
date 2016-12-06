@@ -1,0 +1,28 @@
+<<echo=FALSE,results=hide>>= 
+n_aux <- c(5,6,7)
+n <- sample(n_aux, size=1)
+
+omega <- combn(n,3)
+w     <- colSums(omega)
+
+freq=table(w)
+prob=prop.table(freq)
+library(MASS)
+probfr=fractions(prob)
+@ 
+ 
+\begin{question} 
+Considere um baralho com \Sexpr{n} cartas, marcadas de $1,2,\cdots,$\Sexpr{n} . Três delas são selecionadas aleatoriamente. Defina uma v.a. W como W=a soma dos números resultantes e calcule a f.p. de W.(Dica: considere os resultados como desordenados, de modo que (1,3,2) e (3,1,2) não sejam considerados diferentes)
+\end{question}  
+ 
+\begin{solution} 
+Tem-se a seguinte tabela:
+
+<<echo=FALSE>>= 
+probfr
+@
+\end{solution} 
+ 
+%% META-INFORMATION 
+%% \extype{string} 
+%% \exsolution{'Aberta'}  

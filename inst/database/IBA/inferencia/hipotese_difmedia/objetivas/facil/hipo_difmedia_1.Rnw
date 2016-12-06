@@ -1,0 +1,55 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'Teste Z para diferença entre duas proporções.'
+solutions[1] <- FALSE
+
+questions[2] <- 'Teste t para diferença entre duas médias com sigma conhecido.'
+solutions[2] <- FALSE
+
+questions[3] <- 'Teste t para diferença entre duas médias com sigma conhecido e amostras independentes.'
+solutions[3] <- FALSE
+
+questions[4] <- 'Teste t para diferença entre duas médias considerando amostras independentes.'
+solutions[4] <- TRUE
+
+questions[5] <- 'Teste t para diferença entre duas médias considerando amostras pareadas.'
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Um estudo realizado pela UESC dos diferenciais de salário entre homens e mulheres relatou que uma das razões pelas quais os salários dos homens são mais altos que os das mulheres é o fato dos homens tenderem a ter mais anos de experiência no trabalho que as mulheres. Para comprovar tal hipótese, foram coletados dados tanto de homens quanto de mulheres a respeito dos anos de experiência no trabalho. Qual teste estatístico você indicaria?
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introdução Hipótese 3} 

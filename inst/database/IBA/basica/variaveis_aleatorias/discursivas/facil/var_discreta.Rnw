@@ -1,0 +1,36 @@
+<<echo=FALSE, results=hide>>=  
+naux <- c(12,13,14,15)
+n <- sample(naux,size=1)
+probaux<- c(0.80,0.85,0.90,0.95)
+prob<- sample(probaux,size=1)
+
+alt_a <-  prob^n + n*prob^(n-1)*(1-prob) + choose(n,2)*prob^(n-2)*(1-prob)^2
+alt_b <-  2000 * (1-alt_a)
+
+questions <- solutions <- NULL 
+type <- NULL  
+questions[1] <- "Qual a probabilidade de um  pacote não ser indenizado?" 
+solutions[1] <- round(alt_a,3)
+type[1] <- "num" 
+questions[2] <- "Se o produtor vende 2000 pacotes, qual é o número esperado de pacotes que serão indenizados?" 
+solutions[2] <- round(alt_b,3) #Aberta - numérica  
+type[2] <- "num"  
+@ 
+ 
+\begin{question} 
+Um produtor de sementes vende pacotes com \Sexpr{n} sementes cada um. Os pacotes que apresentam mais de duas sementes sem germinar são indenizados. A probabilidade de uma semente germinar é de \Sexpr{prob*100}\%.
+<<echo=FALSE, results=hide, results=tex>>= 
+ answerlist(questions) 
+@  
+\end{question}  
+
+\begin{solution} 
+<<echo=FALSE, results=hide, results=tex>>=  
+answerlist(format(solutions))  
+@  
+\end{solution}  
+
+%% META-INFORMATION  
+%% \extype{cloze}  
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}}   
+%% \exclozetype{num|num} 

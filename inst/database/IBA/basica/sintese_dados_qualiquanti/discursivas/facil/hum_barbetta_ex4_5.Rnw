@@ -1,0 +1,111 @@
+  <<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+n <- sample(seq(10,14),
+            1)
+
+aux_muEM <- seq(43,46,
+              length=20)
+mu <- sample(aux_muEM,
+             1)
+
+aux_sigmaEM <- seq(5,10,
+                 length=20)
+sigma <- sample(aux_sigmaEM,
+                1)
+
+EM <- ceiling(rnorm(n,
+            mu,
+            sigma))
+
+medidasEM <- round(c(mean(EM),sd(EM),sd(EM)/mean(EM)*100),2)
+
+aux_muHI <- seq(38,42,
+              length=20)
+muHI <- sample(aux_muHI,
+             1)
+
+aux_sigmaHI <- seq(5,10,
+                 length=20)
+sigmaHI <- sample(aux_sigmaHI,
+                1)
+
+HI <- ceiling(rnorm(n,
+            muHI,
+            sigmaHI))
+            
+medidasHI <- round(c(mean(HI),sd(HI),sd(HI)/mean(HI)*100),2)
+                            
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL 
+type <- NULL  
+questions[1] <- "Faça uma tabela de distribuição de frequências para o Departamento de Engenharia Mecânica utilizando o critério de sturges e o cálculo dos limites das classes ensinado em sala de aula." 
+solutions[1] <- "Aberta-texto"
+type[1] <- "string"
+
+questions[2] <- "Faça uma tabela de distribuição de frequências para o Departamento de História utilizando o critério de sturges e o cálculo dos limites das classes ensinado em sala de aula." 
+solutions[2] <- "Aberta - numérica"  
+type[2] <- "string" 
+
+questions[3] <- "Calcule a média, o desvio padrão e o coeficiente de variação nesta ordem para o Departamento de Engenharia Mecânica. "
+solutions[3] <- paste(medidasEM,collapse=',')  
+type[3] <- "string"  
+
+questions[4] <- "Calcule a média, o desvio padrão e o coeficiente de variação nesta ordem para o Departamento de História. "
+solutions[4] <- paste(medidasHI,collapse=',')  
+type[4] <- "string" 
+
+questions[5] <- "Qual dos dois departamentos possui uma identidade social mais homogênea? Justifique!"
+solutions[5] <- "Aberta - texto"  
+type[5] <- "string" 
+@
+
+\begin{question}
+Os dados a seguir são medidas da \textit{identidade social} que os professores sentem em relação ao seu departamento de ensino. Foram observadas duas amostras de \Sexpr{n} professores: uma no Departamento de Engenharia Mecânica e a outra no Departamento de História, ambas na UFSC. Pelo instrumento utilizado, pode-se dizer que quanto maior o valor, maior é a identificação social do professor com o departamento de ensino a que pertence.
+
+<<echo=F, results=tex>>=
+dad = data.frame(EM,HI)
+library(Hmisc)
+latex(dad,
+      caption="Dados da engenharia mecânica (EM) e da história (HI)",
+      rowname=NULL,
+      here=T,
+      file='')
+@
+
+<<echo=FALSE, results=hide, results=tex>>= 
+answerlist(questions) 
+@ 
+
+\end{question}
+
+\begin{solution}
+
+ \begin{itemize}
+ \item[a)]
+<<echo=F, results=tex>>=
+library(fdth)
+tabEM <- fdt(dad[,1])
+latex(tabEM,
+      caption="Tabela de distribuição de frequência para o Departamento de Engenharia Mecânica")
+@
+ \item[b)]
+<<echo=F, results=tex>>=
+tabHI <- fdt(dad[,2])
+latex(tabHI,
+      caption="Tabela de distribuição de frequência para o Departamento de História")
+@
+
+\item[c)] \Sexpr{solutions[3]}
+\item[d)] \Sexpr{solutions[4]}
+\item[e)] \Sexpr{solutions[5]}
+\end{itemize}
+
+
+\end{solution}
+
+%% META-INFORMATION  
+%% \extype{cloze}  
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}}   
+%% \exclozetype{string|string|string|string|string} 

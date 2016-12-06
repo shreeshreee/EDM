@@ -1,0 +1,61 @@
+<<echo=FALSE,results=hide>>= 
+Q2 <- sample(c('diferentes','iguais'),1)
+Q5 <- sample(c('conjunto','subconjunto'),1)
+
+questions <- solutions <- NULL  
+questions[1] <- "No estudo dos fenômenos de observação são utilizados modelos: Determinísticos e Probabilísticos." 
+solutions[1] <- TRUE 
+questions[2] <- paste("Um estudo determinístico é caracterizado quando um experimento gerado sob as mesmas condições gera resultados " ,Q2,".",sep='') 
+solutions[2] <- ifelse(Q2 == 'diferentes',FALSE,TRUE) 
+questions[3] <- "Podemos definir experimento aleatório como um tipo de experimento cujo resultado pode ser previsto." 
+solutions[3] <- FALSE 
+questions[4] <- "Probabilidade é um número que resulta da divisão do número de casos possíveis a um evento pelo número de casos favoráveis." 
+solutions[4] <- FALSE
+questions[5] <- paste("Espaço amostral é um ",Q5," de todos os resultados experimentais.",sep='') 
+solutions[5] <-  ifelse(Q5 == 'subconjunto',FALSE,TRUE) 
+questions[6] <-"A probabilidade de um evento deve estar entre $0 \\\\ge P(E) \\\\ge 1$."
+solutions[6] <- FALSE
+questions[7] <-"A probabilidade de um evento complementar ($A^c$) pode ser calculada como: P($A^c$)=P(A) - 1."
+solutions[7] <- FALSE
+questions[8]<-"Se dois eventos são mutuamente exclusivos, então a probabilidade destes dois eventos é dada por: P($A \\\\cup B$) = P($A$) + P($B$) - P($A\\\\cap B$)."
+solutions[8]<- FALSE
+questions[9]<-"Se dois eventos são independentes, a probabilidade de ocorrência de ambos os eventos é dado por $P(A \\\\cup B) = P(A) * P(B)$"
+solutions[9]<- FALSE
+
+o <- sample(1:9) # serve para embaralhar as alternativas 
+questions <- questions[o] 
+solutions <- solutions[o] 
+@ 
+
+\begin{question} 
+ Assinale apenas um ``X'' nas afirmativas verdadeiras sobre \textbf{probabilidade}:
+ \begin{answerlist} 
+ \item \Sexpr{questions[1]} 
+ \item \Sexpr{questions[2]} 
+ \item \Sexpr{questions[3]} 
+ \item \Sexpr{questions[4]} 
+ \item \Sexpr{questions[5]} 
+ \item \Sexpr{questions[6]} 
+ \item \Sexpr{questions[7]} 
+ \item \Sexpr{questions[8]} 
+ \item \Sexpr{questions[9]} 
+ \end{answerlist}  
+\end{question}  
+
+\begin{solution} 
+ \begin{answerlist} 
+ \item \Sexpr{mchoice2text(solutions[1])} 
+ \item \Sexpr{mchoice2text(solutions[2])} 
+ \item \Sexpr{mchoice2text(solutions[3])} 
+ \item \Sexpr{mchoice2text(solutions[4])} 
+ \item \Sexpr{mchoice2text(solutions[5])} 
+ \item \Sexpr{mchoice2text(solutions[6])} 
+ \item \Sexpr{mchoice2text(solutions[7])} 
+ \item \Sexpr{mchoice2text(solutions[8])} 
+ \item \Sexpr{mchoice2text(solutions[9])} 
+  \end{answerlist}  
+ \end{solution} 
+
+ %% META-INFORMATION 
+ %% \extype{mchoice} 
+ %% \exsolution{\Sexpr{mchoice2string(solutions, single=FALSE)}}  

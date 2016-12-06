@@ -1,0 +1,49 @@
+<<echo=FALSE,results=hide>>= 
+n  <- sample(4:10,1)
+
+p <- sample(seq(0.2,0.4,0.01),1)
+
+altA <- sample(2:3,1)
+altB <- sample(1:3,1)
+
+questions <- solutions <- NULL 
+type <- NULL  
+questions[1] <- paste("exatamente ",altA," pessoas com descendência indígena?",sep='')
+solutions[1] <- round(dbinom(altA,n,p),3)
+type[1] <- "num" 
+questions[2] <- paste("mais de ",altB," pessoa(s) com descendência indígena?") 
+solutions[2] <- round(1-(dbinom(altB-3,n,p) + dbinom(altB-2,n,p) + dbinom(altB-1,n,p) + dbinom(altB,n,p)),3)
+type[2] <- "num"  
+@ 
+ 
+\begin{question} 
+ Numa população onde \Sexpr{p*100}\% dos indivíduos têm alguma descendência indígena, retira-se uma amostra aleatória de \Sexpr{n} pessoas. Qual é a probabilidade de se encontrar:
+
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(questions)
+@
+ 
+\end{question}  
+ 
+\begin{solution} 
+
+  Na letra a) tem-se: \Sexpr{solutions[1]}.
+
+  Na letra b) tem-se:
+
+As probabilidade individuais são:
+\begin{itemize}
+  \item P(\Sexpr{altB-3}) = \Sexpr{dbinom(altB-3,n,p)}
+  \item P(\Sexpr{altB-2}) = \Sexpr{dbinom(altB-2,n,p)}
+  \item P(\Sexpr{altB-1}) = \Sexpr{dbinom(altB-1,n,p)}
+  \item P(\Sexpr{altB})   = \Sexpr{dbinom(altB,n,p)}
+\end{itemize}
+
+Logo, a probabilidade pedida é: $1-(\Sexpr{dbinom(altB-3,n,p)} + \Sexpr{dbinom(altB-2,n,p)} + \Sexpr{dbinom(altB-1,n,p)} + \Sexpr{dbinom(altB,n,p)})=\Sexpr{solutions[2]}$.
+
+\end{solution} 
+
+%% META-INFORMATION  
+%% \extype{cloze}  
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}}   
+%% \exclozetype{num|num} 

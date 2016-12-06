@@ -1,0 +1,55 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'O nível de significância é o mesmo que nível de confiança, e mede a probabilidade de rejeitarmos H0.'
+solutions[1] <- FALSE
+
+questions[2] <- 'Também representada pela letra $\\\\beta$, é a probabilidade de não rejeitarmos H0 sendo ela falsa.'
+solutions[2] <- FALSE
+
+questions[3] <- "Também representada pela letra $\\\\beta$, é a probabilidade de rejeitarmos H0 senda ela verdadeira."
+solutions[3] <- FALSE
+
+questions[4] <- "O nível de significância é a probabilidade de rejeitarmos H0 sendo ela verdadeira."
+solutions[4] <- TRUE
+
+questions[5] <- "Também representada pela letra $\\\\alpha$, é a probabildiade de rejeitarmos H0 sendo ela falsa."
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ O que você entende por nível de significância?
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introdução Hipótese 4} 

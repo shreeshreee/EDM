@@ -1,0 +1,39 @@
+<<echo=FALSE,results=hide>>= 
+library(Hmisc)
+logIDT <- round(rnorm(sample(70:90,size=1),1.22,0.32),1)
+IDT <- round(10^logIDT,1)
+@ 
+
+\begin{question} 
+
+A transformação de valores de dados por meio de uma função matemática, como $\sqrt{x}$ ou 1/x, usualmente resulta em um conjunto de números com ``melhores" propriedades estatísticas do que os dados originais. Em particular, é possível encontrar uma função para a qual o histrograma dos valores transformados seja mais simétrico (ou, melhor ainda, mais próximo de uma curva normal) do que os dados originais. Como exemplo, o artigo ``Time lapse cinematographic analysis of beryllium-lung fibroblast interactions" informou os resultados de experimentos projetados para estudar o comportamento de algumas células que foram expostas ao berílio. Uma característica importante de tal célula individual é seu tempo de interdivisão (IDT, sigla em inglês). Os IDTs foram determinados para um grande número de células em condições de exposição (tratamento) e não exposição (controle). Os autores do artigo usaram uma transformação logarítmica, isto é, valor transformado = log (valor original). Considere os seguintes dados representativos de IDT:
+
+<<echo=FALSE, results=tex>>=
+dad= data.frame(IDT=IDT,
+                log10IDT=logIDT)
+latex(dad,
+      rowname=NULL,
+      longtable=T,
+      math.col.names=T,
+      file='')
+@
+
+Faça um histograma utilizando a \textbf{densidade} para ambas as variáveis utilizando o critério de Sturges. Para o elaboração dos intervalos de classes utilize a metodologia ensinado em sala de aula. Qual é o efeito da transformação?
+\end{question}  
+ 
+\begin{solution} 
+
+Vamos elaborar os histogramas utilizando a biblioteca \textbf{fdth}.
+
+<<echo=F,fig=T>>=
+library(fdth) 
+plot(fdt(dad),
+     type='d')
+@
+
+Percebe-se claramente que a transformação deixou os dados mais simétricos em relação a variável original. 
+\end{solution} 
+ 
+%% META-INFORMATION 
+%% \extype{string} 
+%% \exsolution{"Aberta - texto"}  

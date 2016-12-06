@@ -1,0 +1,71 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+alfa <- round(sample(seq(0.01,0.15,l=10),
+               1),
+              3)
+
+pvalor <- round(sample(seq(0,0.2,l=10),
+                       1),
+                2)
+
+ifelse(pvalor < alfa,
+       deci <- '$\\\\le$',
+       deci <- '>')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- "Sim, pois a taxa de erro do tipo I dos dados é menor do que a nossa."
+solutions[1] <- ifelse(pvalor < alfa,
+                       TRUE,
+                       FALSE)
+
+questions[2] <- "Sim, pois a taxa de erro do tipo I dos dados é maior do que a nossa."
+solutions[2] <- FALSE
+
+questions[3] <- "Não, pois a taxa de erro do tipo I dos dados é menor do que a nossa."
+solutions[3] <- FALSE
+
+questions[4] <- "Não, pois a taxa de erro do tipo I dos dados é maior do que a nossa."
+solutions[4] <- ifelse(pvalor > alfa,
+                       TRUE,
+                       FALSE)
+
+questions[5] <- "Todas as alternativas são falsas."
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Um teste de hipótese é conduzido com $\alpha=$\Sexpr{alfa}. O pvalor é determinado e seu valor é \Sexpr{pvalor}. Como o pvalor \Sexpr{deci} $\alpha$, justifica-se rejeita a hipótese nula?
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+ \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Introdução Hipótese 1} 

@@ -1,0 +1,56 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- 'Não. Para isso ela deveria coletar toda a população para saber a verdadeira média de mordida dos jacarés.'
+solutions[1] <- FALSE
+
+questions[2] <- 'Não. Para isso ela precisaria saber qual a distribuição de origem das mordidas de jacarés.'
+solutions[2] <- FALSE 
+
+questions[3] <- 'Não. Nunca se pode ter certeza de que a média da amostra está perto da média da população.'
+solutions[3] <- FALSE 
+ 
+questions[4] <- 'Sim. Pelo Teorema do Limite Central a média amostral irá ter distribuição aproximadamente normal, e a média da distribuição amostral será a média da população.'
+solutions[4] <- TRUE 
+ 
+questions[5] <- 'Sim. Pelo Teorema do Limite Central a média populacional irá ter distribuição aproximadamente normal, e a média da distribuição populacional será a média da amostra.' 
+solutions[5] <- FALSE 
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+ Uma pesquisadora decide estudar a força da mordida de jacarés. Ela acredita que, se ela retira uma amostra aleatória grande o suficiente, ela será capaz de dizer que a média das forças de mordida será próximo à média de mordida de todos os jacarés da população em estudo. Ela está correta?
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Distribuições amostrais3}  

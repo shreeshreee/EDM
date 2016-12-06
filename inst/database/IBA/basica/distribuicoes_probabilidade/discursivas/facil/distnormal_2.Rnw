@@ -1,0 +1,78 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+anoaux <- seq(2000,2014)
+
+ano <- sample(anoaux,
+              size = 1)
+
+mediaaux <- seq(400,600,l=30)
+
+media <- round(sample(mediaaux,
+                size = 1),
+               2)
+
+desvio <- round(0.25*media,
+                2)
+
+vaux <- round(seq(100,300,l=30),2)
+
+va <- sample(vaux,
+             size = 1)
+
+probaux <- round(seq(0.05,0.15,l=20),
+                 4)
+
+prob <- sample(probaux,
+               size = 1)
+
+question1a <- media + va
+results1a <- 1 - pnorm(question1a, media, desvio)
+
+question1b <- media - va
+results1b <-  pnorm(question1b, media, desvio)
+ 
+question1c <- c(media - va, media + va)
+results1c <- pnorm(question1c[2], media, desvio) - pnorm(question1c[1], media, desvio)
+ 
+question1d <- prob 
+results1d <- qnorm(prob, media, desvio)
+ 
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- paste("Qual é a probabilidade de a quantia gasta com uma criança escolhida aleatoriamente ser superior a R\\$",question1a, '?',sep=' ')
+solutions[1] <- round(results1a,3)
+
+questions[2] <- paste("Qual e a probabilidade de a quantia gasta com uma criança escolhida aleatoriamente ser inferior a R\\$",question1b, '?',sep=' ')
+solutions[2] <- round(results1b,3)
+
+questions[3] <- paste("Qual é a probabilidade de a quantia gasta com uma criança escolhida aleatoriamente estar entre R\\$",question1c[1] ,"e R\\$", question1c[2], '?', sep=' ')
+solutions[3] <- round(results1c,3)
+
+questions[4] <- paste("Qual deve ser a quantia gasta com uma criança para que os pais sejam incluídos entre os",question1d*100,"\\% menores ?", sep=' ')
+solutions[4] <- round(results1d,3)
+
+@
+
+\begin{question}
+ A quantia média que pais e filhos gastaram por criança na compra de roupas para o retorno às aulas no outono de \Sexpr{ano} foi de R\$ \Sexpr{media}. Suponha que o desvio padrão seja R\$ \Sexpr{desvio} e que a quantia gasta esteja distribuída normalmente.
+
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(questions)
+@
+
+\end{question}
+
+\begin{solution}
+
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(paste("\\textbf{", solutions,"}", sep = ""))
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}} 
+%% \exclozetype{num|num|num|num} 
+%% \exname{Distribuição Normal2}  

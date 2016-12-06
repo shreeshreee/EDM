@@ -1,0 +1,48 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+pii <- sample(seq(.2,.6,0.05),
+              size=1)
+
+n <- sample(seq(100,400,10),
+
+            size=1)
+
+suc <- sample(seq(0.05,0.45,0.05),
+              size=1)
+amo <- sample(c('sim','nao'),
+              size=n,
+              replace=T,
+              prob=c(suc,1-suc))
+
+p <- round(length(amo[amo=='sim'])/n,
+           2)
+
+erropad <- round(sqrt(pii*(1-pii)/n),
+                 2)
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+z = (p - pii)/erropad
+pnorm(z,lower.tail=F)
+
+results <- round(pnorm(p, pii, erropad,lower.tail=F),
+                 4)
+
+@
+
+\begin{question}
+ Uma firma de pesquisa de mercado realiza pesquisas telefônicas com um índice histórico de \Sexpr{pii*100}\% de respostas. Qual é a probabilidade de, em uma nova amostra de \Sexpr{values[1]} números telefônicos, pelo menos \Sexpr{values[2]} pessoas colaborarem e responderem às perguntas? Em outras palavras, qual é a probabilidade de a proporção da amostra ser de, pelo menos, \Sexpr{values[2]}/\Sexpr{values[1]} = \Sexpr{prop}?
+
+\end{question}
+
+\begin{solution}
+ A probabilidade é de \Sexpr{results}.
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{\Sexpr{format(results)}} 
+%% \exname{Distribuição amostral2}  

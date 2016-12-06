@@ -1,0 +1,55 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'Teste Z para $\\beta_0$.'
+solutions[1] <- FALSE
+
+questions[2] <- 'Teste Z para $\\beta_0$ com n-2 graus de liberdade.'
+solutions[2] <- FALSE
+
+questions[3] <- 'Teste t para $\\beta_1$ com n-1 graus de liberdade.'
+solutions[3] <- FALSE
+
+questions[4] <- 'Teste t para $\\beta_1$ com n-2 graus de liberdade.'
+solutions[4] <- TRUE
+
+questions[5] <- 'Teste de chi-quadrado para independência entre variáveis.'
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Após um ajuste de uma regressão linear simples, é necessário avaliar com uma determinada probabilidade se existe relação funcional entre as variáveis em estudo. Qual das alternativas está correta.
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Regressão 4} 

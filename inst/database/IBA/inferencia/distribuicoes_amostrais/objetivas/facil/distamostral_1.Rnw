@@ -1,0 +1,64 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+
+n <- sample(seq(5,15),1)
+
+mu <- sample(seq(40,60),1)
+
+sigma <- sample(seq(8,20),1)
+
+
+
+## QUESTION/ANSWER GENERATION
+#questions <- solutions <- rep(list(''),7)
+questions <- solutions <- NULL
+
+questions[1] <- paste('$\\\\mu_{\\\\bar{X}}=$',mu,'$\\\\sigma_{\\\\bar{X}}=$',sigma,', a distribuição amostral é simétrica.',sep=' ')
+solutions[1] <- FALSE
+
+questions[2] <- paste('$\\\\mu_{\\\\bar{X}}=$',mu,'$\\\\sigma_{\\\\bar{X}}=$',sigma,', a distribuição amostral é assimétrica.',sep=' ')
+solutions[2] <- FALSE 
+
+questions[3] <- paste('$\\\\mu_{\\\\bar{X}}=$',mu,'$\\\\sigma_{\\\\bar{X}}=$',round(sigma/sqrt(n),2),', a distribuição amostral é aproximadamente normal.',sep=' ')
+solutions[3] <- TRUE 
+ 
+questions[4] <- paste('$\\\\mu_{\\\\bar{X}}=$',mu,'$\\\\sigma_{\\\\bar{X}}=$',round(sigma,2),', a distribuição amostral é aproximadamente normal.',sep=' ')
+solutions[4] <- FALSE 
+ 
+questions[5] <- paste('$\\\\mu_{\\\\bar{X}}=$',mu,'$\\\\sigma_{\\\\bar{X}}=$',round(sigma/sqrt(n),2),', a distribuição amostral é indeterminada, pois o tamanho da amostra é muito pequena.',sep=' ')
+solutions[5] <- FALSE 
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]  
+@
+
+\begin{question}
+ Você forma uma distribuição das médias de todas as amostras de tamanho \Sexpr{n} retiradas de uma população infinita, cuja distribuição desta população é assimétrica à esquerda. A população tem média \Sexpr{mu} e desvio padrão \Sexpr{sigma}. Assinale a alternativa correta a respeito da distribuição das amostras.
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]}
+\end{answerlist} 
+
+\end{question}
+
+\begin{solution}
+
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+\end{answerlist} 
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Distribuições amostrais1}  

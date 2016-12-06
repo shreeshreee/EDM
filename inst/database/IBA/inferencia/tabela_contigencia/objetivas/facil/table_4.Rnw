@@ -1,0 +1,55 @@
+<<echo=FALSE>>=
+## DATA GENERATION
+#options(OutDec=',')
+
+## QUESTION/ANSWER GENERATION
+questions <- solutions <- NULL
+
+questions[1] <- 'Teste de qui-quadrado com 6 graus de liberdade.'
+solutions[1] <- TRUE
+
+questions[2] <- 'Teste de qui-quadrado com 12 graus de liberdade.'
+solutions[2] <- FALSE
+
+questions[3] <- 'Teste de qui-quadrado com 7 graus de liberdade.'
+solutions[3] <- FALSE
+
+questions[4] <- 'Teste de qui-quadrado com 1 graus de liberdade.'
+solutions[4] <- FALSE
+
+questions[5] <- 'Nenhuma alternativa está correta.'
+solutions[5] <- FALSE
+ 
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o] 
+@
+
+\begin{question}
+ Qual teste estatístico você indicaria para uma tabela de contigência de dimênsões 4 x 3?
+
+\begin{answerlist}
+ \item \Sexpr{questions[1]}
+ \item \Sexpr{questions[2]}
+ \item \Sexpr{questions[3]}
+ \item \Sexpr{questions[4]}
+ \item \Sexpr{questions[5]} 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+
+ \begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])} 
+\end{answerlist} 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions, single = TRUE)}} 
+%% \exname{Tabela contigência 4} 
