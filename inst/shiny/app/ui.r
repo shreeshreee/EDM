@@ -83,7 +83,7 @@ shinyUI(navbarPage(#theme = "bootstrap.css",
                                                                       )),
 
                                                       tabPanel(actionButton("atubanco",
-                                                                            "Atualizar banco")),
+                                                                            uiOutput("gdatbanco"))),
                                                       #tabPanel(uiOutput("envbanco")),
                                                       navbarMenu(uiOutput("pquest"),
                                                                  tabPanel(uiOutput("tquestaoa"),         

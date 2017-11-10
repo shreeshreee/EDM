@@ -47,6 +47,7 @@ shinyServer(function(input,output,session){
               output$rebanco   <- renderText({ tr("rebanco")   })
               output$gdisc     <- renderText({ tr("gdisc")     })
               output$gassu     <- renderText({ tr("gassu")     })
+              output$gdatbanco <- renderText({ tr("gdatbanco") })
               output$pquest    <- renderText({ tr("pquest")    })
               output$utbanco   <- renderText({ tr("utbanco")   })
               output$esbanqu   <- renderText({ tr("esbanqu")   })
@@ -140,9 +141,9 @@ shinyServer(function(input,output,session){
 
               observeEvent(input$atubanco,{
 
-                             #               whereEDM <- find.package('EDM')
-                             #               wheredata <- paste(wereEDM,'/inst/database')
-                             #               whatdatab <- list.dirss(wheredata)
+             #whereEDM <- find.package('EDM')
+             #wheredata <- paste(wereEDM,'/inst/database')
+             #whatdatab <- list.dirss(wheredata)
 
               install_github("ivanalaman/EDM",
                              subdir="inst/database")

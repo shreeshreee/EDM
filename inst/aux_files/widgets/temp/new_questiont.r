@@ -1,10 +1,10 @@
-#++++++++++++++++++++++++++++++++++++++++++++++++        Osama Bin Laden         ++++++++++++++++++++++++++++++++++++++++
-dad_obl <- reactive({
+#++++++++++++++++++++++++++++++++++++++++++++++++        Testando da silva         ++++++++++++++++++++++++++++++++++++++++
+dad_tst <- reactive({
 
- aa <- list.files('../../database/afghanistan/OBL',
+ aa <- list.files('../../database/afghanistan/TST',
                   recursive=T,
                   full.names=T)
- aux_1 <- list.files('../../database/afghanistan/OBL',
+ aux_1 <- list.files('../../database/afghanistan/TST',
                      recursive=T)
  b <- strsplit(aux_1,
                '\\/')
@@ -12,7 +12,7 @@ dad_obl <- reactive({
                   b)
 
  aux_path <- getwd()
- path <- gsub('shiny-examples/myapp','database/afghanistan/OBL/',aux_path)
+ path <- gsub('shiny-examples/myapp','database/afghanistan/TST/',aux_path)
 
  dad <- data.frame(paste('<a href="file:///',path,aux_1,'">',dados[,5],"</a>",sep=''),
                    dados[,1:4],
@@ -23,14 +23,14 @@ dad_obl <- reactive({
 
 })
 
-action_obl <- dataTableAjax(session, dad_obl(), rownames = TRUE)
+action_tst <- dataTableAjax(session, dad_tst(), rownames = TRUE)
 
-output$questions_obl <- DT::renderDataTable({
+output$questions_tst <- DT::renderDataTable({
  datatable(
-           dad_obl()[,-6],
+           dad_tst()[,-6],
            rownames = TRUE,
            escape = FALSE,
            options = list(
-                          ajax = list(url = action_obl)
+                          ajax = list(url = action_tst)
                           ))
 },server=FALSE)
