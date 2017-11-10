@@ -1,9 +1,13 @@
 export(startEDM)
 
-import( 
-  shiny,
-  exams,
-  Ruchardet,
-  shinyjs
+import(
+ Ruchardet,
+ exams
 )
+
+importFrom("DT","dataTableOutput")
+importFrom("DT","renderDataTable")
+importFrom("shinyjs","runExample")
+importFrom("shiny","navbarPage")
+
 

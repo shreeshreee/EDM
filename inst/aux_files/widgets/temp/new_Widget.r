@@ -1,9 +1,9 @@
 ,
-#++++++++++++++++++++++++++++++++++++++++++++++++        Achim         ++++++++++++++++++++++++++++++++++++++++
-checkboxInput('checkquestionaaa', 
-              label='Achim',
+#++++++++++++++++++++++++++++++++++++++++++++++++        Osama Bin Laden         ++++++++++++++++++++++++++++++++++++++++
+checkboxInput('checkquestionobl', 
+              label='Osama Bin Laden',
               value = FALSE),
 conditionalPanel(
-                 condition = 'input.checkquestionaaa',
-                 DT::dataTableOutput('questions_aaa')
+                 condition = 'input.checkquestionobl',
+                 DT::dataTableOutput('questions_obl')
                  )

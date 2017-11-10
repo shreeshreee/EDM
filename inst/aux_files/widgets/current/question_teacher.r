@@ -1,10 +1,10 @@
-#++++++++++++++++++++++++++++++++++++++++++++++++        Ivan Bezerra Allaman         ++++++++++++++++++++++++++++++++++++++++
-dad_iba <- reactive({
+#++++++++++++++++++++++++++++++++++++++++++++++++        Achim Zeileis        ++++++++++++++++++++++++++++++++++++++++
+dad_acz <- reactive({
 
- aa <- list.files('../database/IBA',
+ aa <- list.files('../../database/austria/ACZ',
                   recursive=T,
                   full.names=T)
- aux_1 <- list.files('../database/IBA',
+ aux_1 <- list.files('../../database/austria/ACZ',
                      recursive=T)
  b <- strsplit(aux_1,
                '\\/')
@@ -12,7 +12,7 @@ dad_iba <- reactive({
                   b)
 
  aux_path <- getwd()
- path <- gsub('shiny','database/IBA/',aux_path)
+ path <- gsub('shiny/app','database/austria/ACZ/',aux_path)
 
  dad <- data.frame(paste('<a href="file:///',path,aux_1,'">',dados[,5],"</a>",sep=''),
                    dados[,1:4],
@@ -23,14 +23,14 @@ dad_iba <- reactive({
 
 })
 
-action_iba <- DT::dataTableAjax(session, dad_iba(), rownames = TRUE)
+action_acz <- dataTableAjax(session, dad_acz(), rownames = TRUE)
 
-output$questions_iba <- DT::renderDataTable({
- DT::datatable(
-           dad_iba()[,-6],
+output$questions_acz <- DT::renderDataTable({
+ datatable(
+           dad_acz()[,-6],
            rownames = TRUE,
            escape = FALSE,
            options = list(
-                          ajax = list(url = action_iba)
+                          ajax = list(url = action_acz)
                           ))
 },server=FALSE)
