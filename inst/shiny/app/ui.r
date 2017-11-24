@@ -1,12 +1,13 @@
 # Define UI for dataset viewer application
-shinyUI(navbarPage(#theme = "bootstrap.css",
+shinyUI(navbarPage(theme = "bootstrap.css",
                    tags$head(tags$style(HTML("
                                              .shiny-text-output {
                                                background-color:#fff;
                                              }
                                              "))),
                                              tabPanel(uiOutput("ini"),
-                                                      useShinyjs(), 
+                                                      useShinyjs(),
+                                                      #extendShinyjs(text = jsResetCode),utilizar no futuro para reiniciar o app automaticamente!
                                                       h1(uiOutput("sigla"), 
                                                          span(uiOutput("titulo"), 
                                                               style = "font-weight: 300"), 
@@ -41,7 +42,7 @@ shinyUI(navbarPage(#theme = "bootstrap.css",
                                                                                                      label = h4(uiOutput("escsigla")),
                                                                                                      value = 'ACZ')
                                                                                            )
-                                                                                 ) ,
+                                                                                 ),
                                                                           column(5,
                                                                                  wellPanel(
                                                                                            textInput('ydiscp', 
@@ -81,9 +82,6 @@ shinyUI(navbarPage(#theme = "bootstrap.css",
                                                                       actionButton("gerara",
                                                                                    uiOutput("gassu")) 
                                                                       )),
-
-                                                      tabPanel(actionButton("atubanco",
-                                                                            uiOutput("gdatbanco"))),
                                                       #tabPanel(uiOutput("envbanco")),
                                                       navbarMenu(uiOutput("pquest"),
                                                                  tabPanel(uiOutput("tquestaoa"),         
@@ -156,12 +154,20 @@ shinyUI(navbarPage(#theme = "bootstrap.css",
                                                                                 source('../../aux_files/widgets/current/widgets.r',local=TRUE)$value
 
                                                                                 ),
-                                                                      #verbatimTextOutput('teste'),
+                                                                      #verbatimTextOutput('coco'),
                                                                       downloadButton("downloadPDF", uiOutput("botpdf")),
                                                                       downloadButton("downloadXML", uiOutput("botxml")),
                                                                       downloadButton("downloadQuestions", uiOutput("botzip")) 
 
                                                                       )),
+                                                      tabPanel(uiOutput("gdatbanco"),
+                                                               wellPanel( 
+                                                                         uiOutput("up_file"),
+                                                                         actionButton("atubanco",
+                                                                                      icon = icon("refresh"),
+                                                                                      #width = '400px',
+                                                                                      uiOutput("gdatb")))
+                                                               ), 
                                                       tabPanel(uiOutput("tutorial"),
-                                                               includeMarkdown("../../aux_files/other/tutorial.md"))
+                                                               uiOutput("up_guide"))
                                                       )) 

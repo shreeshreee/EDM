@@ -1,6 +1,6 @@
 tagList(
-#++++++++++++++++++++++++++++++++++++++++++++++++        Testando da silva         ++++++++++++++++++++++++++++++++++++++++
-checkboxInput('checkquestionrtst', 
-              label='Testando da silva',
+#++++++++++++++++++++++++++++++++++++++++++++++++        Achim Zeileis         ++++++++++++++++++++++++++++++++++++++++
+checkboxInput('checkquestionracz', 
+              label='Achim Zeileis',
               value = FALSE)
 )

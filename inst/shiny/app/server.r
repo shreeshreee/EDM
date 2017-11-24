@@ -1,29 +1,3 @@
-mgsub <- function(pattern, replacement, x, ...) {
-  if (length(pattern)!=length(replacement)) {
-    stop("pattern and replacement do not have the same length.")
-  }
-  result <- x
-  for (i in 1:length(pattern)) {
-    result <- gsub(pattern[i], replacement[i], result, ...)
-  }
-  result
-}
-
-list.dirss <- function(path=".", pattern=NULL, all.dirs=FALSE,
-                       full.names=FALSE, ignore.case=FALSE) {
-  # use full.names=TRUE to pass to file.info
-  all <- list.files(path, pattern, all.dirs,
-                    full.names=TRUE, recursive=FALSE, ignore.case)
-  dirs <- all[file.info(all)$isdir]
-  # determine whether to return full names or just dir names
-  if(isTRUE(full.names))
-    return(dirs)
-  else
-    return(basename(dirs))
-}   
-
-load("../../aux_files/other/translation.bin")
-
 shinyServer(function(input,output,session){           
 
               tr <- function(text){ # translates text into current language
@@ -48,6 +22,7 @@ shinyServer(function(input,output,session){
               output$gdisc     <- renderText({ tr("gdisc")     })
               output$gassu     <- renderText({ tr("gassu")     })
               output$gdatbanco <- renderText({ tr("gdatbanco") })
+              output$gdatb     <- renderText({ tr("gdatb") }) 
               output$pquest    <- renderText({ tr("pquest")    })
               output$utbanco   <- renderText({ tr("utbanco")   })
               output$esbanqu   <- renderText({ tr("esbanqu")   })
@@ -109,7 +84,61 @@ shinyServer(function(input,output,session){
 
               observe({
 
-                shinyjs::toggleState("gerarb", !is.null(input$ydiscp) && input$ydiscp != "" &&  !is.null(input$yassun) && input$yassun != "")
+                shinyjs::toggleState("gerarb", input$yourname!="Achim Zeileis" && input$text!="ACZ")
+
+              })
+
+              #+++++++++++++++ Atualizando banco de questões +++++++++++++++++++++
+
+              observeEvent(input$atubanco,{
+
+                             whereEDM <- find.package('EDM')
+                             wheredata <- paste(whereEDM,'/questionbank/',
+                                                sep="")
+                             #whatdatab <- list.dirss(wheredata)
+
+                             download.file("https://github.com/ivanalaman/questionbankEDM/archive/master.zip",
+                                           destfile=paste(wheredata,
+                                                          'master.zip',
+                                                          sep=''),
+                                           method='auto')
+
+                             at <- setwd(wheredata)
+                             unzip('master.zip')
+
+                             afiless <- list.dirss(paste(wheredata,
+                                                         '/questionbankEDM-master',
+                                                         sep=''),
+                                                   full.names = TRUE)
+                             #                              afiless <- list.dirss('./questionbankEDM-master',
+                             #                                                    full.names = TRUE)
+                             # 
+                             bfiless <- list.dirss(afiless,
+                                                   full.names = TRUE)
+                             cfiless <- mgsub('./questionbankEDM-master/','',bfiless)
+
+                             dfiless <- cfiless[cfiless!='austria/ACZ']
+
+                             who <- file('../../aux_files/.who.txt','r+') 
+                             on.exit(close(who))
+                             who1 <- readLines(who)
+
+                             efiless <- dfiless[dfiless!=who1]
+                             filess <- mgsub('(\\/[A-Z]+)',
+                                             '',
+                                             efiless)
+
+                             file.copy(from=paste('./questionbankEDM-master/',
+                                                  filess,
+                                                  sep=''),
+                                       to = wheredata,
+                                       #to = './teste',
+                                       recursive=TRUE,
+                                       copy.mode=TRUE)
+
+                             file.remove('master.zip') 
+                             unlink('questionbankEDM-master',
+                                    recursive = TRUE)
 
               })
 
@@ -117,8 +146,16 @@ shinyServer(function(input,output,session){
 
               dirs <- reactive({
 
-                dirs <- list.dirss('../../database')
+                dirs <- list.dirss('../../questionbank')
                 dirs
+
+              })
+
+              sdirs <- reactive({
+
+                sdr <- list.dirss(list.dirss('../../questionbank',
+                                             full.names=TRUE))
+                sdr
 
               })
 
@@ -139,147 +176,168 @@ shinyServer(function(input,output,session){
 
               })
 
-              observeEvent(input$atubanco,{
-
-             #whereEDM <- find.package('EDM')
-             #wheredata <- paste(wereEDM,'/inst/database')
-             #whatdatab <- list.dirss(wheredata)
-
-              install_github("ivanalaman/EDM",
-                             subdir="inst/database")
-
-              })
-
               observeEvent(input$gerarb, {
 
-                             if(any(input$text == dirs())) {
+                             if(any(input$text == sdirs())) {
 
                                shinyjs::info(tr("jtbase"))
 
-                             } 
+                               stopApp()
 
-                             withProgress(message = tr("mgbase"), min=1,max=30, {
-                                            Sys.sleep(1)
+                             } else {
 
-                                            auxass <- paste('../../database/',
-                                                            input$countries,
+                               withProgress(message = tr("mgbase"), min=1,max=30, {
+                                              Sys.sleep(1)
+
+                                              auxass <- paste('../../questionbank/',
+                                                              input$countries,
+                                                              '/',
+                                                              input$text,
+                                                              '/',
+                                                              input$ydiscp,
+                                                              '/',
+                                                              input$yassun,
+                                                              sep='') 
+
+                                              subsub <- c(tr("pdisc"),tr("pobj"))
+                                              subsubsub <- c(tr("pnifa"),tr("pnme"),tr("pndif"))
+
+                                              aux1 <- paste(auxass,
                                                             '/',
-                                                            input$text,
-                                                            '/',
-                                                            input$ydiscp,
-                                                            '/',
-                                                            input$yassun,
-                                                            sep='') 
+                                                            subsub,
+                                                            sep='')
 
-                                            subsub <- c(tr("pdisc"),tr("pobj"))
-                                            subsubsub <- c(tr("pnifa"),tr("pnme"),tr("pndif"))
+                                              aux2 <- sapply(aux1,
+                                                             function(x)paste(x,
+                                                                              subsubsub,
+                                                                              sep='/'))
 
-                                            aux1 <- paste(auxass,
-                                                          '/',
-                                                          subsub,
-                                                          sep='')
+                                              lapply(aux2,function(x)sapply(x,function(y)dir.create(y,recursive=T)))
 
-                                            aux2 <- sapply(aux1,
-                                                           function(x)paste(x,
-                                                                            subsubsub,
-                                                                            sep='/'))
+                                              namedir <- input$text
+                                              namefil <- tolower(namedir)
 
-                                            lapply(aux2,function(x)sapply(x,function(y)dir.create(y,recursive=T)))
+                                              namecou <- input$countries
 
-                                            namedir <- input$text
-                                            namefil <- tolower(namedir)
+                                              #             ++++++++++++++ Criando Widgets para o novo usuário ++++++++++++++++ #
 
-                                            namecou <- input$countries
+                                              your_name <- input$yourname
+                                              aux_widg <- file('../../aux_files/widgets/mirror/widgets_default.r','r+')
+                                              on.exit(close(aux_widg))
+                                              old_widg <- readLines(aux_widg)
+                                              old_widg1 <- append(old_widg,',',after=0)
+                                              new_widg1 <- gsub('acz',namefil,old_widg1)
+                                              new_widg2 <- gsub('Achim Zeileis',your_name,new_widg1)
+                                              cat(new_widg2,file='../../aux_files/widgets/temp/new_Widget.r',sep='\n')
 
-                                            #             ++++++++++++++ Criando Widgets para o novo usuário ++++++++++++++++ #
+                                              #             ++++++++++++++ Criando Question teacher para o novo usuário ++++++++++++++++ #
 
-                                            your_name <- input$yourname
-                                            aux_widg <- file('../../aux_files/widgets/mirror/widgets_default.r','r+')
-                                            on.exit(close(aux_widg))
-                                            old_widg <- readLines(aux_widg)
-                                            old_widg1 <- append(old_widg,',',after=0)
-                                            new_widg1 <- gsub('acz',namefil,old_widg1)
-                                            new_widg2 <- gsub('Achim Zeileis',your_name,new_widg1)
-                                            cat(new_widg2,file='../../aux_files/widgets/temp/new_Widget.r',sep='\n')
+                                              aux_qt <- file('../../aux_files/widgets/mirror/question_teacher_default.r','r+')
+                                              on.exit(close(aux_qt))
+                                              old_qt <- readLines(aux_qt)
+                                              new_qt <- gsub('acz',namefil,old_qt)
+                                              new_qtt <- gsub('ACZ',namedir,new_qt)
+                                              new_qt1 <- gsub('Achim Zeileis',your_name,new_qtt)
+                                              new_qt11 <- gsub('austria',namecou,new_qt1) 
+                                              cat(new_qt11,file='../../aux_files/widgets/temp/new_questiont.r',sep='\n')
 
-                                            #             ++++++++++++++ Criando Question teacher para o novo usuário ++++++++++++++++ #
+                                              #             ++++++++++++++ Criando Widgets para remoção ++++++++++++++++ #
 
-                                            aux_qt <- file('../../aux_files/widgets/mirror/question_teacher_default.r','r+')
-                                            on.exit(close(aux_qt))
-                                            old_qt <- readLines(aux_qt)
-                                            new_qt <- gsub('acz',namefil,old_qt)
-                                            new_qtt <- gsub('ACZ',namedir,new_qt)
-                                            new_qt1 <- gsub('Achim Zeileis',your_name,new_qtt)
-                                            new_qt11 <- gsub('austria',namecou,new_qt1) 
-                                            cat(new_qt11,file='../../aux_files/widgets/temp/new_questiont.r',sep='\n')
+                                              aux_re <- file('../../aux_files/widgets/mirror/remove_widgets_default.r','r+')
+                                              on.exit(close(aux_re))  
+                                              old_re <- readLines(aux_re)
+                                              old_re1 <- append(old_re,',',after=0) 
+                                              new_re <- gsub('acz',namefil,old_re1)
+                                              new_re1 <- gsub('Achim Zeileis',your_name,new_re)
+                                              cat(new_re1,file='../../aux_files/widgets/temp/new_remove_widgets.r',sep='\n')
 
-                                            #             ++++++++++++++ Criando Widgets para remoção ++++++++++++++++ #
+                                              #             +++++++++++++ Escrevendo o novo Widget completo para arquivo ui.r +++++++++++++ #
 
-                                            aux_re <- file('../../aux_files/widgets/mirror/remove_widgets_default.r','r+')
-                                            on.exit(close(aux_re))  
-                                            old_re <- readLines(aux_re)
-                                            old_re1 <- append(old_re,',',after=0) 
-                                            new_re <- gsub('acz',namefil,old_re1)
-                                            new_re1 <- gsub('Achim Zeileis',your_name,new_re)
-                                            cat(new_re1,file='../../aux_files/widgets/temp/new_remove_widgets.r',sep='\n')
+                                              nw <- '../../aux_files/widgets/temp/new_Widget.r'
+                                              ow <- '../../aux_files/widgets/current/widgets.r'
 
-                                            #             +++++++++++++ Escrevendo o novo Widget completo para arquivo ui.r +++++++++++++ #
+                                              aux_ow <- file(ow,'r+') 
+                                              on.exit(close(aux_ow))
+                                              length_ow <- length(readLines(aux_ow))
 
-                                            nw <- '../../aux_files/widgets/temp/new_Widget.r'
-                                            ow <- '../../aux_files/widgets/current/widgets.r'
+                                              file.append(ow,nw)
 
-                                            aux_ow <- file(ow,'r+') 
-                                            on.exit(close(aux_ow))
-                                            length_ow <- length(readLines(aux_ow))
+                                              aux_ow1 <- file(ow,'r+')
+                                              on.exit(close(aux_ow1))
+                                              old_ow1 <- readLines(aux_ow1)
+                                              old_ow1 <- old_ow1[-length_ow]
+                                              new_ow <- append(old_ow1,')',after=length(old_ow1))
+                                              cat(new_ow, file=ow,sep='\n')
 
-                                            file.append(ow,nw)
+                                              #             +++++++++++++ Escrevendo o novo Question teacher +++++++++++ #
 
-                                            aux_ow1 <- file(ow,'r+')
-                                            on.exit(close(aux_ow1))
-                                            old_ow1 <- readLines(aux_ow1)
-                                            old_ow1 <- old_ow1[-length_ow]
-                                            new_ow <- append(old_ow1,')',after=length(old_ow1))
-                                            cat(new_ow, file=ow,sep='\n')
+                                              nqt <- '../../aux_files/widgets/temp/new_questiont.r'
+                                              oqt <- '../../aux_files/widgets/current/question_teacher.r'
 
-                                            #             +++++++++++++ Escrevendo o novo Question teacher +++++++++++ #
+                                              file.append(oqt,nqt) 
 
-                                            nqt <- '../../aux_files/widgets/temp/new_questiont.r'
-                                            oqt <- '../../aux_files/widgets/current/question_teacher.r'
+                                              cat(tr("mdelete"),
+                                                  file=paste(aux2[1,1],
+                                                             '/teste1.Rnw',sep=''))  
+                                              cat(tr("mdelete"),
+                                                  file=paste(aux2[1,2],
+                                                             '/teste2.Rnw',sep=''))
+                                              cat(tr("mdelete"),
+                                                  file=paste(aux2[2,1],
+                                                             '/teste3.Rnw',sep=''))
+                                              cat(tr("mdelete"),
+                                                  file=paste(aux2[2,2],
+                                                             '/teste4.Rnw',sep=''))
+                                              cat(tr("mdelete"),
+                                                  file=paste(aux2[3,1],
+                                                             '/teste5.Rnw',sep=''))
+                                              cat(tr("mdelete"),
+                                                  file=paste(aux2[3,2],
+                                                             '/teste6.Rnw',sep=''))
 
-                                            file.append(oqt,nqt) 
-                                            
+                                              #             +++++++++++++ Escrevendo o novo Widget de remoção +++++++++++++ #
 
-                                            cat(tr("mdelete"),file=paste(aux2[1,2],'/teste.Rnw',sep=''))
-                                            cat(tr("mdelete"),file=paste(aux2[1,1],'/teste2.Rnw',sep='')) 
+                                              nwr <- '../../aux_files/widgets/temp/new_remove_widgets.r'
+                                              owr <- '../../aux_files/widgets/current/remove_widgets.r'
 
-                                            #             +++++++++++++ Escrevendo o novo Widget de remoção +++++++++++++ #
+                                              aux_owr <- file(owr,'r+') 
+                                              on.exit(close(aux_owr))
+                                              length_owr <- length(readLines(aux_owr))
 
-                                            nwr <- '../../aux_files/widgets/temp/new_remove_widgets.r'
-                                            owr <- '../../aux_files/widgets/current/remove_widgets.r'
+                                              file.append(owr,nwr)
 
-                                            aux_owr <- file(owr,'r+') 
-                                            on.exit(close(aux_owr))
-                                            length_owr <- length(readLines(aux_owr))
+                                              aux_ow1r <- file(owr,'r+')
+                                              on.exit(close(aux_ow1r))
+                                              old_ow1r <- readLines(aux_ow1r)
+                                              old_ow1r <- old_ow1r[-length_owr]
+                                              new_owr <- append(old_ow1r,')',after=length(old_ow1r))
 
-                                            file.append(owr,nwr)
+                                              aux_grep <- grep('acz',new_owr)
 
-                                            aux_ow1r <- file(owr,'r+')
-                                            on.exit(close(aux_ow1r))
-                                            old_ow1r <- readLines(aux_ow1r)
-                                            old_ow1r <- old_ow1r[-length_owr]
-                                            new_owr <- append(old_ow1r,')',after=length(old_ow1r))
+                                              if(length(aux_grep) != 0){
 
-                                            aux_grep <- grep('acz',new_owr)
+                                                new_owr <- new_owr[-c(2:6)]
 
-                                            if(length(aux_grep) != 0){
+                                              }
 
-                                              new_owr <- new_owr[-c(2:6)]
+                                              cat(new_owr, file=owr,sep='\n')
 
-                                            }
-
-                                            cat(new_owr, file=owr,sep='\n')
-                                            setProgress(1)
+                                              # +++++++++++++ Escrevendo um arquivo oculto que conterará o nome do banco criado +++++++++++++ # 
+                                              cat(paste(namecou,
+                                                        '/',
+                                                        namedir,
+                                                        sep=''),
+                                                  file='../../aux_files/.who.txt',
+                                                  sep='\n')
+                                              #js$reset()
+                                              stopApp()
+                                              showModal(modalDialog(
+                                                                    title = "Important message",
+                                                                    "Restart your application!",
+                                                                    size='m'
+                                                                    )) 
                             })
+                             }
               })
 
               listad <- reactive({
@@ -298,7 +356,6 @@ shinyServer(function(input,output,session){
                 lista
               })
 
-
               ############# Gerar disciplina #########################
               output$discip1 <- renderUI({
 
@@ -306,12 +363,12 @@ shinyServer(function(input,output,session){
                              label = h4(tr("esbanqu")),
                              choices = eval(parse(text=listad())),
                              selected = 'austria')
-             
+
               }) 
 
               subdirs <- reactive({
 
-                subdirs <- list.dirss(paste('../../database/',
+                subdirs <- list.dirss(paste('../../questionbank/',
                                             input$input.dirs,
                                             sep=''))
                 subdirs
@@ -348,7 +405,7 @@ shinyServer(function(input,output,session){
 
               observeEvent(input$gerard, {
 
-                             auxdisc <- paste('../../database/',
+                             auxdisc <- paste('../../questionbank/',
                                               input$input.dirs,
                                               '/',
                                               input$input.subdirs,
@@ -357,16 +414,23 @@ shinyServer(function(input,output,session){
                                               sep='') 
 
                              dir.create(auxdisc, recursive=T) 
+
+                             stopApp()
+                             showModal(modalDialog(
+                                                   title = "Important message",
+                                                   "Restart your application!",
+                                                   size='m'
+                                                   ))  
               })
 
               subsubdirs <- reactive({
 
-                subdirs <- list.dirss(paste('../../database/',
-                                            input$input.dirs,
-                                            '/',
-                                            input$input.subdirs,
-                                            sep=''))
-                subdirs
+                subsubdirs <- list.dirss(paste('../../questionbank/',
+                                               input$input.dirs, # country
+                                               '/',
+                                               input$input.subdirs,# peaple
+                                               sep=''))
+                req(subsubdirs) #protecao quando o objeto for NULL ou algo parecido
               })
 
               listaaa <- reactive({
@@ -382,26 +446,29 @@ shinyServer(function(input,output,session){
                                aux_lista,
                                ')',
                                sep='')
-                lista
+                lista 
               }) 
 
-# É PRECISO RESOLER UM WARNING AQUI!!!! ###############
+              #+++++++++++++ Gerar assunto +++++++++++++++++++
+
               output$assunt <- renderUI({
+
                 wellPanel(
-                        radioButtons('input.subsubdirs',
-                                     label = h4(tr("esdisc")),
-                                     choices = eval(parse(text=listaaa()))),
-                        textInput('yourass', 
-                                  label= h4(tr("conass")),
-                                  value = 'probability') 
-                        )
+                          radioButtons('input.subsubdirs',
+                                       label = h4(tr("esdisc")),
+                                       choices = eval(parse(text=listaaa()))),
+                          textInput('yourass', 
+                                    label= h4(tr("conass")),
+                                    value = 'probability') 
+                          )
               })
-     ####################################################
+
+              ####################################################
+
               observeEvent(input$gerara, {
 
-
                              output$alert_as <- renderUI({ sidebarPanel(print("OK!"))})   
-                             auxass <- paste('../../database/',
+                             auxass <- paste('../../questionbank/',
                                              input$input.dirs,
                                              '/',
                                              input$input.subdirs,
@@ -426,6 +493,12 @@ shinyServer(function(input,output,session){
 
                              lapply(aux2,function(x)sapply(x,function(y)dir.create(y,recursive=T)))
 
+                             stopApp()
+                             showModal(modalDialog(
+                                                   title = "Important message",
+                                                   "Restart your application!",
+                                                   size='m'
+                                                   ))   
               })
 
 
@@ -443,128 +516,142 @@ shinyServer(function(input,output,session){
                 }
               })
 
-
               #test <- renderText({ input$checkquestionriba })#é um character!!
+              #output$coco <- renderText({subsubdirs()}) 
+              observe({
 
-              #output$teste <- renderText({test()}) 
+                shinyjs::toggleState("removerb", length(dirs())!=1)
+
+              })
 
               observeEvent(input$removerb, {
 
-                             aux_rem  <- list.dirss(path='../../database/')
-                             aux_rem1 <- list.dirss(path=paste('../../database/',
+                             withProgress(message = tr("mgbase"), min=1,max=30, {
+                                            Sys.sleep(1) 
+
+                                            aux_rem  <- list.dirss(path='../../questionbank/')
+                                            aux_rem1 <- list.dirss(path=paste('../../questionbank/',
+                                                                              aux_rem,
+                                                                              sep=''))
+
+                                            aux_rem11 <- paste('../../questionbank/',
                                                                aux_rem,
-                                                               sep=''))
+                                                               '/',
+                                                               aux_rem1,
+                                                               sep='')
+                                            names(aux_rem11) <- aux_rem1
+                                            aux_rem11 <- aux_rem11[names(aux_rem11)!='ACZ']
 
-                             aux_rem11 <- paste('../../database/',
-                                                aux_rem,
-                                                '/',
-                                                aux_rem1,
-                                                sep='')
-                             names(aux_rem11) <- aux_rem1
-                             aux_rem11 <- aux_rem11[names(aux_rem11)!='ACZ']
+                                            siglasr   <- tolower(aux_rem1[aux_rem1!='ACZ'])
 
-                             siglasr   <- tolower(aux_rem1[aux_rem1!='ACZ'])
+                                            aux_siglasr <- paste('input$checkquestionr',siglasr,sep='')
+                                            aux_siglas1r <- unlist(sapply(aux_siglasr, function(x) eval(parse(text=x))))
 
-                             aux_siglasr <- paste('input$checkquestionr',siglasr,sep='')
-                             aux_siglas1r <- unlist(sapply(aux_siglasr, function(x) eval(parse(text=x))))
+                                            aux_grepp <- siglasr[aux_siglas1r]
 
-                             aux_grepp <- siglasr[aux_siglas1r]
+                                            aux_grepp1 <-  aux_rem11[names(aux_rem11)==toupper(aux_grepp)]
 
-                             aux_grepp1 <-  aux_rem11[names(aux_rem11)==toupper(aux_grepp)]
+                                            unlink(aux_grepp1,
+                                                   recursive = TRUE)
 
-                             unlink(aux_grepp1,
-                                    recursive = TRUE)
+                                            aux_ch <- mgsub(paste('/',
+                                                                  toupper(aux_grepp),
+                                                                  sep=''),
+                                                            rep('',length(aux_grepp)),
+                                                            aux_grepp1) 
 
-                             aux_ch <- mgsub(paste('/',
-                                                  toupper(aux_grepp),
-                                                  sep=''),
-                                            rep('',length(aux_grepp)),
-                                            aux_grepp1) 
+                                            aux_ch1 <- lapply(sapply(aux_ch,dir),
+                                                              length)
 
-                            aux_ch1 <- lapply(sapply(aux_ch,dir),
-                                               length)
+                                            aux_ch2 <- unlist(aux_ch1)
 
-                            aux_ch2 <- unlist(aux_ch1)
+                                            if(any(aux_ch2 == 0)){
 
-                             if(any(aux_ch2 == 0)){
-                             
-                               aux <- aux_ch2[aux_ch2==0]
+                                              aux <- aux_ch2[aux_ch2==0]
 
-                               aux1 <- aux_ch[names(aux_ch)==names(aux)]
+                                              aux1 <- aux_ch[names(aux_ch)==names(aux)]
 
-                               unlink(aux1,
-                                      recursive = TRUE)
-                             
-                             }
+                                              unlink(aux1,
+                                                     recursive = TRUE)
 
-                             # +++++++++++ Removendo no arquivo question_teacher.r ++++++++++++++
+                                            }
 
-                             aux_quest  <- file('../../aux_files/widgets/current/question_teacher.r','r+')
-                             on.exit(close(aux_quest)) 
-                             aux_quest1 <- readLines(aux_quest)
-                             aux_quest2 <- sapply(aux_grepp,function(x) grep(x,aux_quest1),simplify=FALSE)
-                             aux_quest3 <- lapply(aux_quest2, function(x) x[c(1,5)] + c(-1,+2))
-                             aux_quest4 <- lapply(aux_quest3,function(x)paste(x,collapse=':'))
-                             aux_quest5 <- paste('c(',paste(aux_quest4,collapse=','),')',sep='')
-                             aux_quest6 <- aux_quest1[-eval(parse(text=aux_quest5))]
+                                            # +++++++++++ Removendo no arquivo question_teacher.r ++++++++++++++
 
-                             fqt6 <- '../../aux_files/widgets/current/question_teacher.r'
-                             cat(aux_quest6,file=fqt6,sep='\n')
+                                            aux_quest  <- file('../../aux_files/widgets/current/question_teacher.r','r+')
+                                            on.exit(close(aux_quest)) 
+                                            aux_quest1 <- readLines(aux_quest)
+                                            aux_quest2 <- sapply(aux_grepp,function(x) grep(x,aux_quest1),simplify=FALSE)
+                                            aux_quest3 <- lapply(aux_quest2, function(x) x[c(1,5)] + c(-1,+2))
+                                            aux_quest4 <- lapply(aux_quest3,function(x)paste(x,collapse=':'))
+                                            aux_quest5 <- paste('c(',paste(aux_quest4,collapse=','),')',sep='')
+                                            aux_quest6 <- aux_quest1[-eval(parse(text=aux_quest5))]
 
-                             # +++++++++++ Removendo no arquivo widgets.r ++++++++++++++
+                                            fqt6 <- '../../aux_files/widgets/current/question_teacher.r'
+                                            cat(aux_quest6,file=fqt6,sep='\n')
 
-                             aux_widgg  <- file('../../aux_files/widgets/current/widgets.r','r+')
-                             on.exit(close(aux_widgg)) 
-                             aux_widgg1 <- readLines(aux_widgg)
-                             aux_widgg2 <- sapply(aux_grepp,function(x) grep(x,aux_widgg1),simplify=FALSE)
-                             aux_widgg3 <- lapply(aux_widgg2, function(x) x[c(1,3)] + c(-1,+2))
-                             aux_widgg4 <- lapply(aux_widgg3,function(x)paste(x,collapse=':'))
-                             aux_widgg5 <- paste('c(',paste(aux_widgg4,collapse=','),')',sep='')
-                             aux_widgg6 <- aux_widgg1[-eval(parse(text=aux_widgg5))]
+                                            # +++++++++++ Removendo no arquivo widgets.r ++++++++++++++
 
-                             if(aux_widgg6[length(aux_widgg6)] == ',') {
-                               
-                               aux_widgg6[length(aux_widgg6)]  <- ')' 
-                             
-                             }
-                             
-                             fw6 <- '../../aux_files/widgets/current/widgets.r'
-                             cat(aux_widgg6,file=fw6,sep='\n')
+                                            aux_widgg  <- file('../../aux_files/widgets/current/widgets.r','r+')
+                                            on.exit(close(aux_widgg)) 
+                                            aux_widgg1 <- readLines(aux_widgg)
+                                            aux_widgg2 <- sapply(aux_grepp,function(x) grep(x,aux_widgg1),simplify=FALSE)
+                                            aux_widgg3 <- lapply(aux_widgg2, function(x) x[c(1,3)] + c(-1,+2))
+                                            aux_widgg4 <- lapply(aux_widgg3,function(x)paste(x,collapse=':'))
+                                            aux_widgg5 <- paste('c(',paste(aux_widgg4,collapse=','),')',sep='')
+                                            aux_widgg6 <- aux_widgg1[-eval(parse(text=aux_widgg5))]
 
-                             # +++++++++++ Removendo no arquivo remove_widgets.r ++++++++++++++
+                                            if(aux_widgg6[length(aux_widgg6)] == ',') {
 
-                             aux_widgr  <- file('../../aux_files/widgets/current/remove_widgets.r','r+')
-                             on.exit(close(aux_widgr)) 
-                             aux_widgr1 <- readLines(aux_widgr)
-                             aux_widgr2 <- sapply(aux_grepp,function(x) grep(x,aux_widgr1),simplify=FALSE)
-                             aux_widgr3 <- lapply(aux_widgr2, function(x) x[1] - 1)
-                             aux_widgr4 <- lapply(aux_widgr3,function(x)paste(x,x+4,sep=':'))
-                             aux_widgr5 <- paste('c(',paste(aux_widgr4,collapse=','),')',sep='')
-                             aux_widgr6 <- aux_widgr1[-eval(parse(text=aux_widgr5))]
+                                              aux_widgg6[length(aux_widgg6)]  <- ')' 
 
-                             if(length(aux_widgr6) == 1) {
+                                            }
 
-                               aux_aux <- file('../../aux_files/widgets/mirror/remove_widgets_default.r','r+')
-                               on.exit(close(aux_aux)) 
-                               aux_aux1 <- readLines(aux_aux)
-                               aux_aux2 <- append(aux_aux1,
-                                                  'tagList(',
-                                                  0)
-                               aux_widgr6 <- append(aux_aux2,
-                                                    ')',
-                                                    6)
+                                            fw6 <- '../../aux_files/widgets/current/widgets.r'
+                                            cat(aux_widgg6,file=fw6,sep='\n')
 
-                             }
+                                            # +++++++++++ Removendo no arquivo remove_widgets.r ++++++++++++++
 
-                             if(aux_widgr6[length(aux_widgr6)] == ',') {
-                               
-                               aux_widgr6[length(aux_widgr6)]  <- ')'
+                                            aux_widgr  <- file('../../aux_files/widgets/current/remove_widgets.r','r+')
+                                            on.exit(close(aux_widgr)) 
+                                            aux_widgr1 <- readLines(aux_widgr)
+                                            aux_widgr2 <- sapply(aux_grepp,function(x) grep(x,aux_widgr1),simplify=FALSE)
+                                            aux_widgr3 <- lapply(aux_widgr2, function(x) x[1] - 1)
+                                            aux_widgr4 <- lapply(aux_widgr3,function(x)paste(x,x+4,sep=':'))
+                                            aux_widgr5 <- paste('c(',paste(aux_widgr4,collapse=','),')',sep='')
+                                            aux_widgr6 <- aux_widgr1[-eval(parse(text=aux_widgr5))]
 
-                             }
+                                            if(length(aux_widgr6) == 1) {
 
-                             fr6 <- '../../aux_files/widgets/current/remove_widgets.r'
-                             cat(aux_widgr6,file=fr6,sep='\n')
+                                              aux_aux <- file('../../aux_files/widgets/mirror/remove_widgets_default.r','r+')
+                                              on.exit(close(aux_aux)) 
+                                              aux_aux1 <- readLines(aux_aux)
+                                              aux_aux2 <- append(aux_aux1,
+                                                                 'tagList(',
+                                                                 0)
+                                              aux_widgr6 <- append(aux_aux2,
+                                                                   ')',
+                                                                   6)
 
+                                            }
+
+                                            if(aux_widgr6[length(aux_widgr6)] == ',') {
+
+                                              aux_widgr6[length(aux_widgr6)]  <- ')'
+
+                                            }
+
+                                            fr6 <- '../../aux_files/widgets/current/remove_widgets.r'
+                                            cat(aux_widgr6,file=fr6,sep='\n')
+
+                                            stopApp() 
+                                            showModal(modalDialog(
+                                                                  title = "Important message",
+                                                                  "Restart your application!",
+                                                                  size = 'm'
+                                                                  ))
+
+                                            })
               })
 
               #             +++++++++++++++ Preparando o cabeçalho ++++++++++++++++             
@@ -601,7 +688,7 @@ shinyServer(function(input,output,session){
 
               questions <- reactive({
 
-                aux_que  <- list.dirss(path='../../database')
+                aux_que  <- list.dirss(path='../../questionbank')
                 siglas   <- tolower(aux_que)
 
                 aux_siglas <- paste('input$checkquestion',siglas,sep='')
@@ -703,8 +790,27 @@ shinyServer(function(input,output,session){
                                                           },
                                                           contentType = "application/zip"
                                                           )
+              ## Translate update file!
 
+              output$up_file <- renderUI({
+                file <- switch(input$language,
+                               br = "../../aux_files/other/update_br.md",
+                               en = "../../aux_files/other/update_en.md"
+                               )
+                includeMarkdown(file)
+              })
+
+              ## Translate update guide!
+
+              output$up_guide <- renderUI({
+                file <- switch(input$language,
+                               br = "../../aux_files/other/tutorial_br.md",
+                               en = "../../aux_files/other/tutorial_en.md"
+                               )
+                includeMarkdown(file)
+              })
+              
               session$onSessionEnded(function() {
                                        stopApp()
-                                                          })
-                    })
+                                           })
+})

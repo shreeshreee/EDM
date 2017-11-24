@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++        Achim Zeileis         ++++++++++++++++++++++++++++++++++++++++
 dad_acz <- reactive({
 
- aa <- list.files('../../database/austria/ACZ',
+ aa <- list.files('../../questionbank/austria/ACZ',
                   recursive=T,
                   full.names=T)
- aux_1 <- list.files('../../database/austria/ACZ',
+ aux_1 <- list.files('../../questionbank/austria/ACZ',
                      recursive=T)
  b <- strsplit(aux_1,
                '\\/')
@@ -12,7 +12,7 @@ dad_acz <- reactive({
                   b)
 
  aux_path <- getwd()
- path <- gsub('shiny-examples/myapp','database/austria/ACZ/',aux_path)
+ path <- gsub('shiny-examples/myapp','questionbank/austria/ACZ/',aux_path)
 
  dad <- data.frame(paste('<a href="file:///',path,aux_1,'">',dados[,5],"</a>",sep=''),
                    dados[,1:4],

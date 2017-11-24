@@ -1,0 +1,5 @@
+Before clicking the button below, some comments are needed.
+
+Assuming that the user has a database created through the application, and that he has already sent his question bank to the repository in github, it will never be updated by clicking on the button **Update**. It is assumed that the basis of user questions is always up to date, and therefore the desire is to add to your database other database queries. Also, such a procedure is designed to protect the user from losing new issues if they have an earlier version of their issues bank in the github repository.
+
+If the user has created several questions bank besides its official, in order to test the application stay tuned. Make sure that the who.txt file located in the aux_files/other folder contains the name of your official database. If this is done, it will be recorded in the who.txt file the last base created and therefore, this will be considered official by the application at the time of updating. Soon, your question bank will be replaced by the server bank.

@@ -1,0 +1,5 @@
+Antes de clicar no botão abaixo, algumas observações se faz necessário. 
+
+Partindo do princípio que o usuário tenha uma base de dados criada por meio do aplicativo, e que ele já tenha enviado seu banco de questões para o repositório no github com o intuito de compartilhar, esta nunca será atualizada ao clicar no botão **Atualizar**. Parte-se do princípio que a base de questões do usuário sempre está atualizada, e portanto, o desejo é agregar ao seu banco de questões outras bases de dados. Ainda, tal procedimento foi criado para proteger o usuário de perder questões novas, caso tenha uma versão anterior do seu banco de questões no repositório do github.
+
+Caso o usuário tenha criado vários banco de questões além da sua oficial, com o intuito de testar o aplicativo fique atento. Certifique-se que no arquivo who.txt localizado na pasta aux_files/other contém o nome da sua base dados oficial. Se isto for feito, ficará gravado no arquivo who.txt a última base criada e portanto, esta será considerada a oficial pelo aplicativo na hora de atualizar. Logo, seu banco de questões será substituído pelo o banco do servidor.
