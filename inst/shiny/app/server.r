@@ -516,8 +516,7 @@ shinyServer(function(input,output,session){
                 }
               })
 
-              #test <- renderText({ input$checkquestionriba })#é um character!!
-              #output$coco <- renderText({subsubdirs()}) 
+              
               observe({
 
                 shinyjs::toggleState("removerb", length(dirs())!=1)
@@ -688,12 +687,12 @@ shinyServer(function(input,output,session){
 
               questions <- reactive({
 
-                aux_que  <- list.dirss(path='../../questionbank')
-                siglas   <- tolower(aux_que)
-
+                aux_que  <- list.dirss(path='../../questionbank',
+                                       full.names = TRUE)
+                siglas   <- tolower(list.dirss(aux_que))
                 aux_siglas <- paste('input$checkquestion',siglas,sep='')
                 aux_siglas1 <- sapply(aux_siglas, function(x) eval(parse(text=x)))
-
+                aux_siglas1 
                 aux_siglas2 <- paste('input$questions_',siglas,'_rows_selected',sep='')
                 aux_siglas22 <- sapply(aux_siglas2, function(x) eval(parse(text=x)),simplify=FALSE)
 
@@ -737,7 +736,7 @@ shinyServer(function(input,output,session){
                           header = list(ID=getid(),Date=Sys.Date()),
                           name = c('av','av.gab'),
                           dir = paste(Sys.getenv('HOME'),'/EDM',sep=''),
-                          inputs = file.path(sub('shiny-examples/myapp','sup',getwd()),c("aval.tex",
+                          inputs = file.path(sub('shiny/app','sup',getwd()),c("aval.tex",
                                                                                          "unid.tex",
                                                                                          "disc.tex",
                                                                                          "carg.tex",
@@ -813,4 +812,8 @@ shinyServer(function(input,output,session){
               session$onSessionEnded(function() {
                                        stopApp()
                                            })
+
+              ## Debugin app!!
+              #output$test <- renderText({ questions() })#é um character!!
+              #output$coco <- renderText({subsubdirs()})  
 })
