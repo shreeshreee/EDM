@@ -12,7 +12,7 @@ dad_obl <- reactive({
                   b)
 
  aux_path <- getwd()
- path <- gsub('shiny-examples/myapp','questionbank/afghanistan/OBL/',aux_path)
+ path <- gsub('shiny/app','questionbank/afghanistan/OBL/',aux_path)
 
  dad <- data.frame(paste('<a href="file:///',path,aux_1,'">',dados[,5],"</a>",sep=''),
                    dados[,1:4],

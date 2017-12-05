@@ -12,7 +12,7 @@ dad_acz <- reactive({
                   b)
 
  aux_path <- getwd()
- path <- gsub('shiny-examples/myapp','questionbank/austria/ACZ/',aux_path)
+ path <- gsub('shiny/app','questionbank/austria/ACZ/',aux_path)
 
  dad <- data.frame(paste('<a href="file:///',path,aux_1,'">',dados[,5],"</a>",sep=''),
                    dados[,1:4],

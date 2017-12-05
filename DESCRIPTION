@@ -8,4 +8,5 @@ Description: Interactive shiny application for working with exames database
   managing.
 License: GPL (>= 2)
 Depends: R (>= 3.0.3), shiny, exams, Ruchardet, DT, shinyjs
+Suggests: markdown
 NeedsCompilation: no
