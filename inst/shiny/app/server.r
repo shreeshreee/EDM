@@ -796,7 +796,7 @@ shinyServer(function(input,output,session){
                                br = "../../aux_files/other/update_br.md",
                                en = "../../aux_files/other/update_en.md"
                                )
-                markdown::markdownToHTML(file, fragment.only = TRUE)
+                markdownToHTML(file, fragment.only = TRUE)
               })
 
               ## Translate update guide!
@@ -806,7 +806,7 @@ shinyServer(function(input,output,session){
                                br = "../../aux_files/other/tutorial_br.md",
                                en = "../../aux_files/other/tutorial_en.md"
                                )
-                markdown::markdownToHTML(file, fragment.only = TRUE)
+                markdownToHTML(file, fragment.only = TRUE)
               })
               
               session$onSessionEnded(function() {
