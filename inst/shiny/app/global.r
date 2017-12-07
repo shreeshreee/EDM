@@ -25,4 +25,4 @@ list.dirss <- function(path=".", pattern=NULL, all.dirs=FALSE,
 
 load("../../aux_files/other/translation.bin") 
 
-if(!require(markdown)) install.packages("markdown")
+ifelse(!require(markdown), install.packages("markdown"), library("markdown"))
