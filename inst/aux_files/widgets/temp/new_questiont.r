@@ -1,4 +1,4 @@
-#++++++++++++++++++++++++++++++++++++++++++++++++        Osama Bin Laden         ++++++++++++++++++++++++++++++++++++++++
+#++++++++++++++++++++++++++++++++++++++++++++++++        Osama         ++++++++++++++++++++++++++++++++++++++++
 dad_obl <- reactive({
 
  aa <- list.files('../../questionbank/afghanistan/OBL',
@@ -23,10 +23,10 @@ dad_obl <- reactive({
 
 })
 
-action_obl <- dataTableAjax(session, dad_obl(), rownames = TRUE)
+action_obl <- DT::dataTableAjax(session, dad_obl(), rownames = TRUE)
 
 output$questions_obl <- DT::renderDataTable({
- datatable(
+ DT::datatable(
            dad_obl()[,-6],
            rownames = TRUE,
            escape = FALSE,

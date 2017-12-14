@@ -1,13 +1,13 @@
 export(startEDM)
 
-import(
- Ruchardet,
- exams
-)
+import(exams)
 
 importFrom("DT","dataTableOutput")
 importFrom("DT","renderDataTable")
-importFrom("shinyjs","runExample")
-importFrom("shiny","navbarPage")
-
-
+importFrom("DT","datatable")
+importFrom("shiny","navbarPage")#gambiarra
+importFrom("shinyjs","useShinyjs")
+importFrom("shinyjs","toggleState")
+importFrom("shinyjs","info")
+importFrom("Ruchardet","detectFileEncoding")
+importFrom("markdown","markdownToHTML")

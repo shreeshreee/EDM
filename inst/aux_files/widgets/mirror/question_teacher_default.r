@@ -23,10 +23,10 @@ dad_acz <- reactive({
 
 })
 
-action_acz <- dataTableAjax(session, dad_acz(), rownames = TRUE)
+action_acz <- DT::dataTableAjax(session, dad_acz(), rownames = TRUE)
 
 output$questions_acz <- DT::renderDataTable({
- datatable(
+ DT::datatable(
            dad_acz()[,-6],
            rownames = TRUE,
            escape = FALSE,

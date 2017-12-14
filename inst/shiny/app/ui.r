@@ -6,7 +6,7 @@ shinyUI(navbarPage(theme = "bootstrap.css",
                                              }
                                              "))),
                                              tabPanel(uiOutput("ini"),
-                                                      useShinyjs(),
+                                                      shinyjs::useShinyjs(),
                                                      ## extendShinyjs(text = jsResetCode),utilizar no futuro para reiniciar o app automaticamente!
                                                       h1(uiOutput("sigla"), 
                                                          span(uiOutput("titulo"), 

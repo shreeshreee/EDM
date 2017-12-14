@@ -23,6 +23,36 @@ list.dirss <- function(path=".", pattern=NULL, all.dirs=FALSE,
     return(basename(dirs))
 }   
 
-load("../../aux_files/other/translation.bin") 
+new_widget <- function(namefil, your_name){
+  aux_widg <- file('../../aux_files/widgets/mirror/widgets_default.r','r+')
+  on.exit(close(aux_widg))
+  old_widg <- readLines(aux_widg)
+  old_widg1 <- append(old_widg,',',after=0)
+  new_widg1 <- gsub('acz',namefil,old_widg1)
+  new_widg2 <- gsub('Achim Zeileis',your_name,new_widg1)
+  cat(new_widg2,file='../../aux_files/widgets/temp/new_Widget.r',sep='\n')
+}
 
-ifelse(!require(markdown), install.packages("markdown"), library("markdown"))
+new_questiont <- function(namefil, your_name, namedir, namecou){
+  aux_qt <- file('../../aux_files/widgets/mirror/question_teacher_default.r','r+')
+  on.exit(close(aux_qt))
+  old_qt <- readLines(aux_qt)
+  new_qt <- gsub('acz',namefil,old_qt)
+  new_qtt <- gsub('ACZ',namedir,new_qt)
+  new_qt1 <- gsub('Achim Zeileis',your_name,new_qtt)
+  new_qt11 <- gsub('austria',namecou,new_qt1) 
+  cat(new_qt11,file='../../aux_files/widgets/temp/new_questiont.r',sep='\n')
+}                                              
+
+new_remove_widgets <- function(namefil, your_name){
+  aux_re <- file('../../aux_files/widgets/mirror/remove_widgets_default.r','r+')
+  on.exit(close(aux_re))  
+  old_re <- readLines(aux_re)
+  old_re1 <- append(old_re,',',after=0) 
+  new_re <- gsub('acz',namefil,old_re1)
+  new_re1 <- gsub('Achim Zeileis',your_name,new_re)
+  cat(new_re1,file='../../aux_files/widgets/temp/new_remove_widgets.r',sep='\n')
+}
+
+
+load("../../aux_files/other/translation.bin") 

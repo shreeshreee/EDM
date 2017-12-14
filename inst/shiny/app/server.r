@@ -22,7 +22,7 @@ shinyServer(function(input,output,session){
               output$gdisc     <- renderText({ tr("gdisc")     })
               output$gassu     <- renderText({ tr("gassu")     })
               output$gdatbanco <- renderText({ tr("gdatbanco") })
-              output$gdatb     <- renderText({ tr("gdatb") }) 
+              output$gdatb     <- renderText({ tr("gdatb")     }) 
               output$pquest    <- renderText({ tr("pquest")    })
               output$utbanco   <- renderText({ tr("utbanco")   })
               output$esbanqu   <- renderText({ tr("esbanqu")   })
@@ -84,7 +84,7 @@ shinyServer(function(input,output,session){
 
               observe({
 
-                shinyjs::toggleState("gerarb", input$yourname!="Achim Zeileis" && input$text!="ACZ")
+                shinyjs::toggleState("gerarb", input$yourname!="Achim Zeileis" && input$text!="ACZ" && nchar(input$text)==3)
 
               })
 
@@ -92,10 +92,12 @@ shinyServer(function(input,output,session){
 
               observeEvent(input$atubanco,{
 
+                             ori <- getwd()
+
                              whereEDM <- find.package('EDM')
-                             wheredata <- paste(whereEDM,'/questionbank/',
+                             wheredata <- paste(whereEDM,
+                                                '/questionbank/',
                                                 sep="")
-                             #whatdatab <- list.dirss(wheredata)
 
                              download.file("https://github.com/ivanalaman/questionbankEDM/archive/master.zip",
                                            destfile=paste(wheredata,
@@ -106,39 +108,271 @@ shinyServer(function(input,output,session){
                              at <- setwd(wheredata)
                              unzip('master.zip')
 
+                             file.remove('master.zip')  
+
                              afiless <- list.dirss(paste(wheredata,
-                                                         '/questionbankEDM-master',
+                                                         'questionbankEDM-master',
                                                          sep=''),
                                                    full.names = TRUE)
-                             #                              afiless <- list.dirss('./questionbankEDM-master',
-                             #                                                    full.names = TRUE)
-                             # 
+                              
                              bfiless <- list.dirss(afiless,
                                                    full.names = TRUE)
-                             cfiless <- mgsub('./questionbankEDM-master/','',bfiless)
+                             cfiless <- mgsub('questionbankEDM-master/','',bfiless)
 
-                             dfiless <- cfiless[cfiless!='austria/ACZ']
+                             dfiless <- cfiless[cfiless!=paste(wheredata,
+                                                               'austria/ACZ',
+                                                               sep='')]
 
-                             who <- file('../../aux_files/.who.txt','r+') 
-                             on.exit(close(who))
-                             who1 <- readLines(who)
+                             # preparando objetos para fazer os widgets
+                             info_banco <- file('./questionbankEDM-master/CADASTRO.md','r+') 
+                             on.exit(close(info_banco))
+                             info_banco1 <- readLines(info_banco)
+                             info_banco2 <- info_banco1[-c(1:4)]
 
-                             efiless <- dfiless[dfiless!=who1]
-                             filess <- mgsub('(\\/[A-Z]+)',
-                                             '',
-                                             efiless)
+                             aux_ncou <- info_banco2[seq(1,length(info_banco2),3)]
+                             ncou <- mgsub("\\W",
+                                           "",
+                                           aux_ncou)
 
-                             file.copy(from=paste('./questionbankEDM-master/',
-                                                  filess,
-                                                  sep=''),
-                                       to = wheredata,
-                                       #to = './teste',
-                                       recursive=TRUE,
-                                       copy.mode=TRUE)
+                             aux_dir <- info_banco2[seq(2,length(info_banco2),3)]
+                             rdir <- regexec("([A-Z]{3})",aux_dir)
+                             ndir <- unique(unlist(regmatches(aux_dir,rdir)))
 
-                             file.remove('master.zip') 
-                             unlink('questionbankEDM-master',
-                                    recursive = TRUE)
+                             nnames <- mgsub("(?:\\s+\\*\\s+[A-Z]{3}\\s-\\s)",
+                                             "",
+                                             aux_dir)
+
+                             bc <- cbind(ncou, nnames)
+                             row.names(bc) <- ndir
+
+                             ### condição: ou o usuário criou um banco de questões ou não!
+
+                             if(file.exists('../aux_files/.who.txt')){
+
+                               who <- file('../aux_files/.who.txt','r+') 
+                               on.exit(close(who))
+                               who1 <- readLines(who)
+
+                               whodir <- gsub('\\w+\\/',
+                                              '',
+                                              who1)
+
+                               efiless <- dfiless[dfiless!=paste(wheredata,
+                                                                 who1,
+                                                                 sep='')]
+
+                               filess <- mgsub('\\/[A-Z]{3}$',
+                                               '',
+                                               efiless,
+                                               perl=TRUE)
+
+                               filess1 <- mgsub('questionbank',
+                                                'questionbank/questionbankEDM-master',
+                                                filess) 
+
+                               file.copy(from= filess1,
+                                         to = wheredata,
+                                         recursive=TRUE,
+                                         copy.mode=TRUE)
+
+                               unlink('questionbankEDM-master',
+                                      recursive = TRUE) 
+
+                               # preparando objetos para entrada abaixo
+
+                               ifelse(any(row.names(bc) == whodir),
+                                      bc1 <- bc[row.names(bc)!= whodir,],
+                                      bc1 <- bc
+                                      )
+
+                               namefil <- tolower(row.names(bc1))
+                               your_name <- bc1[,2]
+                               namedir <- row.names(bc1)
+                               namecou <- bc1[,1]
+
+                               #             ++++++++++++++ Criando Widgets para os bancos ++++++++++++++++ #
+
+                               setwd(ori)
+
+                               for(i in 1:length(namedir)){
+
+                                 new_widget(namefil   = namefil[i],
+                                            your_name = your_name[i])
+
+                                 #             ++++++++++++++ Criando Question teacher para os bancos ++++++++++++++++ #
+
+                                 new_questiont(namefil   = namefil[i], 
+                                               your_name = your_name[i], 
+                                               namedir   = namedir[i], 
+                                               namecou   = namecou[i]) 
+
+                                 #             ++++++++++++++ Criando Widgets para remoção ++++++++++++++++ #
+
+                                 new_remove_widgets(namefil   = namefil[i], 
+                                                    your_name = your_name[i]) 
+                               }
+                               #             +++++++++++++ Escrevendo o novo Widget completo para arquivo ui.r +++++++++++++ #
+
+                               nw <- '../../aux_files/widgets/temp/new_Widget.r'
+                               ow <- '../../aux_files/widgets/current/widgets.r'
+
+                               aux_ow <- file(ow,'r+') 
+                               on.exit(close(aux_ow))
+                               length_ow <- length(readLines(aux_ow))
+
+                               file.append(ow,nw)
+
+                               aux_ow1 <- file(ow,'r+')
+                               on.exit(close(aux_ow1))
+                               old_ow1 <- readLines(aux_ow1)
+                               old_ow1 <- old_ow1[-length_ow]
+                               new_ow <- append(old_ow1,')',after=length(old_ow1))
+                               cat(new_ow, file=ow,sep='\n')
+
+                               #             +++++++++++++ Escrevendo o novo Question teacher +++++++++++ #
+
+                               nqt <- '../../aux_files/widgets/temp/new_questiont.r'
+                               oqt <- '../../aux_files/widgets/current/question_teacher.r'
+
+                               file.append(oqt,nqt) 
+
+                               #             +++++++++++++ Escrevendo o novo Widget de remoção +++++++++++++ #
+
+                               nwr <- '../../aux_files/widgets/temp/new_remove_widgets.r'
+                               owr <- '../../aux_files/widgets/current/remove_widgets.r'
+
+                               aux_owr <- file(owr,'r+') 
+                               on.exit(close(aux_owr))
+                               length_owr <- length(readLines(aux_owr))
+
+                               file.append(owr,nwr)
+
+                               aux_ow1r <- file(owr,'r+')
+                               on.exit(close(aux_ow1r))
+                               old_ow1r <- readLines(aux_ow1r)
+                               old_ow1r <- old_ow1r[-length_owr]
+                               new_owr <- append(old_ow1r,')',after=length(old_ow1r))
+
+                               aux_grep <- grep('acz',new_owr)
+
+                               if(length(aux_grep) != 0){
+
+                                 new_owr <- new_owr[-c(2:6)]
+
+                               }
+
+                               cat(new_owr, file=owr,sep='\n')
+
+
+                             } else {
+
+                               filess <- mgsub('\\/[A-Z]{3}$',
+                                               '',
+                                               dfiless,
+                                               perl=TRUE) 
+
+                               filess1 <- mgsub('questionbank',
+                                                'questionbank/questionbankEDM-master',
+                                                filess) 
+
+                               file.copy(from= filess1,
+                                         to = wheredata,
+                                         recursive=TRUE,
+                                         copy.mode=TRUE)
+
+                               unlink('questionbankEDM-master',
+                                      recursive = TRUE)  
+
+                               # preparando objetos para entrada abaixo
+
+                               namefil <- tolower(row.names(bc))
+                               your_name <- bc[,2]
+                               namedir <- row.names(bc)
+                               namecou <- bc[,1]
+
+                               #             ++++++++++++++ Criando Widgets para os bancos ++++++++++++++++ #
+
+                               setwd(ori)
+
+                               for(i in 1:length(namedir)){
+
+                                 new_widget(namefil   = namefil[i],
+                                            your_name = your_name[i])
+
+                                 #             ++++++++++++++ Criando Question teacher para os bancos ++++++++++++++++ #
+
+                                 new_questiont(namefil   = namefil[i], 
+                                               your_name = your_name[i], 
+                                               namedir   = namedir[i], 
+                                               namecou   = namecou[i]) 
+
+                                 #             ++++++++++++++ Criando Widgets para remoção ++++++++++++++++ #
+
+                                 new_remove_widgets(namefil   = namefil[i], 
+                                                    your_name = your_name[i]) 
+                               }
+
+                               #             +++++++++++++ Escrevendo o novo Widget completo para arquivo ui.r +++++++++++++ #
+
+                               nw <- '../../aux_files/widgets/temp/new_Widget.r'
+                               ow <- '../../aux_files/widgets/current/widgets.r'
+
+                               aux_ow <- file(ow,'r+') 
+                               on.exit(close(aux_ow))
+                               length_ow <- length(readLines(aux_ow))
+
+                               file.append(ow,nw)
+
+                               aux_ow1 <- file(ow,'r+')
+                               on.exit(close(aux_ow1))
+                               old_ow1 <- readLines(aux_ow1)
+                               old_ow1 <- old_ow1[-length_ow]
+                               new_ow <- append(old_ow1,')',after=length(old_ow1))
+                               cat(new_ow, file=ow,sep='\n')
+
+                               #             +++++++++++++ Escrevendo o novo Question teacher +++++++++++ #
+
+                               nqt <- '../../aux_files/widgets/temp/new_questiont.r'
+                               oqt <- '../../aux_files/widgets/current/question_teacher.r'
+
+                               file.append(oqt,nqt) 
+
+                               #             +++++++++++++ Escrevendo o novo Widget de remoção +++++++++++++ #
+
+                               nwr <- '../../aux_files/widgets/temp/new_remove_widgets.r'
+                               owr <- '../../aux_files/widgets/current/remove_widgets.r'
+
+                               aux_owr <- file(owr,'r+') 
+                               on.exit(close(aux_owr))
+                               length_owr <- length(readLines(aux_owr))
+
+                               file.append(owr,nwr)
+
+                               aux_ow1r <- file(owr,'r+')
+                               on.exit(close(aux_ow1r))
+                               old_ow1r <- readLines(aux_ow1r)
+                               old_ow1r <- old_ow1r[-length_owr]
+                               new_owr <- append(old_ow1r,')',after=length(old_ow1r))
+
+                               aux_grep <- grep('acz',new_owr)
+
+                               if(length(aux_grep) != 0){
+
+                                 new_owr <- new_owr[-c(2:6)]
+
+                               }
+
+                               cat(new_owr, file=owr,sep='\n')
+
+
+                             }
+
+                             stopApp()
+                             showModal(modalDialog(
+                                                   title = "Important message",
+                                                   "Restart your application!",
+                                                   footer = modalButton("OK!"),
+                                                   size='m'))
 
               })
 
@@ -214,42 +448,28 @@ shinyServer(function(input,output,session){
 
                                               lapply(aux2,function(x)sapply(x,function(y)dir.create(y,recursive=T)))
 
-                                              namedir <- input$text
+                                              namedir <- toupper(input$text)
                                               namefil <- tolower(namedir)
 
                                               namecou <- input$countries
+                                              your_name <- input$yourname
 
                                               #             ++++++++++++++ Criando Widgets para o novo usuário ++++++++++++++++ #
 
-                                              your_name <- input$yourname
-                                              aux_widg <- file('../../aux_files/widgets/mirror/widgets_default.r','r+')
-                                              on.exit(close(aux_widg))
-                                              old_widg <- readLines(aux_widg)
-                                              old_widg1 <- append(old_widg,',',after=0)
-                                              new_widg1 <- gsub('acz',namefil,old_widg1)
-                                              new_widg2 <- gsub('Achim Zeileis',your_name,new_widg1)
-                                              cat(new_widg2,file='../../aux_files/widgets/temp/new_Widget.r',sep='\n')
+                                              new_widget(namefil   = namefil,
+                                                         your_name = your_name)
 
                                               #             ++++++++++++++ Criando Question teacher para o novo usuário ++++++++++++++++ #
 
-                                              aux_qt <- file('../../aux_files/widgets/mirror/question_teacher_default.r','r+')
-                                              on.exit(close(aux_qt))
-                                              old_qt <- readLines(aux_qt)
-                                              new_qt <- gsub('acz',namefil,old_qt)
-                                              new_qtt <- gsub('ACZ',namedir,new_qt)
-                                              new_qt1 <- gsub('Achim Zeileis',your_name,new_qtt)
-                                              new_qt11 <- gsub('austria',namecou,new_qt1) 
-                                              cat(new_qt11,file='../../aux_files/widgets/temp/new_questiont.r',sep='\n')
+                                              new_questiont(namefil   = namefil, 
+                                                            your_name = your_name, 
+                                                            namedir   = namedir, 
+                                                            namecou   = namecou) 
 
                                               #             ++++++++++++++ Criando Widgets para remoção ++++++++++++++++ #
 
-                                              aux_re <- file('../../aux_files/widgets/mirror/remove_widgets_default.r','r+')
-                                              on.exit(close(aux_re))  
-                                              old_re <- readLines(aux_re)
-                                              old_re1 <- append(old_re,',',after=0) 
-                                              new_re <- gsub('acz',namefil,old_re1)
-                                              new_re1 <- gsub('Achim Zeileis',your_name,new_re)
-                                              cat(new_re1,file='../../aux_files/widgets/temp/new_remove_widgets.r',sep='\n')
+                                              new_remove_widgets(namefil   = namefil, 
+                                                                 your_name = your_name) 
 
                                               #             +++++++++++++ Escrevendo o novo Widget completo para arquivo ui.r +++++++++++++ #
 
@@ -334,6 +554,7 @@ shinyServer(function(input,output,session){
                                               showModal(modalDialog(
                                                                     title = "Important message",
                                                                     "Restart your application!",
+                                                                    footer = modalButton("OK!"),
                                                                     size='m'
                                                                     )) 
                             })
@@ -419,6 +640,7 @@ shinyServer(function(input,output,session){
                              showModal(modalDialog(
                                                    title = "Important message",
                                                    "Restart your application!",
+                                                   footer = modalButton("OK!"), 
                                                    size='m'
                                                    ))  
               })
@@ -497,6 +719,7 @@ shinyServer(function(input,output,session){
                              showModal(modalDialog(
                                                    title = "Important message",
                                                    "Restart your application!",
+                                                   footer = modalButton("OK!"), 
                                                    size='m'
                                                    ))   
               })
@@ -516,7 +739,7 @@ shinyServer(function(input,output,session){
                 }
               })
 
-              
+
               observe({
 
                 shinyjs::toggleState("removerb", length(dirs())!=1)
@@ -643,10 +866,13 @@ shinyServer(function(input,output,session){
                                             fr6 <- '../../aux_files/widgets/current/remove_widgets.r'
                                             cat(aux_widgr6,file=fr6,sep='\n')
 
+                                            file.remove('../../aux_files/.who.txt')
+
                                             stopApp() 
                                             showModal(modalDialog(
                                                                   title = "Important message",
                                                                   "Restart your application!",
+                                                                  footer = modalButton("OK!"), 
                                                                   size = 'm'
                                                                   ))
 
@@ -701,7 +927,7 @@ shinyServer(function(input,output,session){
                 que <- unlist(sapply(aux_que4, function(x) eval(parse(text=x))))
 
                 enc <- sapply(que,
-                              function(x) suppressWarnings(detectFileEncoding(x)))
+                              function(x) suppressWarnings(Ruchardet::detectFileEncoding(x)))
 
                 ifelse(enc == "native.enc", enc <- "", enc) 
                 conv <- mapply(function(x,y) {
@@ -737,12 +963,12 @@ shinyServer(function(input,output,session){
                           name = c('av','av.gab'),
                           dir = paste(Sys.getenv('HOME'),'/EDM',sep=''),
                           inputs = file.path(sub('shiny/app','sup',getwd()),c("aval.tex",
-                                                                                         "unid.tex",
-                                                                                         "disc.tex",
-                                                                                         "carg.tex",
-                                                                                         "anol.tex",
-                                                                                         "nome.tex")),
-                          encoding = "UTF-8")
+                                                                              "unid.tex",
+                                                                              "disc.tex",
+                                                                                     "carg.tex",
+                                                                                     "anol.tex",
+                                                                                     "nome.tex")),
+                                 encoding = "UTF-8")
               })
 
               output$downloadPDF <- downloadHandler(filename = function(){
@@ -796,7 +1022,9 @@ shinyServer(function(input,output,session){
                                br = "../../aux_files/other/update_br.md",
                                en = "../../aux_files/other/update_en.md"
                                )
-                markdownToHTML(file, fragment.only = TRUE)
+                html <- markdown::markdownToHTML(file,fragment.only=TRUE)
+                Encoding(html) <- 'UTF-8'
+                return(HTML(html)) 
               })
 
               ## Translate update guide!
@@ -806,12 +1034,14 @@ shinyServer(function(input,output,session){
                                br = "../../aux_files/other/tutorial_br.md",
                                en = "../../aux_files/other/tutorial_en.md"
                                )
-                markdownToHTML(file, fragment.only = TRUE)
+                html <- markdown::markdownToHTML(file,fragment.only=TRUE)
+                Encoding(html) <- 'UTF-8'
+                return(HTML(html))
               })
-              
+
               session$onSessionEnded(function() {
                                        stopApp()
-                                           })
+              })
 
               ## Debugin app!!
               #output$test <- renderText({ questions() })#é um character!!

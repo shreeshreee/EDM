@@ -1,7 +1,8 @@
-2017-12-04  vs. 1.0-4 - Ivan Bezerra Allaman <ivanalaman@gmail.com>
+2017-12-14  vs. 1.0-4 - Ivan Bezerra Allaman <ivanalaman@gmail.com>
   * Bug fixed. Substitute shiny-examples/myapp by shiny/app in res object in server file.
   * Bug fixed. Question object not interpreted correctly in server file.
-  * Bug fixed. Substitute includeMarkdown by markdownToHTML function of the markdown package. Include package as suggests.
+  * Bug fixed. Substitute includeMarkdown by markdownToHTML function of the markdown package. Include package as import.
+  * Change depends! Now, shiny and exams as depends. 
 
 2017-11-23  vs. 1.0-3 - Ivan Bezerra Allaman <ivanalaman@gmail.com>
   * Finished transformation app in a r package.
