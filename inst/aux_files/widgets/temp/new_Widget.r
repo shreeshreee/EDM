@@ -1,7 +1,7 @@
 ,
-#++++++++++++++++++++++++++++++++++++++++++++++++        Osama         ++++++++++++++++++++++++++++++++++++++++
+#++++++++++++++++++++++++++++++++++++++++++++++++        Osama Bin Laden         ++++++++++++++++++++++++++++++++++++++++
 checkboxInput('checkquestionobl', 
-              label='Osama',
+              label='Osama Bin Laden',
               value = FALSE),
 conditionalPanel(
                  condition = 'input.checkquestionobl',

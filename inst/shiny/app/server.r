@@ -100,31 +100,33 @@ shinyServer(function(input,output,session){
                                                 sep="")
 
                              download.file("https://github.com/ivanalaman/questionbankEDM/archive/master.zip",
-                                           destfile=paste(wheredata,
-                                                          'master.zip',
-                                                          sep=''),
+                                           destfile= paste(tempdir(),
+                                                           '/master.zip',
+                                                           sep=''),
                                            method='auto')
 
-                             at <- setwd(wheredata)
-                             unzip('master.zip')
+                             unzip(paste(tempdir(),
+                                         '/master.zip',
+                                         sep=''),
+                                   exdir = tempdir())
 
-                             file.remove('master.zip')  
-
-                             afiless <- list.dirss(paste(wheredata,
-                                                         'questionbankEDM-master',
+                             afiless <- list.dirss(paste(tempdir(),
+                                                         '/questionbankEDM-master',
                                                          sep=''),
                                                    full.names = TRUE)
-                              
+                                                            
                              bfiless <- list.dirss(afiless,
                                                    full.names = TRUE)
-                             cfiless <- mgsub('questionbankEDM-master/','',bfiless)
-
-                             dfiless <- cfiless[cfiless!=paste(wheredata,
-                                                               'austria/ACZ',
+                             
+                             dfiless <- bfiless[bfiless!=paste(tempdir(),
+                                                               '/questionbankEDM-master/austria/ACZ',
                                                                sep='')]
 
                              # preparando objetos para fazer os widgets
-                             info_banco <- file('./questionbankEDM-master/CADASTRO.md','r+') 
+                             info_banco <- file(paste(tempdir(),
+                                                      '/questionbankEDM-master/CADASTRO.md',
+                                                      sep=''),
+                                                      'r+') 
                              on.exit(close(info_banco))
                              info_banco1 <- readLines(info_banco)
                              info_banco2 <- info_banco1[-c(1:4)]
@@ -147,9 +149,13 @@ shinyServer(function(input,output,session){
 
                              ### condição: ou o usuário criou um banco de questões ou não!
 
-                             if(file.exists('../aux_files/.who.txt')){
+                             if(file.exists(paste(whereEDM,
+                                                  '/aux_files/.who.txt',
+                                                  sep=''))){
 
-                               who <- file('../aux_files/.who.txt','r+') 
+                               who <- file(paste(whereEDM,
+                                                 '/aux_files/.who.txt',
+                                                 sep=''),'r+') 
                                on.exit(close(who))
                                who1 <- readLines(who)
 
@@ -157,7 +163,8 @@ shinyServer(function(input,output,session){
                                               '',
                                               who1)
 
-                               efiless <- dfiless[dfiless!=paste(wheredata,
+                               efiless <- dfiless[dfiless!=paste(tempdir(),
+                                                                 '/questionbankEDM-master/',
                                                                  who1,
                                                                  sep='')]
 
@@ -166,17 +173,10 @@ shinyServer(function(input,output,session){
                                                efiless,
                                                perl=TRUE)
 
-                               filess1 <- mgsub('questionbank',
-                                                'questionbank/questionbankEDM-master',
-                                                filess) 
-
-                               file.copy(from= filess1,
+                               file.copy(from= filess,
                                          to = wheredata,
                                          recursive=TRUE,
                                          copy.mode=TRUE)
-
-                               unlink('questionbankEDM-master',
-                                      recursive = TRUE) 
 
                                # preparando objetos para entrada abaixo
 
@@ -271,18 +271,11 @@ shinyServer(function(input,output,session){
                                                dfiless,
                                                perl=TRUE) 
 
-                               filess1 <- mgsub('questionbank',
-                                                'questionbank/questionbankEDM-master',
-                                                filess) 
-
-                               file.copy(from= filess1,
+                                file.copy(from= filess,
                                          to = wheredata,
                                          recursive=TRUE,
                                          copy.mode=TRUE)
-
-                               unlink('questionbankEDM-master',
-                                      recursive = TRUE)  
-
+                              
                                # preparando objetos para entrada abaixo
 
                                namefil <- tolower(row.names(bc))
@@ -884,22 +877,46 @@ shinyServer(function(input,output,session){
               observe({
 
                 # + Nome da avaliação
-                cat(input$textaval,file='../../sup/aval.tex')
+                textaval <- file('../../sup/aval.tex',
+                                 encoding='UTF-8')
+                cat(input$textaval,
+                    file=textaval)
+                close(textaval)
 
                 # + Nome da unidade
-                cat(input$textunid,file='../../sup/unid.tex')
+                textunid <- file('../../sup/unid.tex',
+                              encoding='UTF-8')
+                cat(input$textunid,
+                    file=textunid)
+                close(textunid)
 
                 # + Nome da disciplina
-                cat(input$textdisc,file='../../sup/disc.tex')
-
+                textdisc <- file('../../sup/disc.tex',
+                              encoding='UTF-8')
+                cat(input$textdisc,
+                    file=textdisc)
+                close(textdisc)
+                
                 # + Carga horária
-                cat(input$textcarg,file='../../sup/carg.tex')
+                textcarg <- file('../../sup/carg.tex',
+                              encoding='UTF-8')
+                cat(input$textcarg,
+                    file=textcarg)
+                close(textcarg)
 
                 # + Período letivo
-                cat(input$textanol,file='../../sup/anol.tex')
+                textano <- file('../../sup/anol.tex',
+                              encoding='UTF-8')
+                cat(input$textanol,
+                    file=textano)
+                close(textano)
 
                 # + Nome
-                cat(input$textname,file='../../sup/nome.tex')
+                textname <- file('../../sup/nome.tex',
+                              encoding='UTF-8')
+                cat(input$textname,
+                    file=textname)
+                close(textname)
 
               })            
 
