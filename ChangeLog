@@ -1,3 +1,6 @@
+2020-02-09  vs. 1.0-x - Ivan Bezerra Allaman <ivanalaman@gmail.com>
+  * Add code to install Ruchardet package from github
+
 2017-12-14  vs. 1.0-4 - Ivan Bezerra Allaman <ivanalaman@gmail.com>
   * Bug fixed. Substitute shiny-examples/myapp by shiny/app in res object in server file.
   * Bug fixed. Question object not interpreted correctly in server file.

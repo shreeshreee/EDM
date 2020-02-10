@@ -943,6 +943,14 @@ shinyServer(function(input,output,session){
                 aux_que4 <- aux_que3[aux_siglas1]
                 que <- unlist(sapply(aux_que4, function(x) eval(parse(text=x))))
 
+                	{
+		 if(require(devtools)){
+                  devtools::install_github("haven-jeon/Ruchardet")
+ 		  }else{
+ 		   install.packages('devtools')
+                   devtools::install_github("haven-jeon/Ruchardet")
+		   }} 
+		   
                 enc <- sapply(que,
                               function(x) suppressWarnings(Ruchardet::detectFileEncoding(x)))
 
